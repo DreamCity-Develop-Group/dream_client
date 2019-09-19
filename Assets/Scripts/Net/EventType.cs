@@ -44,10 +44,25 @@ public class EventType
     /// </summary>
     public const int getrecode = 16;
     /// <summary>
+    /// 测试资产信息
+    /// </summary>
+    public const int property = 17;
+    /// <summary>
     /// 换一批
     /// </summary>
-    public const int nextgrouds=17;
-
+    public const int nextgrouds=18;
+    /// <summary>
+    /// 商会信息
+    /// </summary>
+    public const int commerce = 19;
+    /// <summary>
+    /// 商会加入请求
+    /// </summary>
+    public const int commerce_in = 20;
+    /// <summary>
+    /// 会长发货结果
+    /// </summary>
+    public const int commerce_sendmt = 21;
 
     public const int exit = int.MaxValue;
 }
