@@ -8,7 +8,7 @@ using System.Text;
 /// 作用：发送的时候 都要发送这个类
 /// </summary>
 [System.Serializable]
-public class SocketMsg
+public class SocketMsg<T>
 {
    
      /// <summary>
@@ -18,7 +18,7 @@ public class SocketMsg
     /// <summary>
     /// // 消息数据
     /// </summary>
-    public MessageData data { get; set; }
+    public MessageData<T> data { get; set; }
     /// <summary>
     ///  // 发送目的地
     /// </summary>
@@ -41,7 +41,7 @@ public class SocketMsg
         
     }
 
-    public  SocketMsg(string Source,string desc, MessageData data, string target="server")
+    public  SocketMsg(string Source,string desc, MessageData<T> data, string target="server")
     {
         source = Source;
         this.target = target;
@@ -52,18 +52,13 @@ public class SocketMsg
     /// <summary>
     /// 防止重复创建socket
     /// </summary>
-    public void Change()
+    public void Change(string Source, string desc, MessageData<T> data, string target = "server")
     {
-        //this.source = source;
-        //this.target = target;
-        //this.createtime = GetTimeStamp();
-        //this.desc = desc;
-        //this.data = data;
-        //if (source != null || source != "")
-        //{
-        //    ClientId = source;
-        //    this.source = ClientId;
-        //}
+        this.source = source;
+        this.target = target;
+        this.createtime = GetTimeStamp();
+        this.desc = desc;
+        this.data = data;
     }
     /// <summary>
     ///  获取时间戳
@@ -129,7 +124,9 @@ public class UserInfos {
     public string playerId { get; set; }
 }
 
-
+/// <summary>
+/// 广场用户组
+/// </summary>
 public class SquareUser
 {
     /// <summary>
@@ -158,8 +155,10 @@ public class SquareUser
     public List<UserInfos> result { get; set; }
 }
 
-public class MessageData
+public class MessageData<T>
 {
+    
+
     /// <summary>
     /// //事件类型
     /// </summary>
@@ -171,7 +170,14 @@ public class MessageData
     /// <summary>
     /// //具体业务数据
     /// </summary>
-    public Object t { get; set; }
+    public T t { get; set; }
+
+    public void Change(string type, string model, T t)
+    {
+        this.type = type;
+        this.model = model;
+        this.t = t;
+    }
 }
 
 

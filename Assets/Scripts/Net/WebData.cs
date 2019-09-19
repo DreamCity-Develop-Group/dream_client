@@ -43,25 +43,22 @@ public class WebData
     /// </summary>  
     private WebSocket _webSocket;
 
-    private Queue<SocketMsg> _msgQueue = new Queue<SocketMsg>();
+    private Queue<SocketMsg<Dictionary<string,string>>> _msgQueue = new Queue<SocketMsg<Dictionary<string, string>>> ();
 
-    public Queue<SocketMsg> MsgQueue { get { return _msgQueue; } }
+    private Queue<SocketMsg<SquareUser>> _squareQueue = new Queue<SocketMsg<SquareUser>>();
+    //private 
     public WebSocket WebSocket { get { return _webSocket; } }
     public string Address { get { return address; } }
     public string Text { get { return _text; } }
 
+    public Queue<SocketMsg<Dictionary<string, string>>> MsgQueue { get => _msgQueue; set => _msgQueue = value; }
+    public Queue<SocketMsg<SquareUser>> SquareQueue { get => _squareQueue; set => _squareQueue = value; }
+
     public void OpenWebSocket()
     {
-        //TODOtest
-       // OnMessageReceived();
         if (_webSocket == null)
             {
-            //测试
-            //address = MsgCenter.address;
-            // Create the WebSocket instance  
             _webSocket = new WebSocket(address,null);
-            // Start connecting to the server  
-            _webSocket.Connect();
             //if (HTTPManager.Proxy != null)
             //    _webSocket.InternalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address, HTTPManager.Proxy.Credentials, false);
             // Subscribe to the WS events  
@@ -77,6 +74,8 @@ public class WebData
             _webSocket.OnError += (sender, e) => {
                 OnError(e.Exception,e.Message);
             };
+            // Start connecting to the server  
+            _webSocket.Connect();
         }
     }
     //readonly CancellationToken _cancellation = new CancellationToken();
@@ -165,17 +164,26 @@ public class WebData
             return;
         }
 
-        SocketMsg info = JsonMapper.ToObject<SocketMsg>(jsonmsg);
-
-        // SocketMsg info = JsonUtility.FromJson<SocketMsg>(jsonmsg);
-        //if (info.data.type.Equals("init"))
-        //    PlayerPrefs.SetString("ClientId", info.source);
-        //TODOtest
-        //Debug.Log("testTojson: "+"target:"+info.target+","+"desc: "+info.desc+","+"model: "+info.data.model);
-        if (info != null)
+        SocketMsg<object> info = JsonMapper.ToObject<SocketMsg<object>>(jsonmsg);
+        if (info == null)
         {
+            Debug.Log("msg null error");
+            return;
+        }
+
+        if(info.data.type== "squarefriend" || info.data.type == "listfriend")
+        {
+            SocketMsg<SquareUser> squareinfo = JsonMapper.ToObject<SocketMsg<SquareUser>>(jsonmsg);
             //TODO 过滤过时消息
-            _msgQueue.Enqueue(info);
+            SquareQueue.Enqueue(squareinfo);
+            
+        }
+        else
+        {
+            SocketMsg<Dictionary<string,string>> squareinfo = JsonMapper.ToObject<SocketMsg<Dictionary<string, string>>>(jsonmsg);
+            //TODO 过滤过时消息
+            MsgQueue.Enqueue(squareinfo);
+            
         }
     }
     /// <summary>  

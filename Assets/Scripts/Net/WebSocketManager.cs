@@ -16,8 +16,9 @@ public class WebSocketManager : ManagerBase
     AccountRequestMsg accountRequestMsg = new AccountRequestMsg();
     FriendRequestMsg friendRequestMsg = new FriendRequestMsg();
     SetRequestMsg setRequestMsg = new SetRequestMsg();
-    SocketMsg socketMsg;
-
+    CommerceRequsetMsg commerceRequsetMsg = new CommerceRequsetMsg();
+    SocketMsg<Dictionary<string,string>> socketMsg;
+    SocketMsg<SquareUser> squareMsg;
     public override void Execute(int eventCode, object message)
     {
         //初始化操作
@@ -115,13 +116,31 @@ public class WebSocketManager : ManagerBase
                     socketMsg = friendRequestMsg.ReqAgreeFriendMsg(message);
                     _wabData.SendMsg(socketMsg);
                     break;
+                case EventType.property:
+                    //测试资产请求
+                    socketMsg = accountRequestMsg.ReqPropertyTestMsg(message);
+                    _wabData.SendMsg(socketMsg);
+                    break;
                 case EventType.nextgrouds:
                     //换一批
                     socketMsg = friendRequestMsg.ReqNextUserList(message);
                     _wabData.SendMsg(socketMsg);
                     break;
+                case EventType.commerce:
+                    //商会信息请求
+                    socketMsg = commerceRequsetMsg.ReqCommerceMsg(message);
+                    _wabData.SendMsg(socketMsg);
+                    break;
+                case EventType.commerce_in:
+                    //商会加入请求
+                    socketMsg = commerceRequsetMsg.ReqCommerceMsg(message);
+                    _wabData.SendMsg(socketMsg);
+                    break;
+                case EventType.commerce_sendmt:
+                    socketMsg = commerceRequsetMsg.ReqSendMTMsg(message);
+                    _wabData.SendMsg(socketMsg);
+                    break;
                 case EventType.exit:
-                    socketMsg = new SocketMsg();
                     socketMsg.desc = "exit";
                     socketMsg.data = null;
                     _wabData.SendMsg(socketMsg);
@@ -171,10 +190,14 @@ public class WebSocketManager : ManagerBase
     {
         if (_wabData.MsgQueue.Count > 0)
         {
-            SocketMsg info = _wabData.MsgQueue.Dequeue();
-            //string json = JsonUtility.ToJson(info);
+            SocketMsg<Dictionary<string,string>>info = _wabData.MsgQueue.Dequeue();
             processSocketMsg(info);
-            //Debug.Log(json);
+            
+        }
+        if (_wabData.SquareQueue.Count > 0)
+        {
+            SocketMsg<SquareUser> squareinfo = _wabData.SquareQueue.Dequeue();
+            processSquareMsg(squareinfo);
         }
     }
 
@@ -193,97 +216,8 @@ public class WebSocketManager : ManagerBase
     #region 处理接收到的服务器发来的消息
     HandlerBase accountHandler = new AccoutHandler();
     Dictionary<string, string> dicRegLogRespon;
-    
-    /// <summary>
-    /// 账号模块
-    /// </summary>
-    /// <param name="msg"></param>
-    private void accountSocketMsg(SocketMsg msg)
-    {
-        switch (msg.data.type)
-        {
-           
-            case "logoin":
-                dicRegLogRespon = msg.data.t as Dictionary<string, string>;
-                if (!dicRegLogRespon.ContainsKey("desc"))
-                {
-                    Debug.LogError("logoin error");
-                    return;
-                }
-                if (accountHandler.OnReceive(EventType.login, dicRegLogRespon["desc"]))
-                {
-                    if (dicRegLogRespon.ContainsKey("token"))
-                    {
-                        PlayerPrefs.SetString("token", dicRegLogRespon["token"].ToString());
-                    }
-                   
-                    _wabData.ThreadStart();
-                }
-                break;
-
-            case "reg":
-                dicRegLogRespon = msg.data.t as Dictionary<string, string>;
-                if (!dicRegLogRespon.ContainsKey("desc"))
-                {
-                    Debug.LogError("reg error");
-                    return;
-                }
-                accountHandler.OnReceive(EventType.regist, dicRegLogRespon["desc"]);
-                break;
-            case "voice":
-                // setHandler.OnReceive(EventType.voiceset, msg.data.t);
-                break;
-
-            case "expw":
-                dicRegLogRespon = msg.data.t as Dictionary<string, string>;
-                if (!dicRegLogRespon.ContainsKey("desc"))
-                {
-                    Debug.LogError("expw error");
-                    return;
-                }
-                setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
-                break;
-            case "expwshop":
-                dicRegLogRespon = msg.data.t as Dictionary<string, string>;
-                setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
-                break;
-            case "addfriend":
-                if (!dicRegLogRespon.ContainsKey("desc"))
-                {
-                    Debug.LogError("addfriend error");
-                    return;
-                }
-                friendHandler.OnReceive(EventType.addfriend, dicRegLogRespon["desc"]);
-                break;
-            case "likefriend":
-                // friendHandler.OnReceive(EventType.likefriend, msg.data.t["desc"]);
-                break;
-            //case "searchfriend":
-            //    SquareUser searchUser = msg.data.t as SquareUser;
-            //    friendHandler.OnReceive(EventType.searchfriend, msg.data.t);
-            //    break;
-            case "squarefriend":
-                SquareUser squareUser = msg.data.t as SquareUser;
-                friendHandler.OnReceive(EventType.squarefriend, squareUser);
-                break;
-            case "applyfriend":
-                SquareUser applyUser = msg.data.t as SquareUser;
-                friendHandler.OnReceive(EventType.applyfriend, applyUser);
-                break;
-            case "pwforget":
-                //setHandler.OnReceive(EventType)
-                dicRegLogRespon = msg.data.t as Dictionary<string, string>;
-                if (!dicRegLogRespon.ContainsKey("desc"))
-                {
-                    Debug.LogError("pwforget error");
-                    return;
-                }
-                setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
-                break;
-            default:
-                break;
-        }
-    }
+    SquareUser squareData;
+   
     HandlerBase setHandler = new SetHandler();
     /// <summary>
     /// 设置模块
@@ -312,7 +246,7 @@ public class WebSocketManager : ManagerBase
     /// friend模块
     /// </summary>
     /// <param name="msg"></param>
-    //private void friendSocketMsg(SocketMsg msg)
+    //private void friendSocketMsg(SocketMsg<SquareUser> msg)
     //{
     //    switch (msg.data.type)
     //    {
@@ -340,35 +274,97 @@ public class WebSocketManager : ManagerBase
     /// 处理接收到的服务器发来的消息模块
     /// </summary>
     /// <param name="msg"></param>
-    private void processSocketMsg(SocketMsg msg)
+    /// 
+    private void processSquareMsg(SocketMsg<SquareUser> msg)
     {
-        Debug.Log(msg.data.model);
-        switch (msg.data.model)
+        switch (msg.data.type)
         {
-            case "consumer":
-                //if (msg.data.type == "reg")
-                //{
-
-                //}
-                //dicRegRespon = msg.data.t as Dictionary<string, string>;
-                //if (dicRegRespon.ContainsKey("desc"))
-                //{
-                    accountSocketMsg(msg);
-                //}
+            case "squarefriend":
+                SquareUser squareUser = msg.data.t as SquareUser;
+                friendHandler.OnReceive(EventType.squarefriend, squareUser);
                 break;
-            case "socket":
-                //Debug.Log("target" + msg.target);
-                //PlayerPrefs.SetString("ClientId", msg.target);
+            case "applyfriend":
+                SquareUser applyUser = msg.data.t as SquareUser;
+                friendHandler.OnReceive(EventType.applyfriend, applyUser);
+                break;
+            default:
+                break;
+        }
+    }
+    private void processSocketMsg(SocketMsg<Dictionary<string,string>> msg)
+    {
+        dicRegLogRespon = msg.data.t as Dictionary<string, string>;
+        switch (msg.data.type)
+        {
+            case "init":
                 LoginInfo.ClientId = msg.target;
                 Debug.Log(LoginInfo.ClientId);
                 accountHandler.OnReceive(EventType.init, msg.target);
                 break;
-            //case "set":
-            //    accountSocketMsg(msg);
+            case "logoin":
+                if (!dicRegLogRespon.ContainsKey("desc"))
+                {
+                    Debug.LogError("logoin error");
+                    return;
+                }
+                if (accountHandler.OnReceive(EventType.login, dicRegLogRespon["desc"]))
+                {
+                    if (dicRegLogRespon.ContainsKey("token"))
+                    {
+                        PlayerPrefs.SetString("token", dicRegLogRespon["token"].ToString());
+                    }
+                    _wabData.ThreadStart();
+                }
+                break;
+
+            case "reg":
+                if (!dicRegLogRespon.ContainsKey("desc"))
+                {
+                    Debug.LogError("reg error");
+                    return;
+                }
+                accountHandler.OnReceive(EventType.regist, dicRegLogRespon["desc"]);
+                break;
+            case "voice":
+                // setHandler.OnReceive(EventType.voiceset, msg.data.t);
+                break;
+
+            case "expw":
+                if (!dicRegLogRespon.ContainsKey("desc"))
+                {
+                    Debug.LogError("expw error");
+                    return;
+                }
+                setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
+                break;
+            case "expwshop":
+                setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
+                break;
+            case "addfriend":
+                if (!dicRegLogRespon.ContainsKey("desc"))
+                {
+                    Debug.LogError("addfriend error");
+                    return;
+                }
+                friendHandler.OnReceive(EventType.addfriend, dicRegLogRespon["desc"]);
+                break;
+            case "likefriend":
+                // friendHandler.OnReceive(EventType.likefriend, msg.data.t["desc"]);
+                break;
+            //case "searchfriend":
+            //    SquareUser searchUser = msg.data.t as SquareUser;
+            //    friendHandler.OnReceive(EventType.searchfriend, msg.data.t);
             //    break;
-            //case "friend":
-            //    accountSocketMsg(msg);
-            //    break;
+           
+            case "pwforget":
+                //setHandler.OnReceive(EventType)
+                if (!dicRegLogRespon.ContainsKey("desc"))
+                {
+                    Debug.LogError("pwforget error");
+                    return;
+                }
+                setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
+                break;
             default:
                 break;
         }
