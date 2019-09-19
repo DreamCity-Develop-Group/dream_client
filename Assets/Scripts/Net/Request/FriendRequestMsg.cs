@@ -19,26 +19,25 @@ using UnityEngine;
 
 public class FriendRequestMsg :RequestBase
 {
-   
 
+    SocketMsg<Dictionary<string, string>> socketMsg = new SocketMsg<Dictionary<string, string>>();
+    MessageData<Dictionary<string, string>> messageData = new MessageData<Dictionary<string, string>>();
     /// <summary>
     /// 申请消息
     /// </summary>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public SocketMsg ReqAddFriendMsg(object msg)
+    public SocketMsg<Dictionary<string, string>> ReqAddFriendMsg(object msg)
     {
         string applyUserName = msg.ToString();
        // ApplyInfo.applyList.Add(applyUserName);
-        MessageData messageData = new MessageData();
-        messageData.t = new Dictionary<string, object>
+        Dictionary<string, string>t = new Dictionary<string, string>
         {
             ["nick"] = applyUserName,
             ["username"] = PlayerPrefs.GetString("username"),
         };
-        messageData.model = "friend";
-        messageData.type = "addfriend";
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId, "申请好友操作", messageData);
+        messageData.Change("consumer", "addfriend", t);
+        socketMsg.Change(LoginInfo.ClientId, "申请好友操作", messageData);
         return socketMsg;
     }
     /// <summary>
@@ -46,16 +45,14 @@ public class FriendRequestMsg :RequestBase
     /// </summary>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public SocketMsg ReqAgreeFriendMsg(object msg)
+    public SocketMsg<Dictionary<string, string>> ReqAgreeFriendMsg(object msg)
     {
-        Dictionary<string, object> msgDci = msg as Dictionary<string, object>;
-        MessageData messageData = new MessageData();
+        Dictionary<string, string> t = msg as Dictionary<string, string>;
         //TODO
-        messageData.t = msgDci;
         messageData.model = "friend";
-        messageData.type = "addfriend";
-
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId, "添加好友操作", messageData);
+        messageData.type = "addTofriend";
+        messageData.Change("consumer", "addfriend", t);
+        socketMsg.Change(LoginInfo.ClientId, "添加好友操作", messageData);
         //TODO
         //Dispatch(AreaCode.UI,11111,"removeList");
         return socketMsg;
@@ -64,20 +61,20 @@ public class FriendRequestMsg :RequestBase
     /// 好友点赞
     /// </summary>
     /// <returns></returns>
-    public SocketMsg ReqLikeFriendMsg(object msg)
+    public SocketMsg<Dictionary<string, string>> ReqLikeFriendMsg(object msg)
     {
-        UserInfo userInfo = msg as UserInfo;
+        //TODO点赞逻辑
 
-        MessageData messageData = new MessageData();
-        messageData.t = new Dictionary<string, object>
+
+        UserInfo userInfo = msg as UserInfo;
+        Dictionary<string, string>t = new Dictionary<string, string>
         {
             ["nick"] = userInfo.NickName,
             ["likes"] = userInfo.Like,
             ["username"] = PlayerPrefs.GetString("username"),
         };
-        messageData.model = "friend";
-        messageData.type = "likefriend";
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId, "好友点赞", messageData);
+        messageData.Change("consumer", "likefriend", t);
+        socketMsg.Change(LoginInfo.ClientId, "好友点赞", messageData);
         //Dispatch(AreaCode.UI,11111,"activefalse");
         return socketMsg;
     }
@@ -86,7 +83,7 @@ public class FriendRequestMsg :RequestBase
     /// </summary>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public SocketMsg ReqSearchUserMsg(object msg)
+    public SocketMsg<Dictionary<string, string>> ReqSearchUserMsg(object msg)
     {
         string nickName = msg.ToString();
         if (nickName == null)
@@ -94,25 +91,24 @@ public class FriendRequestMsg :RequestBase
             //TODO提示界面
             return null;
         }
-        MessageData messageData = new MessageData();
-        messageData.t = new Dictionary<string, object>
+        Dictionary<string, string>t = new Dictionary<string, string>
         {
             ["nick"] = nickName,
             ["username"] = PlayerPrefs.GetString("username"),
         };
         messageData.model = "friend";
         messageData.type = "searchfriend";
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId, "搜索用户", messageData);
+        messageData.Change("consumer", "searchfriend", t);
+        socketMsg.Change(LoginInfo.ClientId, "搜索用户", messageData);
         return socketMsg;
     }
-    public  SocketMsg ReqNextUserList(object msg)
+    public  SocketMsg<Dictionary<string, string>> ReqNextUserList(object msg)
     {
-        MessageData messageData = new MessageData();
-        messageData.t = new Dictionary<string, object>
+        Dictionary<string, string>t = new Dictionary<string, string>
         {
             ["username"] = PlayerPrefs.GetString("username"),
         };
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId, "换一批广场玩家", messageData);
+        socketMsg.Change(LoginInfo.ClientId, "换一批广场玩家", messageData);
         return socketMsg;
     }
 }

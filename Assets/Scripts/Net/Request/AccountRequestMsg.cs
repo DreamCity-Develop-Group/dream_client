@@ -6,12 +6,14 @@ public class AccountRequestMsg:RequestBase
 {
 
     private HintMsg promptMsg = new HintMsg();
+    SocketMsg<Dictionary<string, string>> socketMsg = new SocketMsg<Dictionary<string, string>>();
+    MessageData<Dictionary<string,string>> messageData = new MessageData<Dictionary<string, string>>();
     /// <summary>
     /// 登入消息
     /// </summary>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public SocketMsg ReqPWLoginMsg(object msg)
+    public SocketMsg<Dictionary<string,string>> ReqPWLoginMsg(object msg)
     {
         //登入检验TODO
         LoginInfo loginInfo = msg as LoginInfo;
@@ -27,10 +29,9 @@ public class AccountRequestMsg:RequestBase
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
             return null;
         }
-        MessageData messageData = new MessageData();
         string userpass = loginInfo.Password;
         //string userpass= MsgTool.MD5Encrypt(loginInfo.Password);
-            messageData.t = new Dictionary<string, object>
+          Dictionary<string, string>  t = new Dictionary<string, string>
             {
                // ["IsIdentityLog"] = loginInfo.Identity,
                 ["username"] = loginInfo.UserName,
@@ -39,7 +40,8 @@ public class AccountRequestMsg:RequestBase
             };
             messageData.model = "consumer";
             messageData.type = "pwlog";
-            SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId, "登入操作", messageData);
+            messageData.Change("consumer", "pwlog",t);
+            socketMsg.Change(LoginInfo.ClientId, "登入操作", messageData);
             PlayerPrefs.SetString("username", loginInfo.UserName);
         return socketMsg;
     }
@@ -48,12 +50,11 @@ public class AccountRequestMsg:RequestBase
     /// </summary>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public SocketMsg ReqForgetMsg(object msg)
+    public SocketMsg<Dictionary<string,string>> ReqForgetMsg(object msg)
     {
         LoginInfo loginInfo = msg as LoginInfo;
-        MessageData messageData = new MessageData();
         string userpass = MsgTool.MD5Encrypt(loginInfo.Password);
-        messageData.t = new Dictionary<string, object>
+        Dictionary<string, string> t = new Dictionary<string, string>
         {
             // ["IsIdentityLog"] = loginInfo.Identity,
             ["username"] = loginInfo.UserName,
@@ -61,9 +62,10 @@ public class AccountRequestMsg:RequestBase
             ["code"] = loginInfo.Identity,
             ["token"] = PlayerPrefs.GetString("token")
         };
-        messageData.model = "consumer";
-        messageData.type = "expw";
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId, "修改登入密码操作", messageData);
+        //messageData.model = "consumer";
+        //messageData.type = "expw";
+        messageData.Change("consumer", "expw", t);
+        socketMsg.Change(LoginInfo.ClientId, "修改登入密码操作", messageData);
         return socketMsg;
     }
 
@@ -73,22 +75,20 @@ public class AccountRequestMsg:RequestBase
     /// </summary>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public SocketMsg ReqPWChangeMsg(object msg)
+    public SocketMsg<Dictionary<string,string>> ReqPWChangeMsg(object msg)
     {
         LoginInfo loginInfo = msg as LoginInfo;
-        MessageData messageData = new MessageData();
         string userpass = MsgTool.MD5Encrypt(loginInfo.Password);
-        messageData.t = new Dictionary<string, object>
+        Dictionary<string, string> t = new Dictionary<string, string>
         {
             // ["IsIdentityLog"] = loginInfo.Identity,
             ["username"] = loginInfo.UserName,
             ["userpass"] = userpass,
             ["Identity"] = loginInfo.Identity,
-            ["token"]=PlayerPrefs.GetString("token")
+            ["token"] = PlayerPrefs.GetString("token")
         };
-        messageData.model = "consumer";
-        messageData.type = "expw";
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId,  "修改登入密码操作", messageData);
+        messageData.Change("consumer", "expw", t);
+        socketMsg.Change(LoginInfo.ClientId,  "修改登入密码操作", messageData);
         return socketMsg;
     }
   /// <summary>
@@ -96,7 +96,7 @@ public class AccountRequestMsg:RequestBase
   /// </summary>
   /// <param name="msg"></param>
   /// <returns></returns>
-    public SocketMsg ReqGetIdentityMsg(object msg)
+    public SocketMsg<Dictionary<string,string>> ReqGetIdentityMsg(object msg)
     {
         if (msg == null)
         {
@@ -110,11 +110,9 @@ public class AccountRequestMsg:RequestBase
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
             return null;
         }
-        MessageData messageData = new MessageData();
-        messageData.model = "consumer";
-        messageData.type = "getcode";
+        messageData.Change("consumer", "getcode", null);
         //messageData.t = null;
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId, "获取验证码操作", messageData);
+        socketMsg.Change(LoginInfo.ClientId, "获取验证码操作", messageData);
         return socketMsg;
     }
     
@@ -123,7 +121,7 @@ public class AccountRequestMsg:RequestBase
     /// </summary>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public SocketMsg ReqIDLoginMsg(object msg)
+    public SocketMsg<Dictionary<string,string>> ReqIDLoginMsg(object msg)
     {
         LoginInfo loginInfo = msg as LoginInfo;
         //TODO
@@ -139,18 +137,16 @@ public class AccountRequestMsg:RequestBase
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
             return null;
         }
-        MessageData messageData = new MessageData();
 
-        messageData.t = new Dictionary<string, object>
+        Dictionary<string, string>t = new Dictionary<string, string>
         {
             // ["IsIdentityLog"] = loginInfo.Identity,
             ["username"] = loginInfo.UserName,
             ["userpass"] = loginInfo.Password,
             //["Identity"] = loginInfo.Identity
         };
-        messageData.model = "consumer";
-        messageData.type = "idlog";
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId, "登入操作", messageData);
+        messageData.Change("consumer", "idlog", null);
+        socketMsg.Change(LoginInfo.ClientId, "登入操作", messageData);
         return socketMsg;
     }
     /// <summary>
@@ -158,7 +154,7 @@ public class AccountRequestMsg:RequestBase
     /// </summary>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public SocketMsg ReqRegMsg(object msg)
+    public SocketMsg<Dictionary<string,string>> ReqRegMsg(object msg)
     {
         UserInfo userinfo = msg as UserInfo;
 
@@ -186,8 +182,7 @@ public class AccountRequestMsg:RequestBase
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
             return null;
         }
-        MessageData messageData = new MessageData();
-        messageData.t = new Dictionary<string, object>
+        Dictionary<string, string>t = new Dictionary<string, string>
         {
             ["username"] = userinfo.Phone,
             ["userpass"] = userinfo.Password,
@@ -195,14 +190,30 @@ public class AccountRequestMsg:RequestBase
             ["nick"] = userinfo.NickName,
             ["invite"] = userinfo.InviteCode
         };
-        messageData.model = "consumer";
-        messageData.type = "reg";
+        messageData.Change("consumer", "reg", null);
         Debug.LogError(LoginInfo.ClientId);
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId,  "注册操作", messageData);
+        socketMsg.Change(LoginInfo.ClientId,  "注册操作", messageData);
         return socketMsg;
     }
-  
 
-   
-   
+    /// <summary>
+    /// 资产测试请求消息
+    /// </summary>
+    /// <param name="msg"></param>
+    /// <returns></returns>
+    public SocketMsg<Dictionary<string, string>> ReqPropertyTestMsg(object msg)
+    {
+        LoginInfo loginInfo = msg as LoginInfo;
+        Dictionary<string, string> t = new Dictionary<string, string>
+        {
+            // ["IsIdentityLog"] = loginInfo.Identity,
+            ["username"] = loginInfo.UserName,
+            ["token"] = PlayerPrefs.GetString("token")
+        };
+        messageData.Change("consumer", "property", t);
+        socketMsg.Change(LoginInfo.ClientId, "资产信息", messageData);
+        return socketMsg;
+    }
+
+
 }

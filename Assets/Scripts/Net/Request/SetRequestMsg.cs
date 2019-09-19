@@ -19,16 +19,17 @@ using UnityEngine;
 
 public class SetRequestMsg 
 {
+    MessageData<Dictionary<string, string>> messageData = new MessageData<Dictionary<string, string>>();
+    SocketMsg<Dictionary<string, string>> socketMsg = new SocketMsg<Dictionary<string, string>>();
     /// <summary>
     /// 设置交易密码
     /// </summary>
     /// <returns></returns>
-    public SocketMsg ReqExPwShopMsg(object msg)
+    public SocketMsg<Dictionary<string,string>> ReqExPwShopMsg(object msg)
     {
         UserInfo userinfo = msg as UserInfo;
 
-        MessageData messageData = new MessageData();
-        messageData.t = new Dictionary<string, object>
+        Dictionary<string, string> t = new Dictionary<string, string>
         {
             ["username"] = userinfo.Phone,
             ["userpass"] = userinfo.Password,
@@ -38,19 +39,19 @@ public class SetRequestMsg
         };
         messageData.model = "consumer";
         messageData.type = "expwshop";
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId, "注册操作", messageData);
+        messageData.Change("consumer", "expwshop",t);
+        socketMsg.Change(LoginInfo.ClientId, "注册操作", messageData);
         return socketMsg;
     }
     /// <summary>
     /// 音效设置
     /// </summary>
     /// <returns></returns>
-    public SocketMsg ReqVoiceSetMsg(object msg)
+    public SocketMsg<Dictionary<string, string>> ReqVoiceSetMsg(object msg)
     {
         SetInfo setInfo = msg as SetInfo;
 
-        MessageData messageData = new MessageData();
-        messageData.t = new Dictionary<string, object>
+         Dictionary<string, string> t = new Dictionary<string, string>
         {
             ["bg"] = setInfo.BgVoice,
             ["game"] = setInfo.GameVoice
@@ -58,7 +59,7 @@ public class SetRequestMsg
         };
         messageData.model = "consumer";
         messageData.type = "voice";
-        SocketMsg socketMsg = new SocketMsg(LoginInfo.ClientId, "音效设置", messageData);
+        socketMsg.Change(LoginInfo.ClientId, "音效设置", messageData);
         return socketMsg;
     }
 }
