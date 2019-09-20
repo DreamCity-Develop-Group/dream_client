@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Language;
 public class LgoinPanel : UIBase
 {
     Button btnLogin;
@@ -56,12 +57,12 @@ public class LgoinPanel : UIBase
 
         btnForget.onClick.AddListener(clickForget);
 
-
+        //inputUserName.GetComponent<LanguageText>().Key =LanguageService.Instance.GetStringByKey("UILogin.InputUserName", string.Empty);
 
         btnGetIdentity.gameObject.SetActive(false);
         inputIdentity.gameObject.SetActive(false);
         loginInfo = new LoginInfo();
-        Dispatch(AreaCode.NET, EventType.init, null);
+        setPanelActive(false);
 
     }
     public override void OnDestroy()
@@ -90,16 +91,18 @@ public class LgoinPanel : UIBase
         if (!isLogIdentity)
         {
             textIdentityLog.text = "密码登入";
-            inputPassWord.gameObject.SetActive(false);
-            inputIdentity.gameObject.SetActive(true);
-            btnGetIdentity.gameObject.SetActive(true);
+            btnForget.gameObject.SetActive(true);
+            inputPassWord.gameObject.SetActive(true);
+            inputIdentity.gameObject.SetActive(false);
+            btnGetIdentity.gameObject.SetActive(false);
             isLogIdentity = !isLogIdentity;
         }
         else
         {
             textIdentityLog.text = "验证码登入";
+            btnForget.gameObject.SetActive(false);
             inputPassWord.gameObject.SetActive(true);
-            inputIdentity.gameObject.SetActive(false);
+            inputIdentity.gameObject.SetActive(true);
             btnGetIdentity.gameObject.SetActive(false);
             isLogIdentity = !isLogIdentity;
         }

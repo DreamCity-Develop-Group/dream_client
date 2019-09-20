@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class UIEvent 
 {
+    public const int LOAD_PANEL_ACTIVE = int.MinValue;
+    /// <summary>
+    /// 登入注册选择界面
+    /// </summary>
+    public const int LOGINSELECT_PANEL_ACTIVE = -1;
+
     /// <summary>
     /// 登入界面
     /// </summary>
@@ -68,13 +74,12 @@ public class UIEvent
     /// 广场用户列表获取
     /// </summary>
     public const int SQUARE_LIST_PANEL_VIEW = 15;
+    /// <summary>
+    /// 语言选择
+    /// </summary>
+    public const int LANGUAGE_VIEW = 16;
 
-
-
-
-
-
-
+   
     /// <summary>
     /// 提示界面
     /// </summary>
