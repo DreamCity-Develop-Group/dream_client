@@ -297,8 +297,7 @@ public class WebSocketManager : ManagerBase
         switch (msg.data.type)
         {
             case "init":
-                LoginInfo.ClientId = msg.target;
-                Debug.Log(LoginInfo.ClientId);
+              
                 accountHandler.OnReceive(EventType.init, msg.target);
                 break;
             case "logoin":
@@ -355,7 +354,6 @@ public class WebSocketManager : ManagerBase
             //    SquareUser searchUser = msg.data.t as SquareUser;
             //    friendHandler.OnReceive(EventType.searchfriend, msg.data.t);
             //    break;
-           
             case "pwforget":
                 //setHandler.OnReceive(EventType)
                 if (!dicRegLogRespon.ContainsKey("desc"))

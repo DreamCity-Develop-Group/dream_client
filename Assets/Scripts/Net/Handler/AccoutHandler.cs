@@ -10,8 +10,8 @@ public class AccoutHandler: HandlerBase
     {
         switch (subCode)
         {
-            //case EventType.init:
-            //   return  initResponse(value.ToString());
+            case EventType.init:
+                return initResponse(value.ToString());
             case EventType.login:
                 return loginResponse(value.ToString());
             case EventType.regist:
@@ -23,14 +23,18 @@ public class AccoutHandler: HandlerBase
     }
 
     private HintMsg promptMsg = new HintMsg();
- 
 
-    //private bool initResponse(string  msg)
-    //{
-    //    PlayerPrefs.SetString("ClientId", msg);
-    //    Debug.LogError("initResponse"+msg);
-    //    return true;
-    //}
+
+    private bool initResponse(string msg)
+    {
+        if (msg != null)
+        {
+            LoginInfo.ClientId = msg;
+            Debug.Log(LoginInfo.ClientId);
+            Dispatch(AreaCode.UI, UIEvent.LOGINSELECT_PANEL_ACTIVE, true);
+        }
+        return true;
+    }
 
     /// <summary>
     /// 登录响应

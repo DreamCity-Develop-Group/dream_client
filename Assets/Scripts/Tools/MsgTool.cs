@@ -93,7 +93,7 @@ public static class MsgTool
     /// <returns></returns>
     public static bool CheckPass(string pw)
     {
-        Regex regex = new Regex(@"^[0-9a-zA-Z_]{8,16}$");
+        Regex regex = new Regex(@"^[0-9a-zA-Z]{6,12}$");
         return regex.IsMatch(pw);
     }
     /// <summary>
@@ -127,6 +127,18 @@ public static class MsgTool
             }
         };
         return writer.Write(textForEncoding);
+    }
+    /// <summary>
+    /// 点赞星级
+    /// </summary>
+    public static void ClickLikeToday()
+    {
+
+    }
+
+    public static void ClickInvest()
+    {
+
     }
 
     //void DoPicture()//存储为png
