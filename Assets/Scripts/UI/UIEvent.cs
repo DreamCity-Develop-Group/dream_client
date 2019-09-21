@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class UIEvent 
 {
+    /// <summary>
+    /// 加载
+    /// </summary>
     public const int LOAD_PANEL_ACTIVE = int.MinValue;
     /// <summary>
     /// 登入注册选择界面
@@ -75,11 +78,24 @@ public class UIEvent
     /// </summary>
     public const int SQUARE_LIST_PANEL_VIEW = 15;
     /// <summary>
-    /// 语言选择
+    /// 商会面板
     /// </summary>
-    public const int LANGUAGE_VIEW = 16;
-
+    public const int COMMERCE_PANEL_ACTIVE = 16;
+    /// <summary>
+    /// 没加入商会面板
+    /// </summary>
+    public const int COMMERCE_NOJIONPANEL_ACTIVE = 17;
+    /// <summary>
+    /// 语言
+    /// </summary>
+    public const int LANGUAGE_VIEW = 18;
    
+
+
+
+
+
+
     /// <summary>
     /// 提示界面
     /// </summary>

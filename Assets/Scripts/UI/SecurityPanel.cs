@@ -15,7 +15,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class SecurityPanel : UIBase
 {
@@ -37,20 +37,14 @@ public class SecurityPanel : UIBase
         }
     }
 
-    Button btnLike;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        btnLike = transform.Find("BtnLike").GetComponent<Button>();
-        btnLike.onClick.AddListener(clickLike);
+        
     }
 
-    private void clickLike()
-    {
-        btnLike.gameObject.SetActive(false);
-        Dispatch(AreaCode.NET, EventType.likefriend, null);
-    }
     // Update is called once per frame
     void Update()
     {

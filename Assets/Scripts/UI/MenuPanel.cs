@@ -30,7 +30,11 @@ public class MenuPanel : UIBase
         btnTreasure.onClick.AddListener(clickTreasure);
         btnSet.onClick.AddListener(clickSet);
         btnFriends.onClick.AddListener(clickFriend);
-        
+        btnMsg.onClick.AddListener(clickEmali);
+        btnCommerce.onClick.AddListener(clickChamber);
+
+
+
     }
     private void clickAdd()
     {
@@ -65,18 +69,26 @@ public class MenuPanel : UIBase
     }
     private void clickFriend()
     {
-        Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, null);
+        Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, true);
     }
     private void clickTreasure()
     {
-        Dispatch(AreaCode.UI,UIEvent.CHARGE_PANEL_ACTIVE,null);
+        Dispatch(AreaCode.UI,UIEvent.CHARGE_PANEL_ACTIVE,true);
     }
 
     private void clickSet()
     {
-        Dispatch(AreaCode.UI,UIEvent.SET_PANEL_ACTIVE,null);
+        Dispatch(AreaCode.UI,UIEvent.SET_PANEL_ACTIVE,true);
     }
 
+    private void clickEmali()
+    {
+        Dispatch(AreaCode.UI, UIEvent.MSG_PANEL_ACTIVE, true);
+    }
+    private void clickChamber()
+    {
+        Dispatch(AreaCode.UI, UIEvent.COMMERCE_PANEL_ACTIVE, true);
+    }
     public override void OnDestroy()
     {
         base.OnDestroy();
