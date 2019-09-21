@@ -19,7 +19,22 @@ using UnityEngine;
 
 public class ChangePwPanel : UIBase
 {
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        Bind(UIEvent.CHANGETRADE_ACTIVE);
+    }
+
+    public override void Execute(int eventCode, object message)
+    {
+        switch (eventCode)
+        {
+            case UIEvent.CHANGETRADE_ACTIVE:
+                setPanelActive((bool)message);
+                break;
+            default:
+                break;
+        }
+    }
     void Start()
     {
         setPanelActive(false);
