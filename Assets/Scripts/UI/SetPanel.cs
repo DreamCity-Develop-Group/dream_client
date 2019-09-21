@@ -11,9 +11,17 @@ public class SetPanel: UIBase
     private GameObject PanelSound;              //音效设置面板
     private GameObject panelSecutiry;           //安全设置面板
     private GameObject PanelHelp;               //帮助设置面板
+    private GameObject SetTrading;              //设置交易密码面板
+    private GameObject ChangeTrading;           //修改交易密码面板
     private Button btnSecutiry;                 //设置按钮  
     private Button SoundBtn;                    //音效开关
     private Button MusicBtn;                    //背景音乐开关
+    private Image SoundImg;                     //声音图
+    private Image MusicImg;                     //背景音乐图
+    private Sprite[] switchSprite = new Sprite[2];              //开关图
+
+    private Text TransactionCode;                //交易码设置
+    private int setUp;                           //是否设置了交易吗(默认是设置)
 
     Button btnPanelMusic;
     Button btnHelp;
@@ -22,8 +30,8 @@ public class SetPanel: UIBase
     Button btnExit;
     Button btnClose;
 
-    private bool IsOpenSound = true;          //是否开启音效
-    private bool IsOpenMuisc = true;          //是否开启背景音效
+    private bool IsOpenSound = false;          //是否开启音效
+    private bool IsOpenMuisc = false;          //是否开启背景音效
     bool isVoice=true;
     private void Awake()
     {
@@ -51,12 +59,14 @@ public class SetPanel: UIBase
         btnChangePW = transform.Find("panelSecutiry/BtnChangePW").GetComponent<Button>();
         btnExit = transform.Find("panelSecutiry/BtnExit").GetComponent<Button>();
         btnClose = transform.Find("BtnClose").GetComponent<Button>();
-
+        SetTrading = transform.parent.Find("SetExPwPanel").gameObject;
+        ChangeTrading = transform.parent.Find("ChangeExPwPanel").gameObject;
         btnClose.onClick.AddListener(clickClose);
         btnPanelMusic.onClick.AddListener(clickMusic);
         btnExit.onClick.AddListener(clickExit);
         btnSecutiry.onClick.AddListener(ClickSecutiry);
         btnHelp.onClick.AddListener(ClickHelp);
+
 
         MusicClik = transform.Find("MusicClik").gameObject;
         SecutiryClik = transform.Find("SecutiryClik").gameObject;
@@ -69,9 +79,29 @@ public class SetPanel: UIBase
         panelSecutiry.SetActive(false);
         PanelHelp.SetActive(false);
         SoundBtn = PanelSound.transform.Find("BtnGameMusic ").GetComponent<Button>();
-        MusicBtn= PanelSound.transform.Find("BtnBgMusic ").GetComponent<Button>();
+        MusicBtn= PanelSound.transform.Find("BtnBgMusic").GetComponent<Button>();
         SoundBtn.onClick.AddListener(SoundClick);
         MusicBtn.onClick.AddListener(MuiscClick);
+        SoundImg = SoundBtn.GetComponent<Image>();
+        MusicImg = MusicBtn.GetComponent<Image>();
+        for (int i = 0; i < switchSprite.Length; i++)
+        {
+            switchSprite[i] = Resources.Load<Sprite>("UI/Switch" + i);
+        }
+
+        TransactionCode = panelSecutiry.transform.Find("BtnChangeExPW/Text").GetComponent<Text>();
+        switch(setUp)
+        {
+            case 0:
+                TransactionCode.text = "设置交易密码";
+                break;
+            case 1:
+                TransactionCode.text = "修改交易密码";
+                break;
+        }
+        btnChangeExPW.onClick.AddListener(clickChangeTradePassword);
+        btnChangePW.onClick.AddListener(clickChangeLoginPassword);
+
         setPanelActive(false);
     }
 
@@ -117,14 +147,52 @@ public class SetPanel: UIBase
     /// </summary>
     private void SoundClick()
     {
-
+        if(IsOpenSound)
+        {
+            SoundImg.sprite = switchSprite[1];
+            IsOpenSound = !IsOpenSound;
+            //把所有音效开启
+        }
+        else
+        {
+            SoundImg.sprite = switchSprite[0];
+            IsOpenSound = !IsOpenSound;
+            //把所有音效关闭
+        }
     }
     /// <summary>
     /// 设置背景音乐
     /// </summary>
     private void MuiscClick()
     {
-
+        if(IsOpenMuisc)
+        {
+            MusicImg.sprite = switchSprite[1];
+            IsOpenMuisc = !IsOpenMuisc;
+            //把背景音乐开启
+        }
+        else
+        {
+            MusicImg.sprite = switchSprite[0];
+            IsOpenMuisc = !IsOpenMuisc;
+            //把背景音乐关闭
+        }
+    }
+    private void clickChangeTradePassword()
+    {
+        switch (setUp)
+        {
+            case 0:
+                Dispatch(AreaCode.UI, UIEvent.SETTRANSACT_ACTIVE, true);
+                break;
+            case 1:
+                Dispatch(AreaCode.UI, UIEvent.SETTRANSACT_ACTIVE, true);
+                break;
+        }
+    }
+    private void clickChangeLoginPassword()
+    {
+        Dispatch(AreaCode.UI, UIEvent.CHANGELONG_ACTIVE, true);
     }
     /// <summary>
     /// 退出按钮

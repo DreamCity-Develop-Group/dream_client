@@ -53,7 +53,6 @@ public class FriendMenuPanel : UIBase
     Button btnSearch;
     Button btnApply;
     Button btnClose;
-    Button btnNextGround;
     InputField inputSearch;
 
     string nickName;
@@ -63,24 +62,17 @@ public class FriendMenuPanel : UIBase
         inputSearch = transform.Find("InputSearch").GetComponent<InputField>();
         btnFriend = transform.Find("BtnFriend").GetComponent<Button>();
         btnApply = transform.Find("BtnApply").GetComponent<Button>();
-        btnGround = transform.Find("BtnGround").GetComponent<Button>();
-        btnNextGround = transform.Find("BtnNextGround").GetComponent<Button>();
+        btnGround = transform.Find("BtnGround").GetComponent<Button>(); 
         btnSearch = transform.Find("BtnSearch").GetComponent<Button>();
         btnClose = transform.Find("BtnClose").GetComponent<Button>();
         textTitle = transform.Find("TextTitle").GetComponent<Text>();
 
-        btnNextGround.onClick.AddListener(clickNextGround);
         btnFriend.onClick.AddListener(clickFriend);
         btnSearch.onClick.AddListener(clickSearch);
         btnApply.onClick.AddListener(clickApply);
         btnGround.onClick.AddListener(clickGround);
         btnClose.onClick.AddListener(clickClose);
         setPanelActive(false);
-    }
-
-    private void clickNextGround()
-    {
-        Dispatch(AreaCode.NET,EventType.nextgrouds,null);
     }
     private void clickClose()
     {
@@ -89,16 +81,11 @@ public class FriendMenuPanel : UIBase
     private void clickGround()
     {
         textTitle.text = "π„≥°";
-        Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, false);
-        //Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, false);
-        Dispatch(AreaCode.UI,UIEvent.SQUARE_LIST_PANEL_ACTIVE,true);
+        //
     }
     private void clickFriend()
     {
         textTitle.text = "∫√”—";
-        Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, true);
-        //Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, false);
-        Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_ACTIVE, false);
     }
     private void clickApply()
     {

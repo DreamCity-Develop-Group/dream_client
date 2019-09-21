@@ -89,7 +89,19 @@ public class UIEvent
     /// 语言
     /// </summary>
     public const int LANGUAGE_VIEW = 18;
-   
+    /// <summary>
+    /// 设置交易密码
+    /// </summary>
+    public const int SETTRANSACT_ACTIVE = 19;
+    /// <summary>
+    /// 修改交易密码
+    /// </summary>
+    public const int CHANGETRADE_ACTIVE = 20;
+    /// <summary>
+    /// 修改登陆密码
+    /// </summary>
+    public const int CHANGELONG_ACTIVE = 21;
+
 
 
 

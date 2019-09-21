@@ -14,7 +14,7 @@ public class ParentMenu : MonoBehaviour
     public bool isOpening { get; private set; }//父菜单是否展开
     public bool isCanClick { get; set; }//父菜单是否可以点击
 
-    public void Init(RectTransform rect, int count)
+    public void Init(RectTransform rect, int count,string EmailContent=null)
     {
         childMenu = transform.Find("childMenu").gameObject;
         itemRect = rect;
@@ -24,6 +24,10 @@ public class ParentMenu : MonoBehaviour
         for (int i = 0; i < this.count; i++)
         {
             childs[i] = Instantiate(itemRect, childMenu.transform);
+            if(EmailContent!=null)
+            {
+                childs[i].GetComponent<Text>().text = EmailContent;
+            }
         }
         childMenu.gameObject.SetActive(false);
         isOpening = false;

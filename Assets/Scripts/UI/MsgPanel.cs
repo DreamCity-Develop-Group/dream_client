@@ -44,7 +44,7 @@ public class MsgPanel : UIBase
     // Start is called before the first frame update
     void Start()
     {
-        btnClose = transform.Find("BtnClose").GetComponent<Button>();
+        btnClose = transform.Find("bg/BtnClose").GetComponent<Button>();
         btnClose.onClick.AddListener(clickClose);
         setPanelActive(false);
     }

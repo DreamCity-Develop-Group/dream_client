@@ -28,7 +28,11 @@ public class FriendListPanel : UIBase
     /// </summary>
     /// <param name="eventCode"></param>
     /// <param name="message"></param>
-    Dictionary<string, UserInfo> dicFriendData;
+    
+    List<UserInfo> dicFriendData = new List<UserInfo>();
+    public GameObject PersonalInformationBox;           //列表信息框预制体
+    public Transform ListBox;                           //列表框
+    private List<GameObject> list_InformationBox = new List<GameObject>();
 
     public override void Execute(int eventCode, object message)
     {
@@ -36,10 +40,27 @@ public class FriendListPanel : UIBase
         {
             case UIEvent.FRIEND_LIST_PANEL_ACTIVE:
                 setPanelActive((bool)message);
+                if((bool)message==false)
+                {
+                    for (int i = 0; i < list_InformationBox.Count; i++)
+                    {
+                        RePreObj(list_InformationBox[i]);
+                    }
+                }
                 break;
             case UIEvent.FRIEND_LIST_PANEL_VIEW:
                 
-                dicFriendData = message as Dictionary<string, UserInfo>;
+                dicFriendData = message as List< UserInfo>;
+                if(dicFriendData.Count>0)
+                {
+                    GameObject obj = null;
+                    for (int i = 0; i < dicFriendData.Count; i++)
+                    {
+                        obj= CreatePreObj(PersonalInformationBox, ListBox);
+                        list_InformationBox.Add(obj);
+                        //obj里可以查找显示信息的物体，然后在赋值
+                    }
+                }
                 //TODO
                 break;
             default:
@@ -56,5 +77,45 @@ public class FriendListPanel : UIBase
     void Update()
     {
 
+    }
+    private Queue<GameObject> m_queue_gPreObj = new Queue<GameObject>();          //对象池
+    private Transform TempTrans;
+    /// <summary>
+    /// 创建预制体
+    /// </summary>
+    /// <param name="Prefab">预制体</param>
+    /// <param name="m_transPerfab">预制体父物体的transform</param>
+    /// <returns></returns>
+    public GameObject CreatePreObj(GameObject Prefab,Transform m_transPerfab)
+    {
+        GameObject obj = null;
+        if(m_queue_gPreObj.Count>0)
+        {
+            obj = m_queue_gPreObj.Dequeue();
+        }
+        else
+        {
+            Transform trans = null;
+            trans = GameObject.Instantiate(Prefab, m_transPerfab).transform;
+            trans.localPosition = Vector3.zero;
+            trans.localRotation = Quaternion.identity;
+            trans.localScale = Vector3.one;
+            obj = trans.gameObject;
+            obj.SetActive(false);
+        }
+        return obj;
+    }
+    /// <summary>
+    /// 预制体回收
+    /// </summary>
+    /// <param name="obj">回收的预制体</param>
+    private void RePreObj(GameObject obj)
+    {
+        if(obj!=null)
+        {
+            obj.SetActive(false);
+            obj.transform.SetParent(TempTrans);
+            m_queue_gPreObj.Enqueue(obj);
+        }
     }
 }
