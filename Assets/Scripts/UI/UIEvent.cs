@@ -102,7 +102,10 @@ public class UIEvent
     /// </summary>
     public const int CHANGELONG_ACTIVE = 21;
 
-
+    /// <summary>
+    /// 场景投资界面数据
+    /// </summary>
+    public const int SENCE_INVEST_VIEW = 22;
 
 
 

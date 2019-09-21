@@ -63,6 +63,10 @@ public class EventType
     /// 会长发货结果
     /// </summary>
     public const int commerce_sendmt = 21;
+    /// <summary>
+    /// 投资信息
+    /// </summary>
+    public const int invest_info = 22;
 
     public const int exit = int.MaxValue;
 }
