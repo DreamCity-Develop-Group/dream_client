@@ -1,8 +1,0 @@
-{
-"UILogin.TextName": "Name",
-"UILogin.BtnLogin": "Login",
-"UILogin.BtnLanguage": "Language",
-"UILogin.InputUserName":"Please enter your mobile number for login",
-"UILogin.InputPassWord":"Please input a password",
-"UILogin.BtnIndetityLogin":"Verification code login"
-}

@@ -1,9 +1,0 @@
-{
-"UILogin.TextName": "이름",
-"UILogin.BtnLogin": "로그인",
-"UILogin.BtnLanguage": "언어",
-"UILogin.InputUserName":"로그인 번호 입력",
-"UILogin.InputPassWord":"암호를 입력하십시오",
-"UILogin.BtnIndetityLogin":"인증 코드 로그인"
-
-}
