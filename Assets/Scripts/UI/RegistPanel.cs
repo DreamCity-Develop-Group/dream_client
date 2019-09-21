@@ -8,6 +8,7 @@ public class RegistPanel : UIBase
     Button btnRegist;
     Button btnIdentify;
     Button btnReturn;
+    Button btnLogin;
     InputField inputIdentify;
     InputField inputUserName;
     InputField inputPassWord;
@@ -40,6 +41,7 @@ public class RegistPanel : UIBase
 
     void Start()
     {
+        btnLogin = transform.Find("BtnLogin").GetComponent<Button>();
         btnIdentify = transform.Find("BtnIdentify").GetComponent<Button>();
         btnRegist = transform.Find("BtnRegist").GetComponent<Button>();
         btnReturn = transform.Find("BtnReturn").GetComponent<Button>();
@@ -49,11 +51,18 @@ public class RegistPanel : UIBase
         inputNickName = transform.Find("InputNickName").GetComponent<InputField>();
         inputInviteCode = transform.Find("InputInviteCode").GetComponent<InputField>();
 
+        btnLogin.onClick.AddListener(clickLogin);
         btnIdentify.onClick.AddListener(clickIdentify);
         btnRegist.onClick.AddListener(clickRegist);
         btnReturn.onClick.AddListener(clickReturn);
         btnRegist.enabled = false;
         setPanelActive(false);
+    }
+
+    private void clickLogin()
+    {
+        setPanelActive(false);
+        Dispatch(AreaCode.UI,UIEvent.LOG_ACTIVE,true);
     }
     private void clickIdentify()
     {

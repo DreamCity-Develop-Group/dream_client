@@ -91,18 +91,18 @@ public class LgoinPanel : UIBase
         if (!isLogIdentity)
         {
             textIdentityLog.text = "密码登入";
-            btnForget.gameObject.SetActive(true);
-            inputPassWord.gameObject.SetActive(true);
-            inputIdentity.gameObject.SetActive(false);
-            btnGetIdentity.gameObject.SetActive(false);
+            btnForget.gameObject.SetActive(false);
+            inputPassWord.gameObject.SetActive(false);
+            inputIdentity.gameObject.SetActive(true);
+            btnGetIdentity.gameObject.SetActive(true);
             isLogIdentity = !isLogIdentity;
         }
         else
         {
             textIdentityLog.text = "验证码登入";
-            btnForget.gameObject.SetActive(false);
+            btnForget.gameObject.SetActive(true);
             inputPassWord.gameObject.SetActive(true);
-            inputIdentity.gameObject.SetActive(true);
+            inputIdentity.gameObject.SetActive(false);
             btnGetIdentity.gameObject.SetActive(false);
             isLogIdentity = !isLogIdentity;
         }
