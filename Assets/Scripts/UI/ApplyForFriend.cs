@@ -5,7 +5,7 @@
   *
   * CreatTime:  2019/09/17 09:45:07
   *
-  * Description: ÉêÇëÁĞ±í½çÃæ
+  * Description: ç”³è¯·åˆ—è¡¨ç•Œé¢
   *
   * Version:    0.1
   *
@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ÉêÇë½çÃæ
+/// ç”³è¯·ç•Œé¢
 /// </summary>
 public class ApplyForFriend : UIBase
 {
@@ -25,13 +25,13 @@ public class ApplyForFriend : UIBase
         Bind(UIEvent.APPLYFOR_ACTIVE, UIEvent.APPLYFOR_VIEW);
     }
     /// <summary>
-    /// ¹ã³¡ÓÃ»§Êı¾İ
+    /// å¹¿åœºç”¨æˆ·æ•°æ®
     /// </summary>
     /// <param name="eventCode"></param>
     /// <param name="message"></param>
     List<UserInfo> dicSquareData = new List<UserInfo>();
-    private GameObject PersonalInformationBox;           //ÁĞ±íĞÅÏ¢¿òÔ¤ÖÆÌå
-    private Transform ListBox;                           //ÁĞ±í¿ò
+    private GameObject PersonalInformationBox;           //åˆ—è¡¨ä¿¡æ¯æ¡†é¢„åˆ¶ä½“
+    private Transform ListBox;                           //åˆ—è¡¨æ¡†
     private List<GameObject> list_InformationBox = new List<GameObject>();
 
     public override void Execute(int eventCode, object message)
@@ -60,7 +60,7 @@ public class ApplyForFriend : UIBase
                         obj.transform.SetParent(ListBox);
                         obj.SetActive(true);
                         list_InformationBox.Add(obj);
-                        //objÀï¿ÉÒÔ²éÕÒÏÔÊ¾ĞÅÏ¢µÄÎïÌå£¬È»ºóÔÚ¸³Öµ
+                        //objé‡Œå¯ä»¥æŸ¥æ‰¾æ˜¾ç¤ºä¿¡æ¯çš„ç‰©ä½“ï¼Œç„¶ååœ¨èµ‹å€¼
                     }
                 }
                 //TODO
@@ -76,13 +76,13 @@ public class ApplyForFriend : UIBase
         ListBox = transform.Find("Viewport/Content");
         setPanelActive(false);
     }
-    private Queue<GameObject> m_queue_gPreObj = new Queue<GameObject>();          //¶ÔÏó³Ø
+    private Queue<GameObject> m_queue_gPreObj = new Queue<GameObject>();          //å¯¹è±¡æ± 
     private Transform TempTrans;
     /// <summary>
-    /// ´´½¨Ô¤ÖÆÌå
+    /// åˆ›å»ºé¢„åˆ¶ä½“
     /// </summary>
-    /// <param name="Prefab">Ô¤ÖÆÌå</param>
-    /// <param name="m_transPerfab">Ô¤ÖÆÌå¸¸ÎïÌåµÄtransform</param>
+    /// <param name="Prefab">é¢„åˆ¶ä½“</param>
+    /// <param name="m_transPerfab">é¢„åˆ¶ä½“çˆ¶ç‰©ä½“çš„transform</param>
     /// <returns></returns>
     public GameObject CreatePreObj(GameObject Prefab, Transform m_transPerfab)
     {
@@ -104,9 +104,9 @@ public class ApplyForFriend : UIBase
         return obj;
     }
     /// <summary>
-    /// Ô¤ÖÆÌå»ØÊÕ
+    /// é¢„åˆ¶ä½“å›æ”¶
     /// </summary>
-    /// <param name="obj">»ØÊÕµÄÔ¤ÖÆÌå</param>
+    /// <param name="obj">å›æ”¶çš„é¢„åˆ¶ä½“</param>
     private void RePreObj(GameObject obj)
     {
         if (obj != null)

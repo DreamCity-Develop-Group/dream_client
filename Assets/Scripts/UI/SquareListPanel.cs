@@ -15,7 +15,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class SquareListPanel : UIBase
 {
@@ -29,9 +29,10 @@ public class SquareListPanel : UIBase
     /// <param name="eventCode"></param>
     /// <param name="message"></param>
     List<UserInfo> dicSquareData = new List<UserInfo>();
-    public GameObject PersonalInformationBox;           //列表信息框预制体
-    public Transform ListBox;                           //列表框
+    private GameObject PersonalInformationBox;           //列表信息框预制体
+    private Transform ListBox;                           //列表框
     private List<GameObject> list_InformationBox = new List<GameObject>();
+    private Button InABatchBtn;                          //换一批按钮
 
     public override void Execute(int eventCode, object message)
     {
@@ -45,6 +46,7 @@ public class SquareListPanel : UIBase
                     {
                         RePreObj(list_InformationBox[i]);
                     }
+                    list_InformationBox.Clear();
                 }
                 break;
             case UIEvent.SQUARE_LIST_PANEL_VIEW:
@@ -55,6 +57,8 @@ public class SquareListPanel : UIBase
                     for (int i = 0; i < dicSquareData.Count; i++)
                     {
                         obj = CreatePreObj(PersonalInformationBox, ListBox);
+                    obj.transform.SetParent(ListBox);
+                    obj.SetActive(true);
                         list_InformationBox.Add(obj);
                         //obj里可以查找显示信息的物体，然后在赋值
                     }
@@ -68,14 +72,13 @@ public class SquareListPanel : UIBase
     // Start is called before the first frame update
     void Start()
     {
+        PersonalInformationBox = Resources.Load("PerFab/SquareFriend") as GameObject;
+        ListBox = transform.Find("SquareFriendsList/Viewport/Content");
+        InABatchBtn = transform.Find("BtnNextGround").GetComponent<Button>();
+        InABatchBtn.onClick.AddListener(clickInABatch);
         setPanelActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private Queue<GameObject> m_queue_gPreObj = new Queue<GameObject>();          //对象池
     private Transform TempTrans;
     /// <summary>
@@ -95,7 +98,7 @@ public class SquareListPanel : UIBase
         {
             Transform trans = null;
             trans = GameObject.Instantiate(Prefab, m_transPerfab).transform;
-            trans.localPosition = Vector3.zero;
+            //trans.localPosition = Vector3.zero;
             trans.localRotation = Quaternion.identity;
             trans.localScale = Vector3.one;
             obj = trans.gameObject;
@@ -115,5 +118,12 @@ public class SquareListPanel : UIBase
             obj.transform.SetParent(TempTrans);
             m_queue_gPreObj.Enqueue(obj);
         }
+    }
+    /// <summary>
+    /// 换一批
+    /// </summary>
+    private void clickInABatch()
+    {
+
     }
 }

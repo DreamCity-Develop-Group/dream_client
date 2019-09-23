@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -101,10 +101,30 @@ public class UIEvent
     /// 修改登陆密码
     /// </summary>
     public const int CHANGELONG_ACTIVE = 21;
-
-
-
-
+    /// <summary>
+    /// 转账
+    /// </summary>
+    public const int TRANSFERACCOUNTS_ACTIVE = 25;
+    /// <summary>
+    /// 充值
+    /// </summary>
+    public const int TOPUP_ACTIVE = 26;
+    /// <summary>
+    /// 输入交易码
+    /// </summary>
+    public const int TRANSACTIONCODE_ACTIVE = 27;
+    /// <summary>
+    /// 好友申请界面
+    /// </summary>
+    public const int APPLYFOR_ACTIVE = 28;
+    /// <summary>
+    /// 获取申请好友列表
+    /// </summary>
+    public const int APPLYFOR_VIEW = 29;
+    /// <summary>
+    /// 成功加入商会
+    /// </summary>
+    public const int SUCCESSFULSHAMBER_ACTIVE = 30; 
 
 
 

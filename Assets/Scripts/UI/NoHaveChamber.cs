@@ -47,7 +47,7 @@ public class NoHaveChamber : UIBase
     {
         DetermineBtn = transform.Find("JionChamber/BtnConfirm").GetComponent<Button>();
         CloseBtn = transform.Find("JionChamber/BtnClose").GetComponent<Button>();
-        InputChamberCode = transform.Find("InputField").GetComponent<InputField>();
+        InputChamberCode = transform.Find("JionChamber/InputField").GetComponent<InputField>();
         IncorrectPrompt = transform.Find("IncorrectPrompt").gameObject;
         CloseBtn.onClick.AddListener(clickClose);
         PromptOKBtn = IncorrectPrompt.transform.Find("OK").GetComponent<Button>();
