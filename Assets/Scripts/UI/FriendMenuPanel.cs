@@ -1,4 +1,4 @@
-
+Ôªø
 /***
   * Title:    FriendPanel 
   *
@@ -6,7 +6,7 @@
   *
   * CreatTime:  2019/09/10 16:50:31
   *
-  * Description: ∫√”—ΩÁ√Ê
+  * Description: Â•ΩÂèãÁïåÈù¢
   *
   * Version:    0.1
   *
@@ -19,13 +19,20 @@ using UnityEngine.UI;
 
 public class FriendMenuPanel : UIBase 
 {
-
+    private GameObject FriendBtn;         //Â•ΩÂèãÊøÄÊ¥ªÊåâÈíÆ
+    private GameObject SquareBtn;         //ÂπøÂú∫ÊøÄÊ¥ªÊåâÈíÆ
+    private GameObject AppyForBtn;        //Áî≥ËØ∑ÊøÄÊ¥ªÊåâÈíÆ  
     private void Awake()
     {
         Bind(UIEvent.FRIENDMENU_PANEL_ACTIVE);
+        FriendBtn = transform.Find("FriendActive").gameObject;
+        SquareBtn = transform.Find("SquareActive").gameObject;
+        AppyForBtn = transform.Find("ApplyForActive").gameObject;
+        SquareBtn.SetActive(false);
+        AppyForBtn.SetActive(false);
     }
     /// <summary>
-    /// ”√ªß√˚£¨∏ˆ»À–≈œ¢
+    /// Áî®Êà∑ÂêçÔºå‰∏™‰∫∫‰ø°ÊÅØ
     /// str["123"].img
     /// </summary>
     /// <param name="eventCode"></param>
@@ -87,24 +94,64 @@ public class FriendMenuPanel : UIBase
         btnClose.onClick.AddListener(clickClose);
         setPanelActive(false);
     }
+    private void OnEnable()
+    {
+        if(FriendBtn.activeInHierarchy)
+        {
+            Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_ACTIVE, true);
+            Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_VIEW, true);
+        }
+        else if(SquareBtn.activeInHierarchy)
+        {
+            Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_ACTIVE, true);
+            Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_VIEW, true);
+        }
+        else if(AppyForBtn.activeInHierarchy)
+        {
+            Dispatch(AreaCode.UI, UIEvent.APPLYFOR_ACTIVE, true);
+            Dispatch(AreaCode.UI, UIEvent.APPLYFOR_VIEW, true);
+        }
+    }
     private void clickClose()
     {
         setPanelActive(false);
+        Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_ACTIVE, false);
+        Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_ACTIVE, false);
+        Dispatch(AreaCode.UI, UIEvent.APPLYFOR_ACTIVE, false);
     }
     private void clickGround()
     {
-        textTitle.text = "π„≥°";
+        textTitle.text = "ÂπøÂú∫";
+        SquareBtn.SetActive(true);
+        AppyForBtn.SetActive(false);
+        FriendBtn.SetActive(false);
+        Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_ACTIVE, false);
+        Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_ACTIVE, true);
+        Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_VIEW, true);
+        Dispatch(AreaCode.UI, UIEvent.APPLYFOR_ACTIVE, false);
         //
     }
     private void clickFriend()
     {
-        textTitle.text = "∫√”—";
-        //
+        textTitle.text = "Â•ΩÂèã";
+        SquareBtn.SetActive(false);
+        AppyForBtn.SetActive(false);
+        FriendBtn.SetActive(true);
+        Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_ACTIVE, true);
+        Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_VIEW, true);
+        Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_ACTIVE, false);
+        Dispatch(AreaCode.UI, UIEvent.APPLYFOR_ACTIVE, false); 
     }
     private void clickApply()
     {
-        textTitle.text = "…Í«Î";
-        //
+        textTitle.text = "Áî≥ËØ∑";
+        SquareBtn.SetActive(false);
+        AppyForBtn.SetActive(true);
+        FriendBtn.SetActive(false);
+        Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_ACTIVE, false);
+        Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_ACTIVE, false);
+        Dispatch(AreaCode.UI, UIEvent.APPLYFOR_ACTIVE, true);
+        Dispatch(AreaCode.UI, UIEvent.APPLYFOR_VIEW, true);
     }
     private void clickSearch()
     {

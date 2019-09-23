@@ -22,6 +22,8 @@ public class FriendListPanel : UIBase
     private void Awake()
     {
         Bind(UIEvent.FRIEND_LIST_PANEL_ACTIVE, UIEvent.FRIEND_LIST_PANEL_VIEW);
+        PersonalInformationBox = Resources.Load("PerFab/Friend") as GameObject;
+        ListBox = transform.Find("FriendList/Viewport/Content");
     }
     /// <summary>
     /// 好友数据
@@ -30,8 +32,8 @@ public class FriendListPanel : UIBase
     /// <param name="message"></param>
     
     List<UserInfo> dicFriendData = new List<UserInfo>();
-    public GameObject PersonalInformationBox;           //列表信息框预制体
-    public Transform ListBox;                           //列表框
+    private GameObject PersonalInformationBox;           //列表信息框预制体
+    private Transform ListBox;                           //列表框
     private List<GameObject> list_InformationBox = new List<GameObject>();
 
     public override void Execute(int eventCode, object message)
@@ -46,17 +48,22 @@ public class FriendListPanel : UIBase
                     {
                         RePreObj(list_InformationBox[i]);
                     }
+
+                    list_InformationBox.Clear();
                 }
+              
                 break;
             case UIEvent.FRIEND_LIST_PANEL_VIEW:
                 
                 dicFriendData = message as List< UserInfo>;
-                if(dicFriendData.Count>0)
+                if (dicFriendData.Count > 0)
                 {
                     GameObject obj = null;
                     for (int i = 0; i < dicFriendData.Count; i++)
                     {
-                        obj= CreatePreObj(PersonalInformationBox, ListBox);
+                        obj = CreatePreObj(PersonalInformationBox, ListBox);
+                        obj.transform.SetParent(ListBox);
+                        obj.SetActive(true);
                         list_InformationBox.Add(obj);
                         //obj里可以查找显示信息的物体，然后在赋值
                     }
@@ -71,12 +78,6 @@ public class FriendListPanel : UIBase
     void Start()
     {
         setPanelActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
     private Queue<GameObject> m_queue_gPreObj = new Queue<GameObject>();          //对象池
     private Transform TempTrans;
@@ -97,7 +98,7 @@ public class FriendListPanel : UIBase
         {
             Transform trans = null;
             trans = GameObject.Instantiate(Prefab, m_transPerfab).transform;
-            trans.localPosition = Vector3.zero;
+            //trans.localPosition = Vector3.zero;
             trans.localRotation = Quaternion.identity;
             trans.localScale = Vector3.one;
             obj = trans.gameObject;

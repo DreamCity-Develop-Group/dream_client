@@ -1,4 +1,4 @@
-[Ll]ibrary/
+﻿[Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
@@ -28,6 +28,7 @@ ExportedObj/
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
+*.prefab.meta
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
@@ -35,3 +36,10 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Assets/UI/星星/星星.meta
+Assets/UI/星星.meta
+Assets/UI/logo.meta
+Assets/Resources/Localization/Korean.meta
+Assets/Resources/Localization/English.meta
+Assets/Resources/Localization/Chinese.meta
+Assets/Resources/Localization.meta

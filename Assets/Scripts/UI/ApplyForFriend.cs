@@ -1,12 +1,11 @@
-
 /***
-  * Title:    SquareListPanel 
+  * Title:    ApplyForFriend 
   *
-  * Created:	zp
+  * Created:	zzg
   *
   * CreatTime:  2019/09/17 09:45:07
   *
-  * Description: ¹ã³¡ÁĞ±í½çÃæ
+  * Description: ç”³è¯·åˆ—è¡¨ç•Œé¢
   *
   * Version:    0.1
   *
@@ -15,30 +14,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class SquareListPanel : UIBase
+/// <summary>
+/// ç”³è¯·ç•Œé¢
+/// </summary>
+public class ApplyForFriend : UIBase
 {
     private void Awake()
     {
-        Bind(UIEvent.SQUARE_LIST_PANEL_ACTIVE, UIEvent.SQUARE_LIST_PANEL_VIEW);
+        Bind(UIEvent.APPLYFOR_ACTIVE, UIEvent.APPLYFOR_VIEW);
     }
     /// <summary>
-    /// ¹ã³¡ÓÃ»§Êı¾İ
+    /// å¹¿åœºç”¨æˆ·æ•°æ®
     /// </summary>
     /// <param name="eventCode"></param>
     /// <param name="message"></param>
     List<UserInfo> dicSquareData = new List<UserInfo>();
-    private GameObject PersonalInformationBox;           //ÁĞ±íĞÅÏ¢¿òÔ¤ÖÆÌå
-    private Transform ListBox;                           //ÁĞ±í¿ò
+    private GameObject PersonalInformationBox;           //åˆ—è¡¨ä¿¡æ¯æ¡†é¢„åˆ¶ä½“
+    private Transform ListBox;                           //åˆ—è¡¨æ¡†
     private List<GameObject> list_InformationBox = new List<GameObject>();
-    private Button InABatchBtn;                          //»»Ò»Åú°´Å¥
 
     public override void Execute(int eventCode, object message)
     {
         switch (eventCode)
         {
-            case UIEvent.SQUARE_LIST_PANEL_ACTIVE:
+            case UIEvent.APPLYFOR_ACTIVE:
                 setPanelActive((bool)message);
                 if ((bool)message == false)
                 {
@@ -49,7 +49,7 @@ public class SquareListPanel : UIBase
                     list_InformationBox.Clear();
                 }
                 break;
-            case UIEvent.SQUARE_LIST_PANEL_VIEW:
+            case UIEvent.APPLYFOR_VIEW:
                 dicSquareData = message as List<UserInfo>;
                 if (dicSquareData.Count > 0)
                 {
@@ -57,10 +57,10 @@ public class SquareListPanel : UIBase
                     for (int i = 0; i < dicSquareData.Count; i++)
                     {
                         obj = CreatePreObj(PersonalInformationBox, ListBox);
-                    obj.transform.SetParent(ListBox);
-                    obj.SetActive(true);
+                        obj.transform.SetParent(ListBox);
+                        obj.SetActive(true);
                         list_InformationBox.Add(obj);
-                        //objÀï¿ÉÒÔ²éÕÒÏÔÊ¾ĞÅÏ¢µÄÎïÌå£¬È»ºóÔÚ¸³Öµ
+                        //objé‡Œå¯ä»¥æŸ¥æ‰¾æ˜¾ç¤ºä¿¡æ¯çš„ç‰©ä½“ï¼Œç„¶ååœ¨èµ‹å€¼
                     }
                 }
                 //TODO
@@ -72,20 +72,17 @@ public class SquareListPanel : UIBase
     // Start is called before the first frame update
     void Start()
     {
-        PersonalInformationBox = Resources.Load("PerFab/SquareFriend") as GameObject;
-        ListBox = transform.Find("SquareFriendsList/Viewport/Content");
-        InABatchBtn = transform.Find("BtnNextGround").GetComponent<Button>();
-        InABatchBtn.onClick.AddListener(clickInABatch);
+        PersonalInformationBox = Resources.Load("PerFab/AppLYFriend") as GameObject;
+        ListBox = transform.Find("Viewport/Content");
         setPanelActive(false);
     }
-
-    private Queue<GameObject> m_queue_gPreObj = new Queue<GameObject>();          //¶ÔÏó³Ø
+    private Queue<GameObject> m_queue_gPreObj = new Queue<GameObject>();          //å¯¹è±¡æ± 
     private Transform TempTrans;
     /// <summary>
-    /// ´´½¨Ô¤ÖÆÌå
+    /// åˆ›å»ºé¢„åˆ¶ä½“
     /// </summary>
-    /// <param name="Prefab">Ô¤ÖÆÌå</param>
-    /// <param name="m_transPerfab">Ô¤ÖÆÌå¸¸ÎïÌåµÄtransform</param>
+    /// <param name="Prefab">é¢„åˆ¶ä½“</param>
+    /// <param name="m_transPerfab">é¢„åˆ¶ä½“çˆ¶ç‰©ä½“çš„transform</param>
     /// <returns></returns>
     public GameObject CreatePreObj(GameObject Prefab, Transform m_transPerfab)
     {
@@ -107,9 +104,9 @@ public class SquareListPanel : UIBase
         return obj;
     }
     /// <summary>
-    /// Ô¤ÖÆÌå»ØÊÕ
+    /// é¢„åˆ¶ä½“å›æ”¶
     /// </summary>
-    /// <param name="obj">»ØÊÕµÄÔ¤ÖÆÌå</param>
+    /// <param name="obj">å›æ”¶çš„é¢„åˆ¶ä½“</param>
     private void RePreObj(GameObject obj)
     {
         if (obj != null)
@@ -118,12 +115,5 @@ public class SquareListPanel : UIBase
             obj.transform.SetParent(TempTrans);
             m_queue_gPreObj.Enqueue(obj);
         }
-    }
-    /// <summary>
-    /// »»Ò»Åú
-    /// </summary>
-    private void clickInABatch()
-    {
-
     }
 }

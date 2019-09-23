@@ -12,6 +12,9 @@ public class MenuPanel : UIBase
     Button btnCommerce;//商会
     Button btnTreasure;//资产
     Button btnAdd;
+    private GameObject HandPortrait;                    //头像选择
+    private Button changeHand;                          //换头像
+    private Button[] handArray = new Button[8];         //头像数组
 
     Transform usdtCharge;
     Text txtUsdt;
@@ -51,8 +54,10 @@ public class MenuPanel : UIBase
         }
     }
 
+    
     private void Start()
     {
+        HandPortrait = transform.Find("HandFrame").gameObject;
         btnTreasure = transform.Find("BtnTreasure").GetComponent<Button>();
         btnCommerce = transform.Find("BtnCommerce").GetComponent<Button>(); 
         btnSet = transform.Find("BtnSet").GetComponent<Button>();
@@ -69,6 +74,14 @@ public class MenuPanel : UIBase
         txtNotice1 = transform.Find("Notice/TxtNotice1").GetComponent<Text>();
         txtNoticeLength = txtNotice1.GetComponent<RectTransform>().rect.width;
         gameobjectRed = transform.Find("BtnMsg/ImgRed").gameObject;
+        changeHand = transform.Find("BtnPersonInfo/BtnHead").GetComponent<Button>();
+        for (int i = 0; i < handArray.Length; i++)
+        {
+            handArray[i] = HandPortrait.transform.Find("Frame/Hand" + i).GetComponent<Button>();
+        }
+       
+        btnAdd = transform.Find("BtnAdd").GetComponent<Button>();
+        HandPortrait.SetActive(false);
         btnAdd.onClick.AddListener(clickAdd);
         btnTreasure.onClick.AddListener(clickTreasure);
         btnSet.onClick.AddListener(clickSet);
@@ -93,6 +106,16 @@ public class MenuPanel : UIBase
           
         }
         isinCommerce = menuInfo.data.commerce;
+        btnCommerce.onClick.AddListener(clickChamber);
+        changeHand.onClick.AddListener(clickChangeHand);
+        handArray[0].onClick.AddListener(clickHand0);
+        handArray[1].onClick.AddListener(clickHand1);
+        handArray[2].onClick.AddListener(clickHand2);
+        handArray[3].onClick.AddListener(clickHand3);
+        handArray[4].onClick.AddListener(clickHand4);
+        handArray[5].onClick.AddListener(clickHand5);
+        handArray[6].onClick.AddListener(clickHand6);
+        handArray[7].onClick.AddListener(clickHand7);
 
         //menuInfo.data.notices
     }
@@ -186,6 +209,7 @@ public class MenuPanel : UIBase
     {
         Dispatch(AreaCode.UI, UIEvent.MSG_PANEL_ACTIVE, true);
     }
+    private void clickChamber()
     private void clickCommerce()
     {
         if (isinCommerce)
@@ -196,12 +220,61 @@ public class MenuPanel : UIBase
         {
 
         }
+        //判断是不是没有加入商会
+        //if(如果没有)
+        Dispatch(AreaCode.UI, UIEvent.COMMERCE_NOJIONPANEL_ACTIVE, true);
+        //else
+        //Dispatch(AreaCode.UI, UIEvent.COMMERCE_PANEL_ACTIVE, true);
+    }
+    private void clickChangeHand()
+    {
+        HandPortrait.SetActive(true);
     }
     public override void OnDestroy()
     {
         base.OnDestroy();
         btnTreasure.onClick.RemoveAllListeners();
         btnSet.onClick.RemoveAllListeners();
+    }
+    private void clickHand0()
+    {
+        changeHand.GetComponent<Image>().sprite = handArray[0].GetComponent<Image>().sprite;
+        HandPortrait.SetActive(false);
+    }
+    private void clickHand1()
+    {
+        changeHand.GetComponent<Image>().sprite = handArray[1].GetComponent<Image>().sprite;
+        HandPortrait.SetActive(false);
+    }
+    private void clickHand2()
+    {
+        changeHand.GetComponent<Image>().sprite = handArray[2].GetComponent<Image>().sprite;
+        HandPortrait.SetActive(false);
+    }
+    private void clickHand3()
+    {
+        changeHand.GetComponent<Image>().sprite = handArray[3].GetComponent<Image>().sprite;
+        HandPortrait.SetActive(false);
+    }
+    private void clickHand4()
+    {
+        changeHand.GetComponent<Image>().sprite = handArray[4].GetComponent<Image>().sprite;
+        HandPortrait.SetActive(false);
+    }
+    private void clickHand5()
+    {
+        changeHand.GetComponent<Image>().sprite = handArray[5].GetComponent<Image>().sprite;
+        HandPortrait.SetActive(false);
+    }
+    private void clickHand6()
+    {
+        changeHand.GetComponent<Image>().sprite = handArray[6].GetComponent<Image>().sprite;
+        HandPortrait.SetActive(false);
+    }
+    private void clickHand7()
+    {
+        changeHand.GetComponent<Image>().sprite = handArray[7].GetComponent<Image>().sprite;
+        HandPortrait.SetActive(false);
     }
 
 }
