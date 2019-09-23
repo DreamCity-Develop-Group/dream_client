@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Language;
+using System.Text.RegularExpressions;
+using System;
 /***
-  * Title:     
-  *
-  * Created:	zp
-  *
-  * CreatTime:          2019/09/20 13:33:56
-  *
-  * Description:
-  *
-  * Version:    0.1
-  *
-  *
+* Title:     
+*
+* Created:	zp
+*
+* CreatTime:          2019/09/20 13:33:56
+*
+* Description:
+*
+* Version:    0.1
+*
+*
 ***/
 public class SelectLanguage : UIBase
 {
@@ -25,7 +27,6 @@ public class SelectLanguage : UIBase
     bool isSelect;
     void Awake()
     {
-       
         LanguageService.Instance.Language = new LanguageInfo("Chinese");
     }
     void Start()
@@ -43,14 +44,41 @@ public class SelectLanguage : UIBase
         //textObj.transform.localPosition = Vector3.zero;
         btnSelectLanguage = transform.Find("BtnSelectLanguage").GetComponent<Button>() ;
         btnSelectLanguage.onClick.AddListener(clickSelectLanguage);
+
+
         btnChinese.gameObject.SetActive(false);
         btnEnglish.gameObject.SetActive(false);
         btnKorean.gameObject.SetActive(false);
     }
 
+     /// <summary>
+    /// 核对手机系统语言自动选择默认语言
+    /// </summary>
+    private void CheckLanaguage()
+    {
+        string language = Application.systemLanguage.ToString();
+       
+        bool containChinese = language.IndexOf("Chinese", StringComparison.OrdinalIgnoreCase) >= 0;
+        if (containChinese)
+        {
+            clickChinese();
+        }
+        bool containEnglish = language.IndexOf("English", StringComparison.OrdinalIgnoreCase) >= 0;
+        if (containEnglish)
+        {
+            clickEnglish();
+        }
+        bool containKorean = language.IndexOf("Korean", StringComparison.OrdinalIgnoreCase) >= 0;
+        if (containKorean)
+        {
+            clickKorean();
+        }
+    }
+
+
     void clickSelectLanguage()
     {
-        if (isSelect)
+        if (!isSelect)
         {
             btnChinese.gameObject.SetActive(true);
             btnEnglish.gameObject.SetActive(true);

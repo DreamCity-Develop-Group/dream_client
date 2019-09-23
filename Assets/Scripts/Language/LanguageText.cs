@@ -47,7 +47,7 @@ namespace Language
         }
 
         void Start()
-		{
+		{//LightmapsModeLegacy 
 			//Localization = LanguageService.Instance;
 			//var label = GetComponent<Text>();
 			//GetComponent<Text>().text = Localization.GetFromFile(File, Key, label.text);
