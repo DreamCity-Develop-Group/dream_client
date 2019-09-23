@@ -210,6 +210,9 @@ public class MenuPanel : UIBase
         Dispatch(AreaCode.UI, UIEvent.MSG_PANEL_ACTIVE, true);
     }
     private void clickChamber()
+    {
+
+    }
     private void clickCommerce()
     {
         if (isinCommerce)
