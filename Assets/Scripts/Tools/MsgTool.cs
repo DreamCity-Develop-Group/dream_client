@@ -140,7 +140,7 @@ public static class MsgTool
     {
 
     }
-
+   
     //void DoPicture()//存储为png
     //{
 
