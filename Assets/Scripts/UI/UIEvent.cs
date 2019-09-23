@@ -106,8 +106,14 @@ public class UIEvent
     /// 场景投资界面数据
     /// </summary>
     public const int SENCE_INVEST_VIEW = 22;
-
-
+    /// <summary>
+    /// 主界面数据
+    /// </summary>
+    public const int MENU_PANEL_VIEW = 23;
+    /// <summary>
+    /// 申请好友数据
+    /// </summary>
+    public const int APPLY_PANEL_VIEW = 24;
 
 
 

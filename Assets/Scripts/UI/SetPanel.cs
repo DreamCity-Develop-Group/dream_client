@@ -147,11 +147,12 @@ public class SetPanel: UIBase
     /// </summary>
     private void SoundClick()
     {
-        if(IsOpenSound)
+        if(!IsOpenSound)
         {
             SoundImg.sprite = switchSprite[1];
             IsOpenSound = !IsOpenSound;
             //把所有音效开启
+            Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_EFFECT_AUDIO, "");
         }
         else
         {

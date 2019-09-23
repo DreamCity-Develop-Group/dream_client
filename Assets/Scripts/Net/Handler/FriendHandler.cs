@@ -17,8 +17,8 @@ using UnityEngine;
 
 public class FriendHandler : HandlerBase
 {
-    Dictionary<string, UserInfo> dicSquareData = new Dictionary<string, UserInfo>();
-    Dictionary<string, UserInfo> dicFriendData = new Dictionary<string, UserInfo>();
+    List<UserInfos> _squareData = new List<UserInfos>();
+    List<UserInfos> _friendData = new List<UserInfos>();
     private UserInfo userInfo = new UserInfo();
     public override bool OnReceive(int subCode, object value)
     {
@@ -26,11 +26,11 @@ public class FriendHandler : HandlerBase
         {
             case EventType.addfriend:
                 //diFriendData = value as Dictionary<string, UserInfo>;
-                addfriendRespon(value);
+                addfriendRespon();
                 break;
             case EventType.listfriend:
-                dicFriendData = value as Dictionary<string, UserInfo>;
-                listfriendRespon(value);
+                _friendData = value as List<UserInfos>;
+                listfriendRespon();
                 break;
             case EventType.searchfriend:
                 searchfriendRespon(value);
@@ -40,7 +40,7 @@ public class FriendHandler : HandlerBase
                 applyfriendRespon(value);
                 break;
             case EventType.squarefriend:
-                dicSquareData = value as Dictionary<string, UserInfo>;
+                _squareData = value as List<UserInfos>;
                 dicSquareFriendRespon();
                 break;
             default:
@@ -56,12 +56,12 @@ public class FriendHandler : HandlerBase
     /// </summary>
     private void dicSquareFriendRespon()
     {
-        if (dicSquareData.Count < 1)
+        if (_squareData.Count < 1)
         {
             Debug.LogError("dicSquareFriend is null");
             return;
         }
-        Dispatch(AreaCode.UI,UIEvent.SQUARE_LIST_PANEL_VIEW,dicSquareData);
+        Dispatch(AreaCode.UI,UIEvent.SQUARE_LIST_PANEL_VIEW,_squareData);
 
     }
 
@@ -69,20 +69,20 @@ public class FriendHandler : HandlerBase
     /// ºÃÓÑÁÐ±í
     /// </summary>
     /// <param name="value"></param>
-    private void listfriendRespon(object value)
+    private void listfriendRespon()
     {
-        if (dicFriendData.Count < 1)
+        if (_friendData.Count < 1)
         {
             Debug.LogError("dicFriendData is null");
             return;
         }
-        Dispatch(AreaCode.UI,UIEvent.FRIEND_LIST_PANEL_VIEW,dicFriendData);
+        Dispatch(AreaCode.UI,UIEvent.FRIEND_LIST_PANEL_VIEW, _friendData);
     }
     private void searchfriendRespon(object value)
     {
 
     }
-    private void addfriendRespon(object value)
+    private void addfriendRespon()
     {
 
     }

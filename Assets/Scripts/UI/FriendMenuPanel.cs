@@ -31,13 +31,22 @@ public class FriendMenuPanel : UIBase
     /// <param name="eventCode"></param>
     /// <param name="message"></param>
 //Dictionary<string ,UserInfo>()
-
+     
     public override void Execute(int eventCode, object message)
     {
         switch (eventCode)
         {
             case UIEvent.FRIENDMENU_PANEL_ACTIVE:
                 setPanelActive(true);
+                break;
+            case UIEvent.FRIEND_LIST_PANEL_VIEW:
+                friendData = message as List<UserInfos>;
+                break;
+            case UIEvent.SQUARE_LIST_PANEL_VIEW:
+                squareData = message as List<UserInfos>;
+                break;
+            case UIEvent.APPLY_PANEL_VIEW:
+                 applyData = message as List<UserInfos>;
                 break;
             default:
                 break;
@@ -54,6 +63,10 @@ public class FriendMenuPanel : UIBase
     Button btnApply;
     Button btnClose;
     InputField inputSearch;
+
+    List<UserInfos> friendData;
+    List<UserInfos> squareData;
+    List<UserInfos> applyData;
 
     string nickName;
     Text textTitle;
@@ -86,10 +99,12 @@ public class FriendMenuPanel : UIBase
     private void clickFriend()
     {
         textTitle.text = "∫√”—";
+        //
     }
     private void clickApply()
     {
         textTitle.text = "…Í«Î";
+        //
     }
     private void clickSearch()
     {

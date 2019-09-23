@@ -133,7 +133,7 @@ public class WebSocketManager : ManagerBase
                     break;
                 case EventType.commerce_in:
                     //商会加入请求
-                    socketMsg = commerceRequsetMsg.ReqCommerceMsg(message);
+                    socketMsg = commerceRequsetMsg.ReqComeCommerceMsg(message);
                     _wabData.SendMsg(socketMsg);
                     break;
                 case EventType.commerce_sendmt:
@@ -199,6 +199,12 @@ public class WebSocketManager : ManagerBase
             SocketMsg<SquareUser> squareinfo = _wabData.SquareQueue.Dequeue();
             processSquareMsg(squareinfo);
         }
+        if (_wabData.MenuQueue.Count > 0)
+        {
+            SocketMsg<MenuInfo> menuinfo = _wabData.MenuQueue.Dequeue();
+            processMenuMsg(menuinfo);
+        }
+        
     }
 
 
@@ -275,6 +281,20 @@ public class WebSocketManager : ManagerBase
     /// </summary>
     /// <param name="msg"></param>
     /// 
+
+
+    
+     private void processMenuMsg(SocketMsg<MenuInfo> msg)
+    {
+        switch (msg.data.type)
+        {
+            case "":
+
+                break;
+            default:
+                break;
+        }
+    }
     private void processSquareMsg(SocketMsg<SquareUser> msg)
     {
         switch (msg.data.type)

@@ -46,6 +46,8 @@ public class WebData
     private Queue<SocketMsg<Dictionary<string,string>>> _msgQueue = new Queue<SocketMsg<Dictionary<string, string>>> ();
 
     private Queue<SocketMsg<SquareUser>> _squareQueue = new Queue<SocketMsg<SquareUser>>();
+
+    private Queue<SocketMsg<MenuInfo>> _menuQueue = new Queue<SocketMsg<MenuInfo>>();
     //private 
     public WebSocket WebSocket { get { return _webSocket; } }
     public string Address { get { return address; } }
@@ -53,6 +55,7 @@ public class WebData
 
     public Queue<SocketMsg<Dictionary<string, string>>> MsgQueue { get => _msgQueue; set => _msgQueue = value; }
     public Queue<SocketMsg<SquareUser>> SquareQueue { get => _squareQueue; set => _squareQueue = value; }
+    public Queue<SocketMsg<MenuInfo>> MenuQueue { get => _menuQueue; set => _menuQueue = value; }
 
     public void OpenWebSocket()
     {
@@ -177,6 +180,12 @@ public class WebData
             //TODO 过滤过时消息
             SquareQueue.Enqueue(squareinfo);
             
+        }
+        else if (info.data.type=="")
+        {
+            SocketMsg<MenuInfo> menuinfo = JsonMapper.ToObject<SocketMsg<MenuInfo>>(jsonmsg);
+            //TODO 过滤过时消息
+            MenuQueue.Enqueue(menuinfo);
         }
         else
         {
