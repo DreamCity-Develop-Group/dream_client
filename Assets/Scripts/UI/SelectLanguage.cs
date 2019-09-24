@@ -52,7 +52,7 @@ public class SelectLanguage : UIBase
     }
 
      /// <summary>
-    /// 核对手机系统语言自动选择默认语言
+    /// 鏍稿鎵嬫満绯荤粺璇█鑷姩閫夋嫨榛樿璇█
     /// </summary>
     private void CheckLanaguage()
     {
@@ -83,12 +83,14 @@ public class SelectLanguage : UIBase
             btnChinese.gameObject.SetActive(true);
             btnEnglish.gameObject.SetActive(true);
             btnKorean.gameObject.SetActive(true);
+            isSelect = !isSelect;
         }
         else
         {
             btnChinese.gameObject.SetActive(false);
             btnEnglish.gameObject.SetActive(false);
             btnKorean.gameObject.SetActive(false);
+            isSelect = !isSelect;
         }
         
     }
@@ -96,16 +98,19 @@ public class SelectLanguage : UIBase
     void clickEnglish()
     {
         LanguageService.Instance.Language = new LanguageInfo("English");
+        PlayerPrefs.SetString("language","English");
         Dispatch(AreaCode.UI, UIEvent.LANGUAGE_VIEW, "English");
     }
     void clickChinese()
     {
         LanguageService.Instance.Language = new LanguageInfo("Chinese");
+        PlayerPrefs.SetString("language", "Chinese");
         Dispatch(AreaCode.UI, UIEvent.LANGUAGE_VIEW, "Chinese");
     }
     void clickKorean()
     {
         LanguageService.Instance.Language = new LanguageInfo("Korean");
+        PlayerPrefs.SetString("language", "Korean");
         Dispatch(AreaCode.UI, UIEvent.LANGUAGE_VIEW, "Korean");
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Language;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -90,7 +91,8 @@ public class MenuPanel : UIBase
         btnCommerce.onClick.AddListener(clickCommerce);
         txtNotice1.gameObject.SetActive(false);
         
-
+        LanguageService.Instance.Language = new LanguageInfo(PlayerPrefs.GetString("language"));
+        Dispatch(AreaCode.UI, UIEvent.LANGUAGE_VIEW, PlayerPrefs.GetString("language"));
     }
 
     private void InitInfo(MenuInfo menuInfo)
