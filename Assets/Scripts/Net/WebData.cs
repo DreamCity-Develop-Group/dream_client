@@ -15,7 +15,9 @@ public class WebData
     /// The WebSocket address to connect  
     /// </summary>  
     //private readonly string address = "ws://192.168.0.102:8010/dream/city/";
-    private readonly string address = "ws://192.168.0.88:8010/dream/city/lili/你发";
+    // private readonly string address = "ws://192.168.0.88:8010/dream/city/lili/你发";
+    private  string address = "ws://192.168.0.88:8010/dream/city/lili/你发";
+    public static string ip= "192.168.0.88";
     //private string address;
 
     /// <summary>  
@@ -61,6 +63,7 @@ public class WebData
     {
         if (_webSocket == null)
             {
+            address = "ws://"+ip+":8010/dream/city/lili/你发";
             _webSocket = new WebSocket(address,null);
             //if (HTTPManager.Proxy != null)
             //    _webSocket.InternalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address, HTTPManager.Proxy.Credentials, false);
@@ -98,6 +101,7 @@ public class WebData
          string jsonmsg = JsonMapper.ToJson(msg);
         Debug.Log("sendMsg: "+jsonmsg);
         //TODOtest
+       
         _webSocket.Send(jsonmsg);
     }
     string statusDescription;
@@ -114,6 +118,7 @@ public class WebData
     /// </summary> 
     Thread t1;
     int timeout = 3000;
+    public bool isLogin = false;
     private static object lockObj = new object();
     private void heartCheck()
     {
@@ -125,8 +130,14 @@ public class WebData
             //  SocketMsg msg = new SocketMsg(null, null, "ping", null);
 
                 isReconnect = false;
-
-                _webSocket.Send("ping_"+PlayerPrefs.GetString("username"));
+                if (isLogin)
+                {
+                    _webSocket.Send("ping_" + PlayerPrefs.GetString("username"));
+                }
+                else
+                {
+                    _webSocket.Send("ping");
+                }
             }
            
         }
@@ -178,6 +189,7 @@ public class WebData
         {
             SocketMsg<SquareUser> squareinfo = JsonMapper.ToObject<SocketMsg<SquareUser>>(jsonmsg);
             //TODO 过滤过时消息
+            Debug.Log(squareinfo);
             SquareQueue.Enqueue(squareinfo);
             
         }
@@ -185,13 +197,15 @@ public class WebData
         {
             SocketMsg<MenuInfo> menuinfo = JsonMapper.ToObject<SocketMsg<MenuInfo>>(jsonmsg);
             //TODO 过滤过时消息
+            Debug.Log(menuinfo);
             MenuQueue.Enqueue(menuinfo);
         }
         else
         {
-            SocketMsg<Dictionary<string,string>> squareinfo = JsonMapper.ToObject<SocketMsg<Dictionary<string, string>>>(jsonmsg);
+            SocketMsg<Dictionary<string,string>> msginfo = JsonMapper.ToObject<SocketMsg<Dictionary<string, string>>>(jsonmsg);
             //TODO 过滤过时消息
-            MsgQueue.Enqueue(squareinfo);
+            Debug.Log(msginfo);
+            MsgQueue.Enqueue(msginfo);
             
         }
     }

@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using LitJson;
+
 public class WebSocketManager : ManagerBase
 {
     public static WebSocketManager Instance = null;
@@ -21,6 +23,9 @@ public class WebSocketManager : ManagerBase
     SocketMsg<SquareUser> squareMsg;
     public override void Execute(int eventCode, object message)
     {
+       
+
+
         //初始化操作
         if (eventCode == EventType.init && _wabData.WebSocket == null)
         {
@@ -33,6 +38,7 @@ public class WebSocketManager : ManagerBase
                 };
                 _wabData.SendMsg(logMsg);
             }
+            return;
         }
 
         if  (_wabData.WebSocket!=null&&_wabData.WebSocket.IsAlive) //调试TODO(true)
@@ -80,7 +86,7 @@ public class WebSocketManager : ManagerBase
                     {
                         return;
                     }
-                   // _wabData.SendMsg(socketMsg);
+                    _wabData.SendMsg(socketMsg);
                     break;
                 case EventType.expw:
                     //修改密码TODO 暂时设置和忘记密码模块一样
@@ -155,6 +161,10 @@ public class WebSocketManager : ManagerBase
         {
             Debug.LogError("连接断开");
         }
+
+        //test
+        string jsonmsg = JsonMapper.ToJson(socketMsg);
+        Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "sendMsg:"+ MsgTool.gb2312_utf8(jsonmsg));
     }
     #endregion
     #region Private Fields
@@ -214,10 +224,10 @@ public class WebSocketManager : ManagerBase
         //    _wabData.WebSocket.Close();
     }
 
-    void OnGUI()
-    {
-        _address = GUILayout.TextField(_address);
-    }
+    //void OnGUI()
+    //{
+    //    _address = GUILayout.TextField(_address);
+    //}
 
     #region 处理接收到的服务器发来的消息
     HandlerBase accountHandler = new AccoutHandler();
@@ -286,6 +296,9 @@ public class WebSocketManager : ManagerBase
     
      private void processMenuMsg(SocketMsg<MenuInfo> msg)
     {
+        //test
+        string jsonmsg = JsonMapper.ToJson(msg);
+        Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg"+ MsgTool.utf8_gb2312(jsonmsg));
         switch (msg.data.type)
         {
             case "":
@@ -297,14 +310,18 @@ public class WebSocketManager : ManagerBase
     }
     private void processSquareMsg(SocketMsg<SquareUser> msg)
     {
+        //test
+        string jsonmsg = JsonMapper.ToJson(msg);
+        Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg" + MsgTool.utf8_gb2312(jsonmsg));
+
         switch (msg.data.type)
         {
             case "squarefriend":
-                SquareUser squareUser = msg.data.t as SquareUser;
+                SquareUser squareUser = msg.data.data as SquareUser;
                 friendHandler.OnReceive(EventType.squarefriend, squareUser);
                 break;
             case "applyfriend":
-                SquareUser applyUser = msg.data.t as SquareUser;
+                SquareUser applyUser = msg.data.data as SquareUser;
                 friendHandler.OnReceive(EventType.applyfriend, applyUser);
                 break;
             default:
@@ -313,12 +330,18 @@ public class WebSocketManager : ManagerBase
     }
     private void processSocketMsg(SocketMsg<Dictionary<string,string>> msg)
     {
-        dicRegLogRespon = msg.data.t as Dictionary<string, string>;
+        //test
+        string jsonmsg = JsonMapper.ToJson(msg);
+        Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg" + MsgTool.utf8_gb2312(jsonmsg));
+
+       
+        dicRegLogRespon = msg.data.data as Dictionary<string, string>;
+        
         switch (msg.data.type)
         {
             case "init":
-              
                 accountHandler.OnReceive(EventType.init, msg.target);
+                //_wabData.ThreadStart();
                 break;
             case "logoin":
                 if (!dicRegLogRespon.ContainsKey("desc"))
@@ -332,7 +355,8 @@ public class WebSocketManager : ManagerBase
                     {
                         PlayerPrefs.SetString("token", dicRegLogRespon["token"].ToString());
                     }
-                    _wabData.ThreadStart();
+                 
+                    _wabData.isLogin = true;
                 }
                 break;
 
@@ -374,6 +398,9 @@ public class WebSocketManager : ManagerBase
             //    SquareUser searchUser = msg.data.t as SquareUser;
             //    friendHandler.OnReceive(EventType.searchfriend, msg.data.t);
             //    break;
+            case "getCode":
+                accountHandler.OnReceive(EventType.identy, msg.data.data["code"]);
+                break;
             case "pwforget":
                 //setHandler.OnReceive(EventType)
                 if (!dicRegLogRespon.ContainsKey("desc"))

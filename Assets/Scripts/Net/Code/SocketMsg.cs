@@ -54,7 +54,7 @@ public class SocketMsg<T>
     /// </summary>
     public void Change(string Source, string desc, MessageData<T> data, string target = "server")
     {
-        this.source = source;
+        this.source = Source;
         this.target = target;
         this.createtime = GetTimeStamp();
         this.desc = desc;
@@ -86,13 +86,13 @@ public class MessageData<T>
     /// <summary>
     /// //具体业务数据
     /// </summary>
-    public T t { get; set; }
+    public T data { get; set; }
 
-    public void Change(string type, string model, T t)
+    public void Change(string model, string type, T t)
     {
         this.type = type;
         this.model = model;
-        this.t = t;
+        this.data = t;
     }
 }
 

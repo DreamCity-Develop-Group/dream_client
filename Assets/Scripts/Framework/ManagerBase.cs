@@ -114,4 +114,17 @@ public class ManagerBase : MonoBase
         }
     }
 
+
+
+    /// <summary>
+    /// 测试发消息
+    /// </summary>
+    /// <param name="areaCode">Area code.</param>
+    /// <param name="eventCode">Event code.</param>
+    /// <param name="message">Message.</param>
+    public void Dispatch(int areaCode, int eventCode, object message)
+    {
+        MsgCenter.Instance.Dispatch(areaCode, eventCode, message);
+    }
+
 }

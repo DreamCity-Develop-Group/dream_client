@@ -16,6 +16,8 @@ public class AccoutHandler: HandlerBase
                 return loginResponse(value.ToString());
             case EventType.regist:
                 return registResponse(value.ToString());
+            case EventType.identy:
+                return getCodeResponse(value.ToString());
             default:
                 break;
         }
@@ -31,7 +33,9 @@ public class AccoutHandler: HandlerBase
         {
             LoginInfo.ClientId = msg;
             Debug.Log(LoginInfo.ClientId);
-            Dispatch(AreaCode.UI, UIEvent.LOGINSELECT_PANEL_ACTIVE, true);
+            //Dispatch(AreaCode.UI, UIEvent.LOGINSELECT_PANEL_ACTIVE, true);
+          
+            Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_ACTIVE, true);
         }
         return true;
     }
@@ -60,7 +64,17 @@ public class AccoutHandler: HandlerBase
         //promptMsg.Change(result.ToString(), Color.red);
         //Dispatch(AreaCode.UI, UIEvent.PROMPT_MSG, promptMsg);
     }
+    /// <summary>
+    /// 验证码响应
+    /// </summary>
+    private bool getCodeResponse(string result)
+    {
+        promptMsg.Change(result, Color.red);
 
+        Dispatch(AreaCode.UI, UIEvent.REG_PANEL_CODEVIEW, result);
+       
+        return true;
+    }
     /// <summary>
     /// 注册响应
     /// </summary>

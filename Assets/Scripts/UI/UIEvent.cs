@@ -9,6 +9,14 @@ public class UIEvent
     /// </summary>
     public const int LOAD_PANEL_ACTIVE = int.MinValue;
     /// <summary>
+    /// 测试用
+    /// </summary>
+    public const int TEST_PANEL_ACTIVE = -3;
+    /// <summary>
+    /// 验证码
+    /// </summary>
+    public const int REG_PANEL_CODEVIEW = -2;
+    /// <summary>
     /// 登入注册选择界面
     /// </summary>
     public const int LOGINSELECT_PANEL_ACTIVE = -1;

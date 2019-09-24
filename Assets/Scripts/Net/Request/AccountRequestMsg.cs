@@ -104,13 +104,17 @@ public class AccountRequestMsg:RequestBase
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
             return null;
         }
-        if (!MsgTool.CheckMobile(msg.ToString()))
+        //if (!MsgTool.CheckMobile(msg.ToString()))
+        //{
+        //    promptMsg.Change("请输入正确的手机号码", Color.red);
+        //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+        //    return null;
+        //}
+        Dictionary<string, string>t = new Dictionary<string, string>
         {
-            promptMsg.Change("请输入正确的手机号码", Color.red);
-            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            return null;
-        }
-        messageData.Change("consumer", "getcode", null);
+            ["username"] = msg.ToString()
+        };
+        messageData.Change("consumer", "getCode", t);
         //messageData.t = null;
         socketMsg.Change(LoginInfo.ClientId, "获取验证码操作", messageData);
         return socketMsg;
@@ -125,18 +129,18 @@ public class AccountRequestMsg:RequestBase
     {
         LoginInfo loginInfo = msg as LoginInfo;
         //TODO
-        if (loginInfo.UserName == "" || loginInfo.Password == "")
-        {
-            promptMsg.Change("请输入用户名和验证码", Color.red);
-            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            return null;
-        }
-        if (!MsgTool.CheckMobile(loginInfo.UserName))
-        {
-            promptMsg.Change("请输入正确的手机号码", Color.red);
-            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            return null;
-        }
+        //if (loginInfo.UserName == "" || loginInfo.Password == "")
+        //{
+        //    promptMsg.Change("请输入用户名和验证码", Color.red);
+        //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+        //    return null;
+        //}
+        //if (!MsgTool.CheckMobile(loginInfo.UserName))
+        //{
+        //    promptMsg.Change("请输入正确的手机号码", Color.red);
+        //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+        //    return null;
+        //}
 
         Dictionary<string, string>t = new Dictionary<string, string>
         {
@@ -145,7 +149,7 @@ public class AccountRequestMsg:RequestBase
             ["userpass"] = loginInfo.Password,
             //["Identity"] = loginInfo.Identity
         };
-        messageData.Change("consumer", "idlog", null);
+        messageData.Change("consumer", "idlog", t);
         socketMsg.Change(LoginInfo.ClientId, "登入操作", messageData);
         return socketMsg;
     }
@@ -158,30 +162,30 @@ public class AccountRequestMsg:RequestBase
     {
         UserInfo userinfo = msg as UserInfo;
 
-        if (userinfo.Phone == "" || userinfo.Password == "")
-        {
-            promptMsg.Change("请输入用户名和验证码", Color.red);
-            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            return null;
-        }
-        if (!MsgTool.CheckMobile(userinfo.Phone ))
-        {
-            promptMsg.Change("请输入正确的手机号码", Color.red);
-            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            return null;
-        }
-        if (!MsgTool.CheckPass(userinfo.Password))
-        {
-            promptMsg.Change("8-16位字符,可包含数字,字母,下划线", Color.red);
-            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            return null;
-        }
-        if (!MsgTool.CheckNickName(userinfo.NickName))
-        {
-            promptMsg.Change("2-10位字符,可包含数字,字母,下划线,汉字", Color.red);
-            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            return null;
-        }
+        //if (userinfo.Phone == "" || userinfo.Password == "")
+        //{
+        //    promptMsg.Change("请输入用户名和验证码", Color.red);
+        //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+        //    return null;
+        //}
+        //if (!MsgTool.CheckMobile(userinfo.Phone ))
+        //{
+        //    promptMsg.Change("请输入正确的手机号码", Color.red);
+        //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+        //    return null;
+        //}
+        //if (!MsgTool.CheckPass(userinfo.Password))
+        //{
+        //    promptMsg.Change("8-16位字符,可包含数字,字母,下划线", Color.red);
+        //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+        //    return null;
+        //}
+        //if (!MsgTool.CheckNickName(userinfo.NickName))
+        //{
+        //    promptMsg.Change("2-10位字符,可包含数字,字母,下划线,汉字", Color.red);
+        //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+        //    return null;
+        //}
         Dictionary<string, string>t = new Dictionary<string, string>
         {
             ["username"] = userinfo.Phone,
@@ -190,7 +194,7 @@ public class AccountRequestMsg:RequestBase
             ["nick"] = userinfo.NickName,
             ["invite"] = userinfo.InviteCode
         };
-        messageData.Change("consumer", "reg", null);
+        messageData.Change("consumer", "reg", t);
         Debug.LogError(LoginInfo.ClientId);
         socketMsg.Change(LoginInfo.ClientId,  "注册操作", messageData);
         return socketMsg;
