@@ -29,6 +29,7 @@ ExportedObj/
 *.pidb.meta
 *.pdb.meta
 *.prefab.meta
+*.meta
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
@@ -43,3 +44,6 @@ Assets/Resources/Localization/Korean.meta
 Assets/Resources/Localization/English.meta
 Assets/Resources/Localization/Chinese.meta
 Assets/Resources/Localization.meta
+Assets/Editor/Copyright.cs
+Assets/Editor/ChangeText.cs
+Assets/Editor/AssetBoundTool.cs
