@@ -37,6 +37,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+#Assets
 Assets/UI/星星/星星.meta
 Assets/UI/星星.meta
 Assets/UI/logo.meta
