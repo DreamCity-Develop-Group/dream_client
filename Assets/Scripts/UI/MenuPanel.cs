@@ -72,7 +72,7 @@ public class MenuPanel : UIBase
         notice = transform.Find("Notice").gameObject;
         txtLength = notice.GetComponent<RectTransform>().rect.width;
       
-        txtNotice1 = transform.Find("Notice/TxtNotice1").GetComponent<Text>();
+        txtNotice1 = transform.Find("Notice/TxtNotice").GetComponent<Text>();
         txtNoticeLength = txtNotice1.GetComponent<RectTransform>().rect.width;
         gameobjectRed = transform.Find("BtnMsg/ImgRed").gameObject;
         changeHand = transform.Find("BtnPersonInfo/BtnHead").GetComponent<Button>();
