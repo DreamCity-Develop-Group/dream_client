@@ -8,6 +8,7 @@ using Assets.Scripts.Tools;
 using Assets.Scripts.UI;
 using LitJson;
 using UnityEngine;
+using EventType = Assets.Scripts.Net.EventType;
 
 namespace Assets.Scripts.Net
 {
@@ -64,21 +65,28 @@ namespace Assets.Scripts.Net
                     case EventType.idlogin:
                         //验证码登入
                         socketMsg = accountRequestMsg.ReqIDLoginMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.regist:
                         //注册操作
                         socketMsg = accountRequestMsg.ReqRegMsg(message);
-                        //TODOtest
-                        //if (socketMsg == null)
-                        //{
-                        //    return;
-                        //}
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.pwforget:
                         //忘记密码
-                        socketMsg = accountRequestMsg.ReqPWChangeMsg(message);
+                        socketMsg = accountRequestMsg.ReqForgetMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.addfriend:
@@ -96,13 +104,21 @@ namespace Assets.Scripts.Net
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.expw:
-                        //修改密码TODO 暂时设置和忘记密码模块一样
+                        //修改密码
                         socketMsg = accountRequestMsg.ReqPWChangeMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.expwshop:
                         //设置交易密码
                         socketMsg = setRequestMsg.ReqExPwShopMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     //case EventType.voiceset:
@@ -150,24 +166,25 @@ namespace Assets.Scripts.Net
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.transfer:
-                        socketMsg = accountRequestMsg.ReqPropertyTestMsg(message);
+                        socketMsg = accountRequestMsg.ReqTransferMsg(message);
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.recharge:
-                        socketMsg = accountRequestMsg.ReqPropertyTestMsg(message);
+                        socketMsg = accountRequestMsg.ReqRechargeMsg(message);
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.commerce_sendmt:
                         socketMsg = commerceRequsetMsg.ReqSendMTMsg(message);
                         _wabData.SendMsg(socketMsg);
                         break;
+                    case EventType.invest_req:
+
+                        break;
                     case EventType.exit:
-                        socketMsg.desc = "exit";
-                        socketMsg.data = null;
+                        socketMsg = accountRequestMsg.ReqExitMsg(null);
                         _wabData.SendMsg(socketMsg);
                         _wabData.WebSocket.Close(1000, "Bye!");
                         break;
-
                     default:
                         break;
                 }
@@ -339,6 +356,10 @@ namespace Assets.Scripts.Net
                     SquareUser applyUser = msg.data.data as SquareUser;
                     friendHandler.OnReceive(EventType.applyfriend, applyUser);
                     break;
+                case "listfriend":
+                    SquareUser friendUser = msg.data.data as SquareUser;
+                    friendHandler.OnReceive(EventType.listfriend, friendUser);
+                    break;
                 default:
                     break;
             }
@@ -370,8 +391,7 @@ namespace Assets.Scripts.Net
                         {
                             PlayerPrefs.SetString("token", dicRegLogRespon["token"].ToString());
                         }
-                 
-                        _wabData.isLogin = true;
+                        WebData.isLogin = true;
                     }
                     break;
 
@@ -386,7 +406,6 @@ namespace Assets.Scripts.Net
                 case "voice":
                     // setHandler.OnReceive(EventType.voiceset, msg.data.t);
                     break;
-
                 case "expw":
                     if (!dicRegLogRespon.ContainsKey("desc"))
                     {
@@ -424,6 +443,8 @@ namespace Assets.Scripts.Net
                         return;
                     }
                     setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
+                    break;
+                case "property":
                     break;
                 default:
                     break;

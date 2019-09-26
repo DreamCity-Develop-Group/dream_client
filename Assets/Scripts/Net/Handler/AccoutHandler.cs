@@ -115,6 +115,64 @@ namespace Assets.Scripts.Net.Handler
             return false;
         }
 
-        //private bool transger
+        private bool transferResponse(string result)
+        {
+            if (result == "转账成功")
+            {
+                promptMsg.Change(result.ToString(), Color.green);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                //Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, false);
+                //Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        private bool rechargeReponse(string result)
+        {
+            if (result == "修改成功!")
+            {
+                promptMsg.Change(result.ToString(), Color.green);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, false);
+                Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 资产信息
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        private bool propertyResonse(string result)
+        {
+            if (result == "修改成功!")
+            {
+                promptMsg.Change(result.ToString(), Color.green);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, false);
+                Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
+                return true;
+            }
+            return false;
+        }
+
+        //private bool propertyResonse(string result)
+        //{
+        //    if (result == "修改成功!")
+        //    {
+        //        promptMsg.Change(result.ToString(), Color.green);
+        //        Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+        //        Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, false);
+        //        Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
+        //        return true;
+        //    }
+        //    return false;
+        //}
     }
 }

@@ -42,22 +42,21 @@ namespace Assets.Scripts.Net.Handler
         private void expwRespon(string value)
         {
             promptMsg.Change(value, Color.red);
-            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
             if (value == "修改成功")
             {
                 promptMsg.Change(value.ToString(), Color.green);
-                // Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, null);
             }
+            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
         }
         private void expwshopRespon(string value)
         {
             promptMsg.Change(value, Color.red);
-            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+           
             if (value == "设置成功")
             {
                 promptMsg.Change(value.ToString(), Color.green);
-                //  Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, null);
             }
+            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
         }
         //private void voicesetRespon(object value)
         //{

@@ -118,8 +118,9 @@ namespace Assets.Scripts.Net
         /// 心跳检测
         /// </summary> 
         Thread t1;
-        int timeout = 3000;
-        public bool isLogin = false;
+
+        private int timeout = 30000;
+        public static bool isLogin = false;
         private static object lockObj = new object();
         private void heartCheck()
         {
@@ -128,8 +129,6 @@ namespace Assets.Scripts.Net
                 lock (lockObj)
                 {
                     Thread.Sleep(timeout);
-                    //  SocketMsg msg = new SocketMsg(null, null, "ping", null);
-
                     isReconnect = false;
                     if (isLogin)
                     {

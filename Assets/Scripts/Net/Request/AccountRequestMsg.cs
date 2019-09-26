@@ -47,7 +47,7 @@ namespace Assets.Scripts.Net.Request
             };
             messageData.model = "consumer";
             messageData.type = "pwlog";
-            messageData.Change("consumer", "pwlog",t);
+            messageData.Change("consumer/player", "pwlog",t);
             socketMsg.Change(LoginInfo.ClientId, "登入操作", messageData);
             PlayerPrefs.SetString("username", loginInfo.UserName);
             return socketMsg;
@@ -69,10 +69,8 @@ namespace Assets.Scripts.Net.Request
                 ["code"] = loginInfo.Identity,
                 ["token"] = PlayerPrefs.GetString("token")
             };
-            //messageData.model = "consumer";
-            //messageData.type = "expw";
-            messageData.Change("consumer", "expw", t);
-            socketMsg.Change(LoginInfo.ClientId, "修改登入密码操作", messageData);
+            messageData.Change("consumer", "pwforget", t);
+            socketMsg.Change(LoginInfo.ClientId, "忘记密码消息", messageData);
             return socketMsg;
         }
 
@@ -84,16 +82,30 @@ namespace Assets.Scripts.Net.Request
         /// <returns></returns>
         public SocketMsg<Dictionary<string,string>> ReqPWChangeMsg(object msg)
         {
-            LoginInfo loginInfo = msg as LoginInfo;
-            string userpass = MsgTool.MD5Encrypt(loginInfo.Password);
-            Dictionary<string, string> t = new Dictionary<string, string>
-            {
-                // ["IsIdentityLog"] = loginInfo.Identity,
-                ["username"] = loginInfo.UserName,
-                ["userpass"] = userpass,
-                ["Identity"] = loginInfo.Identity,
-                ["token"] = PlayerPrefs.GetString("token")
-            };
+            
+            Dictionary<string, string> t =msg as Dictionary<string, string>;
+            //if (t["oldpw"] == null || t["oldpw"].Equals(""))
+            //{
+            //    promptMsg.Change("请输入密码", Color.red);
+            //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+            //    return null;
+            //}
+            //if (t["newpw"] == null || t["newpw"].Equals(""))
+            //{
+            //    promptMsg.Change("请输入手机号", Color.red);
+            //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+            //    return null;
+            //}
+            //if(t["code"]==null || t["code"].Equals(""))])
+            //{
+            //    promptMsg.Change("请输入手机号", Color.red);
+            //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+            //    return null;
+            //}
+            t.Add("username",PlayerPrefs.GetString("username"));
+            t.Add("token",PlayerPrefs.GetString("token"));
+            t["oldpw"] = MsgTool.MD5Encrypt(t["oldpw"]);
+            t["newpw"] = MsgTool.MD5Encrypt(t["newpw"]);
             messageData.Change("consumer", "expw", t);
             socketMsg.Change(LoginInfo.ClientId,  "修改登入密码操作", messageData);
             return socketMsg;
@@ -105,25 +117,38 @@ namespace Assets.Scripts.Net.Request
         /// <returns></returns>
         public SocketMsg<Dictionary<string,string>> ReqGetIdentityMsg(object msg)
         {
-            if (msg == null)
+            if (WebData.isLogin)
             {
-                promptMsg.Change("请输入手机号", Color.red);
-                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-                return null;
+                Dictionary<string, string> t1 = new Dictionary<string, string>
+                {
+                    ["username"] = PlayerPrefs.GetString("username"),
+                    ["token"] = PlayerPrefs.GetString("token")
+                };
+                messageData.Change("consumer", "getCode", t1);
+                socketMsg.Change(LoginInfo.ClientId, "获取验证码操作", messageData);
             }
-            //if (!MsgTool.CheckMobile(msg.ToString()))
-            //{
-            //    promptMsg.Change("请输入正确的手机号码", Color.red);
-            //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            //    return null;
-            //}
-            Dictionary<string, string>t = new Dictionary<string, string>
+            else
             {
-                ["username"] = msg.ToString()
-            };
-            messageData.Change("consumer", "getCode", t);
-            //messageData.t = null;
-            socketMsg.Change(LoginInfo.ClientId, "获取验证码操作", messageData);
+                if (msg == null)
+                {
+                    promptMsg.Change("请输入手机号", Color.red);
+                    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                    return null;
+                }
+                if (!MsgTool.CheckMobile(msg.ToString()))
+                {
+                    promptMsg.Change("请输入正确的手机号码", Color.red);
+                    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                    return null;
+                }
+                Dictionary<string, string> t = new Dictionary<string, string>
+                {
+                    ["username"] = msg.ToString()
+                };
+                messageData.Change("consumer/message", "getCode", t);
+                //messageData.t = null;
+                socketMsg.Change(LoginInfo.ClientId, "获取验证码操作", messageData);
+            }
             return socketMsg;
         }
     
@@ -169,30 +194,30 @@ namespace Assets.Scripts.Net.Request
         {
             UserInfo userinfo = msg as UserInfo;
 
-            //if (userinfo.Phone == "" || userinfo.Password == "")
-            //{
-            //    promptMsg.Change("请输入用户名和验证码", Color.red);
-            //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            //    return null;
-            //}
-            //if (!MsgTool.CheckMobile(userinfo.Phone ))
-            //{
-            //    promptMsg.Change("请输入正确的手机号码", Color.red);
-            //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            //    return null;
-            //}
-            //if (!MsgTool.CheckPass(userinfo.Password))
-            //{
-            //    promptMsg.Change("8-16位字符,可包含数字,字母,下划线", Color.red);
-            //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            //    return null;
-            //}
-            //if (!MsgTool.CheckNickName(userinfo.NickName))
-            //{
-            //    promptMsg.Change("2-10位字符,可包含数字,字母,下划线,汉字", Color.red);
-            //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            //    return null;
-            //}
+            if (userinfo.Phone == "" || userinfo.Password == "")
+            {
+                promptMsg.Change("请输入用户名和验证码", Color.red);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                return null;
+            }
+            if (!MsgTool.CheckMobile(userinfo.Phone))
+            {
+                promptMsg.Change("请输入正确的手机号码", Color.red);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                return null;
+            }
+            if (!MsgTool.CheckPass(userinfo.Password))
+            {
+                promptMsg.Change("8-16位字符,可包含数字,字母,下划线", Color.red);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                return null;
+            }
+            if (!MsgTool.CheckNickName(userinfo.NickName))
+            {
+                promptMsg.Change("2-10位字符,可包含数字,字母,下划线,汉字", Color.red);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                return null;
+            }
             Dictionary<string, string>t = new Dictionary<string, string>
             {
                 ["username"] = userinfo.Phone,
@@ -201,7 +226,7 @@ namespace Assets.Scripts.Net.Request
                 ["nick"] = userinfo.NickName,
                 ["invite"] = userinfo.InviteCode
             };
-            messageData.Change("consumer", "reg", t);
+            messageData.Change("consumer/player", "reg", t);
             Debug.LogError(LoginInfo.ClientId);
             socketMsg.Change(LoginInfo.ClientId,  "注册操作", messageData);
             return socketMsg;
@@ -252,6 +277,20 @@ namespace Assets.Scripts.Net.Request
             t.Add("token", PlayerPrefs.GetString("token"));
             messageData.Change("consumer", "property", t);
             socketMsg.Change(LoginInfo.ClientId, "充值请求", messageData);
+            return socketMsg;
+        }
+        /// <summary>
+        /// 退出登入
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string, string>> ReqExitMsg(object msg)
+        {
+            Dictionary<string, string> t = new  Dictionary<string, string>();
+            t.Add("username", PlayerPrefs.GetString("username"));
+            t.Add("token", PlayerPrefs.GetString("token"));
+            messageData.Change("consumer", "eixt", t);
+            socketMsg.Change(LoginInfo.ClientId, "退出登入请求", messageData);
             return socketMsg;
         }
     }

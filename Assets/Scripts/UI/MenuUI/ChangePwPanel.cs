@@ -1,30 +1,27 @@
-/***
-  * Title:     
-  *
-  * Created:	zzg
-  *
-  * CreatTime:  2019/09/20 15:32:00
-  *
-  * Description:
-  *
-  * Version:    0.1
-  *
-  *
-***/
-
 using System.Collections.Generic;
 using Assets.Scripts.Framework;
+using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.Net;
 using EventType = Assets.Scripts.Net.EventType;
+/***
+* Title:     
+*
+* Created:	zp
+*
+* CreatTime:  2019/09/16 17:28:17
+*
+* Description: 改密码面板
+*
+* Version:    0.1
+*
+*
+***/
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.LoginUI
 {
-    /// <summary>
-    /// 修改交易密码
-    /// </summary>
-    public class ChangeEXPwPanel : UIBase
+    public class ChangePwPanel : UIBase
     {
-
         private InputField inputFieldMobile;
         private InputField inputFieldVerification;
         private InputField inputFieldCurrentPassword;
@@ -54,8 +51,8 @@ namespace Assets.Scripts.UI.MeunUI
         }
         void Start()
         {
-            // inputFieldMobile = transform.Find("BG/InputFieldMobile").GetComponent<InputField>();
-            inputFieldVerification = transform.Find("BG/InputFieldVerification").GetComponent<InputField>();
+           // inputFieldMobile = transform.Find("BG/InputFieldMobile").GetComponent<InputField>();
+            inputFieldVerification= transform.Find("BG/InputFieldVerification").GetComponent<InputField>();
             inputFieldCurrentPassword = transform.Find("BG/InputFieldCurrentPassword").GetComponent<InputField>();
             inputFieldNewPassword = transform.Find("BG/InputFieldNewPassword").GetComponent<InputField>();
             btnConfirm = transform.Find("BG/BtnConfirm").GetComponent<Button>();
@@ -70,15 +67,15 @@ namespace Assets.Scripts.UI.MeunUI
 
         private void clickConfirm()
         {
-            currentpassword = inputFieldCurrentPassword.text;
-            newpassword = inputFieldNewPassword.text;
-            verificationcode = inputFieldVerification.text;
-            Dictionary<string, string> msg = new Dictionary<string, string>()
+             currentpassword = inputFieldCurrentPassword.text;
+             newpassword = inputFieldNewPassword.text;
+             verificationcode = inputFieldVerification.text;
+            Dictionary<string,string> msg = new Dictionary<string, string>()
             {
-                ["oldpw"] = currentpassword,
+                ["oldpw"]=currentpassword,
                 ["newpw"] = newpassword,
             };
-            Dispatch(AreaCode.NET, EventType.expw, msg);
+            Dispatch(AreaCode.NET, EventType.expw, msg); 
         }
 
         private void clickClose()
@@ -88,7 +85,7 @@ namespace Assets.Scripts.UI.MeunUI
 
         private void clickGetVerificationCode()
         {
-            Dispatch(AreaCode.NET, EventType.identy, null);
+            Dispatch(AreaCode.NET,EventType.identy,null);
         }
         // Update is called once per frame
         void Update()

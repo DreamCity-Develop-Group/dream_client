@@ -24,6 +24,7 @@ namespace Assets.Scripts.Net.Handler
     {
         List<UserInfos> _squareData = new List<UserInfos>();
         List<UserInfos> _friendData = new List<UserInfos>();
+        List<UserInfos> _applyData = new List<UserInfos>();
         private UserInfo userInfo = new UserInfo();
         public override bool OnReceive(int subCode, object value)
         {
@@ -41,8 +42,8 @@ namespace Assets.Scripts.Net.Handler
                     searchfriendRespon(value);
                     break;
                 case EventType.applyfriend:
-
-                    applyfriendRespon(value);
+                    _applyData = value as List<UserInfos>;
+                    applyListRespon();
                     break;
                 case EventType.squarefriend:
                     _squareData = value as List<UserInfos>;
@@ -95,7 +96,10 @@ namespace Assets.Scripts.Net.Handler
         /// 申请好友列表
         /// </summary>
         List<UserInfo> applyList = new List<UserInfo>();
-   
+        private void applyListRespon()
+        {
+            Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_VIEW, _applyData);
+        }
         /// <summary>
         /// 申请好友响应
         /// </summary>
