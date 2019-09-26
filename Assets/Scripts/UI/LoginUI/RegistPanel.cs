@@ -1,99 +1,103 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Framework;
+using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.UI;
+using EventType = Assets.Scripts.Net.EventType;
 
-public class RegistPanel : UIBase
+namespace Assets.Scripts.UI.LoginUI
 {
-    Button btnRegist;
-    Button btnIdentify;
-    Button btnReturn;
-    Button btnLogin;
-    InputField inputIdentify;
-    InputField inputUserName;
-    InputField inputPassWord;
-    InputField inputNickName;
-    InputField inputInviteCode;
-
-    string phone;
-    string identify;
-    string passWord;
-    string nickName;
-    string inviteCode;
-    //InputField inputRePassWord;
-    private void Awake()
+    public class RegistPanel : UIBase
     {
-        Bind(UIEvent.REG_ACTIVE, UIEvent.REG_PANEL_CODEVIEW);
-       
-    }
+        Button btnRegist;
+        Button btnIdentify;
+        Button btnReturn;
+        Button btnLogin;
+        InputField inputIdentify;
+        InputField inputUserName;
+        InputField inputPassWord;
+        InputField inputNickName;
+        InputField inputInviteCode;
 
-    public override void Execute(int eventCode, object message)
-    {
-        switch (eventCode)
+        string phone;
+        string identify;
+        string passWord;
+        string nickName;
+        string inviteCode;
+        //InputField inputRePassWord;
+        private void Awake()
         {
-            case UIEvent.REG_ACTIVE:
-                 setPanelActive((bool)message);
-                break;
-            case UIEvent.REG_PANEL_CODEVIEW:
-                inputIdentify.text = message.ToString();
-                break;
-            default:
-                break;
+            Bind(UIEvent.REG_ACTIVE, UIEvent.REG_PANEL_CODEVIEW);
+       
         }
-    }
 
-    void Start()
-    {
-        btnLogin = transform.Find("BtnLogin").GetComponent<Button>();
-        btnIdentify = transform.Find("BtnIdentify").GetComponent<Button>();
-        btnRegist = transform.Find("BtnRegist").GetComponent<Button>();
-        btnReturn = transform.Find("BtnReturn").GetComponent<Button>();
-        inputUserName = transform.Find("InputUserName").GetComponent<InputField>();
-        inputIdentify = transform.Find("InputIdentify").GetComponent<InputField>(); 
-        inputPassWord = transform.Find("InputPassWord").GetComponent<InputField>();
-        inputNickName = transform.Find("InputNickName").GetComponent<InputField>();
-        inputInviteCode = transform.Find("InputInviteCode").GetComponent<InputField>();
+        protected internal override void Execute(int eventCode, object message)
+        {
+            switch (eventCode)
+            {
+                case UIEvent.REG_ACTIVE:
+                    setPanelActive((bool)message);
+                    break;
+                case UIEvent.REG_PANEL_CODEVIEW:
+                    inputIdentify.text = message.ToString();
+                    break;
+                default:
+                    break;
+            }
+        }
 
-        btnLogin.onClick.AddListener(clickLogin);
-        btnIdentify.onClick.AddListener(clickIdentify);
-        btnRegist.onClick.AddListener(clickRegist);
-        btnReturn.onClick.AddListener(clickReturn);
-        btnRegist.enabled = false;
-        setPanelActive(false);
-    }
+        void Start()
+        {
+            btnLogin = transform.Find("BtnLogin").GetComponent<Button>();
+            btnIdentify = transform.Find("BtnIdentify").GetComponent<Button>();
+            btnRegist = transform.Find("BtnRegist").GetComponent<Button>();
+            btnReturn = transform.Find("BtnReturn").GetComponent<Button>();
+            inputUserName = transform.Find("InputUserName").GetComponent<InputField>();
+            inputIdentify = transform.Find("InputIdentify").GetComponent<InputField>(); 
+            inputPassWord = transform.Find("InputPassWord").GetComponent<InputField>();
+            inputNickName = transform.Find("InputNickName").GetComponent<InputField>();
+            inputInviteCode = transform.Find("InputInviteCode").GetComponent<InputField>();
 
-    private void clickLogin()
-    {
-        setPanelActive(false);
-        Dispatch(AreaCode.UI,UIEvent.LOG_ACTIVE,true);
-    }
-    private void clickIdentify()
-    {
-        btnRegist.enabled = true;
-        phone = inputUserName.text;
-        Dispatch(AreaCode.NET, EventType.identy, phone);
-        Debug.Log("clickIdentify");
-    }
-    private void clickReturn()
-    {
-        setPanelActive(false);
-        Dispatch(AreaCode.UI,UIEvent.LOG_ACTIVE,true);
-    }
-    private void clickRegist()
-    {
-        phone=inputUserName.text;
-        passWord = inputPassWord.text;
-        inviteCode = inputInviteCode.text;
-        nickName = inputNickName.text;
-        identify = inputIdentify.text;
-        UserInfo userinfo = new UserInfo(phone,passWord,identify,inviteCode,nickName);
-        Dispatch(AreaCode.NET,EventType.regist, userinfo);
-    }
-    public override void OnDestroy()
-    {
-        base.OnDestroy();
-        btnIdentify.onClick.RemoveAllListeners();
-        btnRegist.onClick.RemoveAllListeners();
-        btnReturn.onClick.RemoveAllListeners();
+            btnLogin.onClick.AddListener(clickLogin);
+            btnIdentify.onClick.AddListener(clickIdentify);
+            btnRegist.onClick.AddListener(clickRegist);
+            btnReturn.onClick.AddListener(clickReturn);
+            btnRegist.enabled = false;
+            setPanelActive(false);
+        }
+
+        private void clickLogin()
+        {
+            setPanelActive(false);
+            Dispatch(AreaCode.UI,UIEvent.LOG_ACTIVE,true);
+        }
+        private void clickIdentify()
+        {
+            btnRegist.enabled = true;
+            phone = inputUserName.text;
+            Dispatch(AreaCode.NET, EventType.identy, phone);
+            Debug.Log("clickIdentify");
+        }
+        private void clickReturn()
+        {
+            setPanelActive(false);
+            Dispatch(AreaCode.UI,UIEvent.LOG_ACTIVE,true);
+        }
+        private void clickRegist()
+        {
+            phone=inputUserName.text;
+            passWord = inputPassWord.text;
+            inviteCode = inputInviteCode.text;
+            nickName = inputNickName.text;
+            identify = inputIdentify.text;
+            UserInfo userinfo = new UserInfo(phone,passWord,identify,inviteCode,nickName);
+            Dispatch(AreaCode.NET,EventType.regist, userinfo);
+        }
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            btnIdentify.onClick.RemoveAllListeners();
+            btnRegist.onClick.RemoveAllListeners();
+            btnReturn.onClick.RemoveAllListeners();
+        }
     }
 }

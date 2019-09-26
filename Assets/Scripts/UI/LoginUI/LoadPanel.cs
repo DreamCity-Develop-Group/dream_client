@@ -1,7 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Framework;
 using UnityEngine;
 using UnityEngine.UI;
+// ReSharper disable InconsistentNaming
+
 /***
   * Title:     
   *
@@ -15,73 +17,74 @@ using UnityEngine.UI;
   *
   *
 ***/
-public class LoadPanel : UIBase
+namespace Assets.Scripts.UI.LoginUI
 {
+    public class LoadPanel : UIBase
+    {
    
-    Slider sliderLoading;
-    GameObject gameObjectLoginSelectPanel;
-    Button btnRegist;
-    Button btnLogin;
-    private void Awake()
-    {
-        Bind(UIEvent.LOAD_PANEL_ACTIVE);
-
-    }
-
-    public override void Execute(int eventCode, object message)
-    {
-        switch (eventCode)
+        Slider sliderLoading;
+        GameObject gameObjectLoginSelectPanel;
+        Button btnRegist;
+        Button btnLogin;
+        private void Awake()
         {
-            case UIEvent.LOAD_PANEL_ACTIVE:
-                setPanelActive((bool)message);
-                StartCoroutine(Loading());
-                //gameObjectLoginSelectPanel.gameObject.SetActive(true);
-                break;
-            default:
-                break;
+            Bind(UIEvent.LOAD_PANEL_ACTIVE);
+
         }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        gameObjectLoginSelectPanel = transform.Find("LoginSelectPanel").gameObject;
-        btnLogin = transform.Find("LoginSelectPanel/BtnLogin").GetComponent<Button>();
-        btnRegist = transform.Find("LoginSelectPanel/BtnRegist").GetComponent<Button>();
 
-        btnLogin.onClick.AddListener(clickLogin);
-        btnRegist.onClick.AddListener(clickRegist);
-        //ÏµÍ³×ÖÌå
-        string language = Application.systemLanguage.ToString();
-        Debug.Log(language);
+        protected internal override void Execute(int eventCode, object message)
+        {
+            switch (eventCode)
+            {
+                case UIEvent.LOAD_PANEL_ACTIVE:
+                    setPanelActive((bool)message);
+                    StartCoroutine(Loading());
+                    //gameObjectLoginSelectPanel.gameObject.SetActive(true);
+                    break;
+            }
+        }
+        // Start is called before the first frame update
+        private void Start()
+        {
+            gameObjectLoginSelectPanel = transform.Find("LoginSelectPanel").gameObject;
+            btnLogin = transform.Find("LoginSelectPanel/BtnLogin").GetComponent<Button>();
+            btnRegist = transform.Find("LoginSelectPanel/BtnRegist").GetComponent<Button>();
+
+            btnLogin.onClick.AddListener(clickLogin);
+            btnRegist.onClick.AddListener(clickRegist);
+            //ç³»ç»Ÿå­—ä½“
+            string language = Application.systemLanguage.ToString();
+            Debug.Log(language);
         
 
-        sliderLoading = transform.Find("SliderLoading").GetComponent<Slider>();
+            sliderLoading = transform.Find("SliderLoading").GetComponent<Slider>();
         
-        gameObjectLoginSelectPanel.SetActive(false);
-        setPanelActive(false);
+            gameObjectLoginSelectPanel.SetActive(false);
+            setPanelActive(false);
        
-    }
-
-    IEnumerator Loading()
-    {
-        while (sliderLoading.GetComponent<Slider>().value<1)
-        {
-            sliderLoading.GetComponent<Slider>().value += 0.1f;
-            yield return new WaitForSeconds(1);
         }
-        sliderLoading.gameObject.SetActive(false);
-        gameObjectLoginSelectPanel.SetActive(true);
-    }
-    private void clickLogin()
-    {
-        setPanelActive(false);
-        Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
-    }
 
-    private void clickRegist()
-    {
-        setPanelActive(false);
-        Dispatch(AreaCode.UI, UIEvent.REG_ACTIVE, true);
-    }
+        IEnumerator Loading()
+        {
+            while (sliderLoading.GetComponent<Slider>().value<1)
+            {
+                sliderLoading.GetComponent<Slider>().value += 0.1f;
+                yield return new WaitForSeconds(1);
+            }
+            sliderLoading.gameObject.SetActive(false);
+            gameObjectLoginSelectPanel.SetActive(true);
+        }
+        private void clickLogin()
+        {
+            setPanelActive(false);
+            Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
+        }
 
+        private void clickRegist()
+        {
+            setPanelActive(false);
+            Dispatch(AreaCode.UI, UIEvent.REG_ACTIVE, true);
+        }
+
+    }
 }

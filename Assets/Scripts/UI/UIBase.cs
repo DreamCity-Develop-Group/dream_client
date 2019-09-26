@@ -1,60 +1,62 @@
-﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using Assets.Scripts.Framework;
 
-public class UIBase : MonoBase
+namespace Assets.Scripts.UI
 {
-    /// <summary>
-    /// 自身关心的消息集合
-    /// </summary>
-    private List<int> list = new List<int>();
-
-    /// <summary>
-    /// 绑定一个或多个消息
-    /// </summary>
-    /// <param name="eventCodes">Event codes.</param>
-    protected void Bind(params int[] eventCodes)
+    public class UIBase : MonoBase
     {
-        list.AddRange(eventCodes);
-        UIManager.Instance.Add(list.ToArray(), this);
-    }
+        /// <summary>
+        /// 自身关心的消息集合
+        /// </summary>
+        private List<int> list = new List<int>();
 
-    /// <summary>
-    /// 接触绑定的消息
-    /// </summary>
-    protected void UnBind()
-    {
-        UIManager.Instance.Remove(list.ToArray(), this);
-        list.Clear();
-    }
+        /// <summary>
+        /// 绑定一个或多个消息
+        /// </summary>
+        /// <param name="eventCodes">Event codes.</param>
+        protected void Bind(params int[] eventCodes)
+        {
+            list.AddRange(eventCodes);
+            UIManager.Instance.Add(list.ToArray(), this);
+        }
 
-    /// <summary>
-    /// 自动移除绑定的消息
-    /// </summary>
-    public  virtual void OnDestroy()
-    {
-        if (list != null)
-            UnBind();
-    }
+        /// <summary>
+        /// 接触绑定的消息
+        /// </summary>
+        protected void UnBind()
+        {
+            UIManager.Instance.Remove(list.ToArray(), this);
+            list.Clear();
+        }
 
-    /// <summary>
-    /// 发消息
-    /// </summary>
-    /// <param name="areaCode">Area code.</param>
-    /// <param name="eventCode">Event code.</param>
-    /// <param name="message">Message.</param>
-    public void Dispatch(int areaCode, int eventCode, object message)
-    {
-        MsgCenter.Instance.Dispatch(areaCode, eventCode, message);
-    }
+        /// <summary>
+        /// 自动移除绑定的消息
+        /// </summary>
+        public  virtual void OnDestroy()
+        {
+            if (list != null)
+                UnBind();
+        }
 
-    /// <summary>
-    /// 设置面板显示
-    /// </summary>
-    /// <param name="active"></param>
-    protected void setPanelActive(bool active)
-    {
-        gameObject.SetActive(active);
-    }
+        /// <summary>
+        /// 发消息
+        /// </summary>
+        /// <param name="areaCode">Area code.</param>
+        /// <param name="eventCode">Event code.</param>
+        /// <param name="message">Message.</param>
+        public void Dispatch(int areaCode, int eventCode, object message)
+        {
+            MsgCenter.Instance.Dispatch(areaCode, eventCode, message);
+        }
 
+        /// <summary>
+        /// 设置面板显示
+        /// </summary>
+        /// <param name="active"></param>
+        protected void setPanelActive(bool active)
+        {
+            gameObject.SetActive(active);
+        }
+
+    }
 }

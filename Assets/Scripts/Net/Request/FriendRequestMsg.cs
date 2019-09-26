@@ -12,103 +12,107 @@
   *
   *
 ***/
-using System.Collections;
+
 using System.Collections.Generic;
+using Assets.Scripts.Model;
+using Assets.Scripts.Net.Code;
 using UnityEngine;
 
-
-public class FriendRequestMsg :RequestBase
+namespace Assets.Scripts.Net.Request
 {
+    public class FriendRequestMsg :RequestBase
+    {
 
-    SocketMsg<Dictionary<string, string>> socketMsg = new SocketMsg<Dictionary<string, string>>();
-    MessageData<Dictionary<string, string>> messageData = new MessageData<Dictionary<string, string>>();
-    /// <summary>
-    /// ÉêÇëÏûÏ¢
-    /// </summary>
-    /// <param name="msg"></param>
-    /// <returns></returns>
-    public SocketMsg<Dictionary<string, string>> ReqAddFriendMsg(object msg)
-    {
-        string applyUserName = msg.ToString();
-       // ApplyInfo.applyList.Add(applyUserName);
-        Dictionary<string, string>t = new Dictionary<string, string>
+        SocketMsg<Dictionary<string, string>> socketMsg = new SocketMsg<Dictionary<string, string>>();
+        MessageData<Dictionary<string, string>> messageData = new MessageData<Dictionary<string, string>>();
+        /// <summary>
+        /// ç”³è¯·æ¶ˆæ¯
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string, string>> ReqAddFriendMsg(object msg)
         {
-            ["nick"] = applyUserName,
-            ["username"] = PlayerPrefs.GetString("username"),
-        };
-        messageData.Change("consumer", "addfriend", t);
-        socketMsg.Change(LoginInfo.ClientId, "ÉêÇëºÃÓÑ²Ù×÷", messageData);
-        return socketMsg;
-    }
-    /// <summary>
-    /// ÉêÇëºÃÓÑÍ¨¹ı/¾Ü¾ø
-    /// </summary>
-    /// <param name="msg"></param>
-    /// <returns></returns>
-    public SocketMsg<Dictionary<string, string>> ReqAgreeFriendMsg(object msg)
-    {
-        Dictionary<string, string> t = msg as Dictionary<string, string>;
-        //TODO
-        messageData.model = "friend";
-        messageData.type = "addTofriend";
-        messageData.Change("consumer", "addfriend", t);
-        socketMsg.Change(LoginInfo.ClientId, "Ìí¼ÓºÃÓÑ²Ù×÷", messageData);
-        //TODO
-        //Dispatch(AreaCode.UI,11111,"removeList");
-        return socketMsg;
-    }
-    /// <summary>
-    /// ºÃÓÑµãÔŞ
-    /// </summary>
-    /// <returns></returns>
-    public SocketMsg<Dictionary<string, string>> ReqLikeFriendMsg(object msg)
-    {
-        //TODOµãÔŞÂß¼­
-
-
-        UserInfo userInfo = msg as UserInfo;
-        Dictionary<string, string>t = new Dictionary<string, string>
-        {
-            ["nick"] = userInfo.NickName,
-            ["likes"] = userInfo.Like,
-            ["username"] = PlayerPrefs.GetString("username"),
-        };
-        messageData.Change("consumer", "likefriend", t);
-        socketMsg.Change(LoginInfo.ClientId, "ºÃÓÑµãÔŞ", messageData);
-        //Dispatch(AreaCode.UI,11111,"activefalse");
-        return socketMsg;
-    }
-    /// <summary>
-    /// ËÑË÷ÓÃ»§ÏûÏ¢
-    /// </summary>
-    /// <param name="msg"></param>
-    /// <returns></returns>
-    public SocketMsg<Dictionary<string, string>> ReqSearchUserMsg(object msg)
-    {
-        string nickName = msg.ToString();
-        if (nickName == null)
-        {
-            //TODOÌáÊ¾½çÃæ
-            return null;
+            string applyUserName = msg.ToString();
+            // ApplyInfo.applyList.Add(applyUserName);
+            Dictionary<string, string>t = new Dictionary<string, string>
+            {
+                ["nick"] = applyUserName,
+                ["username"] = PlayerPrefs.GetString("username"),
+            };
+            messageData.Change("consumer", "addfriend", t);
+            socketMsg.Change(LoginInfo.ClientId, "ç”³è¯·å¥½å‹æ“ä½œ", messageData);
+            return socketMsg;
         }
-        Dictionary<string, string>t = new Dictionary<string, string>
+        /// <summary>
+        /// ç”³è¯·å¥½å‹é€šè¿‡/æ‹’ç»
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string, string>> ReqAgreeFriendMsg(object msg)
         {
-            ["nick"] = nickName,
-            ["username"] = PlayerPrefs.GetString("username"),
-        };
-        messageData.model = "friend";
-        messageData.type = "searchfriend";
-        messageData.Change("consumer", "searchfriend", t);
-        socketMsg.Change(LoginInfo.ClientId, "ËÑË÷ÓÃ»§", messageData);
-        return socketMsg;
-    }
-    public  SocketMsg<Dictionary<string, string>> ReqNextUserList(object msg)
-    {
-        Dictionary<string, string>t = new Dictionary<string, string>
+            Dictionary<string, string> t = msg as Dictionary<string, string>;
+            //TODO
+            messageData.model = "friend";
+            messageData.type = "addTofriend";
+            messageData.Change("consumer", "addfriend", t);
+            socketMsg.Change(LoginInfo.ClientId, "æ·»åŠ å¥½å‹æ“ä½œ", messageData);
+            //TODO
+            //Dispatch(AreaCode.UI,11111,"removeList");
+            return socketMsg;
+        }
+        /// <summary>
+        /// å¥½å‹ç‚¹èµ
+        /// </summary>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string, string>> ReqLikeFriendMsg(object msg)
         {
-            ["username"] = PlayerPrefs.GetString("username"),
-        };
-        socketMsg.Change(LoginInfo.ClientId, "»»Ò»Åú¹ã³¡Íæ¼Ò", messageData);
-        return socketMsg;
+            //TODOç‚¹èµé€»è¾‘
+
+
+            UserInfo userInfo = msg as UserInfo;
+            Dictionary<string, string>t = new Dictionary<string, string>
+            {
+                ["nick"] = userInfo.NickName,
+                ["likes"] = userInfo.Like,
+                ["username"] = PlayerPrefs.GetString("username"),
+            };
+            messageData.Change("consumer", "likefriend", t);
+            socketMsg.Change(LoginInfo.ClientId, "å¥½å‹ç‚¹èµ", messageData);
+            //Dispatch(AreaCode.UI,11111,"activefalse");
+            return socketMsg;
+        }
+        /// <summary>
+        /// æœç´¢ç”¨æˆ·æ¶ˆæ¯
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string, string>> ReqSearchUserMsg(object msg)
+        {
+            string nickName = msg.ToString();
+            if (nickName == null)
+            {
+                //TODOæç¤ºç•Œé¢
+                return null;
+            }
+            Dictionary<string, string>t = new Dictionary<string, string>
+            {
+                ["nick"] = nickName,
+                ["username"] = PlayerPrefs.GetString("username"),
+            };
+            messageData.model = "friend";
+            messageData.type = "searchfriend";
+            messageData.Change("consumer", "searchfriend", t);
+            socketMsg.Change(LoginInfo.ClientId, "æœç´¢ç”¨æˆ·", messageData);
+            return socketMsg;
+        }
+        public  SocketMsg<Dictionary<string, string>> ReqNextUserList(object msg)
+        {
+            Dictionary<string, string>t = new Dictionary<string, string>
+            {
+                ["username"] = PlayerPrefs.GetString("username"),
+            };
+            socketMsg.Change(LoginInfo.ClientId, "æ¢ä¸€æ‰¹å¹¿åœºç©å®¶", messageData);
+            return socketMsg;
+        }
     }
 }

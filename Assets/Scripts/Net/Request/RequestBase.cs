@@ -12,21 +12,22 @@
   *
   *
 ***/
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
+using Assets.Scripts.Framework;
 
-public abstract class RequestBase 
+namespace Assets.Scripts.Net.Request
 {
-    /// <summary>
-    /// ·¢ÏûÏ¢
-    /// </summary>
-    /// <param name="areaCode">Area code.</param>
-    /// <param name="eventCode">Event code.</param>
-    /// <param name="message">Message.</param>
-    public void Dispatch(int areaCode, int eventCode, object message)
+    public abstract class RequestBase 
     {
-        MsgCenter.Instance.Dispatch(areaCode, eventCode, message);
+        /// <summary>
+        /// å‘æ¶ˆæ¯
+        /// </summary>
+        /// <param name="areaCode">Area code.</param>
+        /// <param name="eventCode">Event code.</param>
+        /// <param name="message">Message.</param>
+        public void Dispatch(int areaCode, int eventCode, object message)
+        {
+            MsgCenter.Instance.Dispatch(areaCode, eventCode, message);
+        }
     }
 }

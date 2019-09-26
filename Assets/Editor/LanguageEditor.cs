@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.Linq;
-using System.Collections;
+using Assets.Scripts.Language;
 using UnityEditor;
+using UnityEngine;
 
-namespace Language
+namespace Assets.Editor
 {
 	[CustomEditor(typeof(LanguageText), true)]
 	public class LanguageEditor : UnityEditor.Editor

@@ -1,35 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
 
-public class SceneMsg
+namespace Assets.Scripts.Scenes.Msg
 {
-    public string SceneName;
-
-    public int SceneBuildIndex;
-
-    public Action OnSceneLoaded;
-
-    public SceneMsg()
+    public class SceneMsg
     {
-        this.SceneBuildIndex = -1;
-        this.SceneName = null;
-        this.OnSceneLoaded = null;
-    }
+        public string SceneName;
 
-    public SceneMsg(string name, Action loaded)
-    {
-        this.SceneBuildIndex = -1;
-        this.SceneName = name;
-        this.OnSceneLoaded = loaded;
-    }
+        public int SceneBuildIndex;
 
-    public SceneMsg(int index, Action loaded)
-    {
-        this.SceneBuildIndex = index;
-        this.SceneName = null;
-        this.OnSceneLoaded = loaded;
-    }
+        public Action OnSceneLoaded;
 
+        public SceneMsg()
+        {
+            this.SceneBuildIndex = -1;
+            this.SceneName = null;
+            this.OnSceneLoaded = null;
+        }
+
+        public SceneMsg(string name, Action loaded)
+        {
+            this.SceneBuildIndex = -1;
+            this.SceneName = name;
+            this.OnSceneLoaded = loaded;
+        }
+
+        public SceneMsg(int index, Action loaded)
+        {
+            this.SceneBuildIndex = index;
+            this.SceneName = null;
+            this.OnSceneLoaded = loaded;
+        }
+
+    }
 }

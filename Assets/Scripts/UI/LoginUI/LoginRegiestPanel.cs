@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Assets.Scripts.Framework;
 using UnityEngine.UI;
+
 /***
   * Title:     
   *
@@ -15,50 +14,53 @@ using UnityEngine.UI;
   *
   *
 ***/
-public class LoginRegiestPanel : UIBase
+namespace Assets.Scripts.UI.LoginUI
 {
-    Button btnRegist;
-    Button btnLogin;
-
-    private void Awake()
+    public class LoginRegiestPanel : UIBase
     {
-        Bind(UIEvent.LOGINSELECT_PANEL_ACTIVE);
-    }
+        Button btnRegist;
+        Button btnLogin;
 
-    public override void Execute(int eventCode, object message)
-    {
-        switch (eventCode)
+        private void Awake()
         {
-            case UIEvent.LOGINSELECT_PANEL_ACTIVE:
-                setPanelActive((bool)message);
-                break;
-            default:
-                break;
+            Bind(UIEvent.LOGINSELECT_PANEL_ACTIVE);
         }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        btnLogin = transform.Find("BtnLogin").GetComponent<Button>();
-        btnRegist = transform.Find("BtnRegist").GetComponent<Button>();
 
-        btnLogin.onClick.AddListener(clickLogin);
-        btnRegist.onClick.AddListener(clickRegist);
-    }
+        protected internal override void Execute(int eventCode, object message)
+        {
+            switch (eventCode)
+            {
+                case UIEvent.LOGINSELECT_PANEL_ACTIVE:
+                    setPanelActive((bool)message);
+                    break;
+                default:
+                    break;
+            }
+        }
+        // Start is called before the first frame update
+        void Start()
+        {
+            btnLogin = transform.Find("BtnLogin").GetComponent<Button>();
+            btnRegist = transform.Find("BtnRegist").GetComponent<Button>();
 
-    private void clickLogin()
-    {
+            btnLogin.onClick.AddListener(clickLogin);
+            btnRegist.onClick.AddListener(clickRegist);
+        }
+
+        private void clickLogin()
+        {
         
-        Dispatch(AreaCode.UI,UIEvent.LOG_ACTIVE,true);
-    }
+            Dispatch(AreaCode.UI,UIEvent.LOG_ACTIVE,true);
+        }
 
-    private void clickRegist()
-    {
-        Dispatch(AreaCode.UI,UIEvent.REG_ACTIVE,true);
-    }
-    // Update is called once per frame
-    void Update()
-    {
+        private void clickRegist()
+        {
+            Dispatch(AreaCode.UI,UIEvent.REG_ACTIVE,true);
+        }
+        // Update is called once per frame
+        void Update()
+        {
         
+        }
     }
 }

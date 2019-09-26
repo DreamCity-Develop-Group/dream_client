@@ -1,111 +1,120 @@
-﻿using System;
-using System.Collections.Generic;
+using Assets.Scripts.Framework;
+using Assets.Scripts.Model;
+using Assets.Scripts.Scenes;
+using Assets.Scripts.Scenes.Msg;
+using Assets.Scripts.UI;
+using Assets.Scripts.UI.Msg;
 using UnityEngine;
 
-public class AccoutHandler: HandlerBase
+namespace Assets.Scripts.Net.Handler
 {
-   // SocketMsg msg = new SocketMsg();
-
-    public  override bool OnReceive(int subCode, object value)
+    public class AccoutHandler: HandlerBase
     {
-        switch (subCode)
+        // SocketMsg msg = new SocketMsg();
+
+        public  override bool OnReceive(int subCode, object value)
         {
-            case EventType.init:
-                return initResponse(value.ToString());
-            case EventType.login:
-                return loginResponse(value.ToString());
-            case EventType.regist:
-                return registResponse(value.ToString());
-            case EventType.identy:
-                return getCodeResponse(value.ToString());
-            default:
-                break;
+            switch (subCode)
+            {
+                case EventType.init:
+                    return initResponse(value.ToString());
+                case EventType.login:
+                    return loginResponse(value.ToString());
+                case EventType.regist:
+                    return registResponse(value.ToString());
+                case EventType.identy:
+                    return getCodeResponse(value.ToString());
+                default:
+                    break;
+            }
+            return false;
         }
-        return false;
-    }
 
-    private HintMsg promptMsg = new HintMsg();
+        private HintMsg promptMsg = new HintMsg();
 
 
-    private bool initResponse(string msg)
-    {
-        if (msg != null)
+        private bool initResponse(string msg)
         {
-            LoginInfo.ClientId = msg;
-            Debug.Log(LoginInfo.ClientId);
-            //Dispatch(AreaCode.UI, UIEvent.LOGINSELECT_PANEL_ACTIVE, true);
+            if (msg != null)
+            {
+                LoginInfo.ClientId = msg;
+                Debug.Log(LoginInfo.ClientId);
+                //Dispatch(AreaCode.UI, UIEvent.LOGINSELECT_PANEL_ACTIVE, true);
           
-            Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_ACTIVE, true);
-        }
-        return true;
-    }
-
-    /// <summary>
-    /// 登录响应
-    /// </summary>
-    private bool loginResponse(string result)
-    {
-        promptMsg.Change(result, Color.red);
-        Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-        if (result == "登入成功")
-        {
-            //跳转场景 TODO
-            SceneMsg msg = new SceneMsg("menu", 
-                delegate () {
-
-                Debug.Log("场景加载完成");
-            });
-            //
-            Dispatch(AreaCode.SCENE,SceneEvent.MENU_PLAY_SCENE,msg);
+                Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_ACTIVE, true);
+            }
             return true;
         }
-        return false;
-        //登录错误
-        //promptMsg.Change(result.ToString(), Color.red);
-        //Dispatch(AreaCode.UI, UIEvent.PROMPT_MSG, promptMsg);
-    }
-    /// <summary>
-    /// 验证码响应
-    /// </summary>
-    private bool getCodeResponse(string result)
-    {
-        promptMsg.Change(result, Color.red);
 
-        Dispatch(AreaCode.UI, UIEvent.REG_PANEL_CODEVIEW, result);
-       
-        return true;
-    }
-    /// <summary>
-    /// 注册响应
-    /// </summary>
-    private bool registResponse(string result)
-    {
-        if (result == "注册成功!")
+        /// <summary>
+        /// 登录响应
+        /// </summary>
+        private bool loginResponse(string result)
         {
-            promptMsg.Change(result.ToString(), Color.green);
+            promptMsg.Change(result, Color.red);
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            Dispatch(AreaCode.UI, UIEvent.REG_ACTIVE, false);
-            Dispatch(AreaCode.UI,UIEvent.LOG_ACTIVE,true);
-            return true;
+            if (result == "登入成功")
+            {
+                //跳转场景 TODO
+                SceneMsg msg = new SceneMsg("menu", 
+                    delegate () {
+
+                        Debug.Log("场景加载完成");
+                    });
+                //
+                Dispatch(AreaCode.SCENE,SceneEvent.MENU_PLAY_SCENE,msg);
+                return true;
+            }
+            return false;
+            //登录错误
+            //promptMsg.Change(result.ToString(), Color.red);
+            //Dispatch(AreaCode.UI, UIEvent.PROMPT_MSG, promptMsg);
         }
-        promptMsg.Change(result, Color.red);
-        Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-       
-        return false;
-        //注册错误
-       // promptMsg.Change(result.ToString(), Color.red);
-        //Dispatch(AreaCode.UI, UIEvent.PROMPT_MSG, promptMsg);
-    }
-    private bool forgetpwReponse(string result)
-    {
-        if (result == "修改成功!")
+        /// <summary>
+        /// 验证码响应
+        /// </summary>
+        private bool getCodeResponse(string result)
         {
-            promptMsg.Change(result.ToString(), Color.green);
-            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, false);
-            Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
+            promptMsg.Change(result, Color.red);
+
+            Dispatch(AreaCode.UI, UIEvent.REG_PANEL_CODEVIEW, result);
+       
             return true;
         }
-        return false;
+        /// <summary>
+        /// 注册响应
+        /// </summary>
+        private bool registResponse(string result)
+        {
+            if (result == "注册成功!")
+            {
+                promptMsg.Change(result.ToString(), Color.green);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                Dispatch(AreaCode.UI, UIEvent.REG_ACTIVE, false);
+                Dispatch(AreaCode.UI,UIEvent.LOG_ACTIVE,true);
+                return true;
+            }
+            promptMsg.Change(result, Color.red);
+            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+       
+            return false;
+            //注册错误
+            // promptMsg.Change(result.ToString(), Color.red);
+            //Dispatch(AreaCode.UI, UIEvent.PROMPT_MSG, promptMsg);
+        }
+        private bool forgetpwReponse(string result)
+        {
+            if (result == "修改成功!")
+            {
+                promptMsg.Change(result.ToString(), Color.green);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, false);
+                Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
+                return true;
+            }
+            return false;
+        }
+
+        //private bool transger
     }
 }

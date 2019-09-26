@@ -49,3 +49,4 @@ Assets/Editor/Copyright.cs
 Assets/Editor/ChangeText.cs
 Assets/Editor/AssetBoundTool.cs
 UIElementsSchema/UIElements.xsd
+Assets/AssetsBundle/

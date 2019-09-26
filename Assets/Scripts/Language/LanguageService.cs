@@ -1,14 +1,10 @@
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using SimpleJSON;
-using System.IO;
-using LitJson;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace Language
+namespace Assets.Scripts.Language
 {
 	public class LanguageInfo : IEquatable<LanguageInfo>
 	{

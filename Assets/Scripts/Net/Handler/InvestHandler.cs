@@ -1,6 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Assets.Scripts.Framework;
+using Assets.Scripts.Model;
+using Assets.Scripts.UI;
+
 /***
   * Title:     
   *
@@ -14,20 +15,23 @@ using UnityEngine;
   *
   *
 ***/
-public class InvestHandler : HandlerBase
+namespace Assets.Scripts.Net.Handler
 {
-    private UserInfo userInfo = new UserInfo();
-    public override bool OnReceive(int subCode, object value)
+    public class InvestHandler : HandlerBase
     {
-        switch (subCode)
+        private UserInfo userInfo = new UserInfo();
+        public override bool OnReceive(int subCode, object value)
         {
-            case EventType.invest_info:
-                Dispatch(AreaCode.UI, UIEvent.SENCE_INVEST_VIEW, value);
-                break;
-            default:
-                break;
+            switch (subCode)
+            {
+                case EventType.invest_info:
+                    Dispatch(AreaCode.UI, UIEvent.SENCE_INVEST_VIEW, value);
+                    break;
+                default:
+                    break;
+            }
+            return false;
         }
-        return false;
-    }
 
+    }
 }

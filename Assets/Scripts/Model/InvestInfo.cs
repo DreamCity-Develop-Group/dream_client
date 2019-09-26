@@ -1,6 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+
 /***
   * Title:     
   *
@@ -14,15 +13,18 @@ using UnityEngine;
   *
   *
 ***/
-public class InvestInfo 
+namespace Assets.Scripts.Model
 {
-    /// <summary>
-    /// Ͷ���̼�id��ʶ
-    /// </summary>
-    public  List<int> storeids;
+    public class InvestInfo 
+    {
+        /// <summary>
+        /// Ͷ���̼�id��ʶ
+        /// </summary>
+        public  List<int> storeids;
 
-    public string username;
+        public string username;
 
-    public string token;
+        public string token;
+    }
 }
 

@@ -12,54 +12,57 @@
   *
   *
 ***/
-using System.Collections;
+
 using System.Collections.Generic;
-using UnityEngine;
+using Assets.Scripts.Model;
+using Assets.Scripts.Net.Code;
 
-
-public class SetRequestMsg 
+namespace Assets.Scripts.Net.Request
 {
-    MessageData<Dictionary<string, string>> messageData = new MessageData<Dictionary<string, string>>();
-    SocketMsg<Dictionary<string, string>> socketMsg = new SocketMsg<Dictionary<string, string>>();
-    /// <summary>
-    /// …Ë÷√Ωª“◊√‹¬Î
-    /// </summary>
-    /// <returns></returns>
-    public SocketMsg<Dictionary<string,string>> ReqExPwShopMsg(object msg)
+    public class SetRequestMsg 
     {
-        UserInfo userinfo = msg as UserInfo;
-
-        Dictionary<string, string> t = new Dictionary<string, string>
+        MessageData<Dictionary<string, string>> messageData = new MessageData<Dictionary<string, string>>();
+        SocketMsg<Dictionary<string, string>> socketMsg = new SocketMsg<Dictionary<string, string>>();
+        /// <summary>
+        /// ËÆæÁΩÆ‰∫§ÊòìÂØÜÁ†Å
+        /// </summary>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string,string>> ReqExPwShopMsg(object msg)
         {
-            ["username"] = userinfo.Phone,
-            ["userpass"] = userinfo.Password,
-            ["code"] = userinfo.Identity,
-            ["NickName"] = userinfo.NickName,
-            ["invite"] = userinfo.InviteCode
-        };
-        messageData.model = "consumer";
-        messageData.type = "expwshop";
-        messageData.Change("consumer", "expwshop",t);
-        socketMsg.Change(LoginInfo.ClientId, "◊¢≤·≤Ÿ◊˜", messageData);
-        return socketMsg;
-    }
-    /// <summary>
-    /// “Ù–ß…Ë÷√
-    /// </summary>
-    /// <returns></returns>
-    public SocketMsg<Dictionary<string, string>> ReqVoiceSetMsg(object msg)
-    {
-        SetInfo setInfo = msg as SetInfo;
+            UserInfo userinfo = msg as UserInfo;
 
-         Dictionary<string, string> t = new Dictionary<string, string>
+            Dictionary<string, string> t = new Dictionary<string, string>
+            {
+                ["username"] = userinfo.Phone,
+                ["userpass"] = userinfo.Password,
+                ["code"] = userinfo.Identity,
+                ["NickName"] = userinfo.NickName,
+                ["invite"] = userinfo.InviteCode
+            };
+            messageData.model = "consumer";
+            messageData.type = "expwshop";
+            messageData.Change("consumer", "expwshop",t);
+            socketMsg.Change(LoginInfo.ClientId, "Ê≥®ÂÜåÊìç‰Ωú", messageData);
+            return socketMsg;
+        }
+        /// <summary>
+        /// Èü≥ÊïàËÆæÁΩÆ
+        /// </summary>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string, string>> ReqVoiceSetMsg(object msg)
         {
-            ["bg"] = setInfo.BgVoice,
-            ["game"] = setInfo.GameVoice
+            SetInfo setInfo = msg as SetInfo;
 
-        };
-        messageData.model = "consumer";
-        messageData.type = "voice";
-        socketMsg.Change(LoginInfo.ClientId, "“Ù–ß…Ë÷√", messageData);
-        return socketMsg;
+            Dictionary<string, string> t = new Dictionary<string, string>
+            {
+                ["bg"] = setInfo.BgVoice,
+                ["game"] = setInfo.GameVoice
+
+            };
+            messageData.model = "consumer";
+            messageData.type = "voice";
+            socketMsg.Change(LoginInfo.ClientId, "Èü≥ÊïàËÆæÁΩÆ", messageData);
+            return socketMsg;
+        }
     }
 }

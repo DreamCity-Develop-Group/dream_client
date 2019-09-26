@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+using Assets.Scripts.UI;
+using UnityEngine;
 using UnityEngine.UI;
 
-namespace Language
+namespace Assets.Scripts.Language
 {
 	[RequireComponent(typeof (Text))]
 	[AddComponentMenu("Language/LanguageText")]
@@ -20,7 +21,7 @@ namespace Language
             Bind(UIEvent.LANGUAGE_VIEW);
         }
 
-        public override void Execute(int eventCode, object message)
+        protected internal override void Execute(int eventCode, object message)
         {
             switch (eventCode)
             {

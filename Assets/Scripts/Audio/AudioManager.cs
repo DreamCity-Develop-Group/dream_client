@@ -1,19 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Assets.Scripts.Framework;
 
-/// <summary>
-/// 声音模块管理器
-/// </summary>
-public class AudioManager : ManagerBase
+namespace Assets.Scripts.Audio
 {
-    public const int PLAY_AUDIO = 0;
-
-    public static AudioManager Instance = null;
-
-    void Awake()
+    /// <summary>
+    /// 声音模块管理器
+    /// </summary>
+    public class AudioManager : ManagerBase
     {
-        Instance = this;
-    }
+        public const int PLAY_AUDIO = 0;
 
+        public static AudioManager Instance = null;
+
+        void Awake()
+        {
+            Instance = this;
+        }
+
+    }
 }

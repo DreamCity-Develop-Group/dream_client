@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Assets.Scripts.Framework;
 
-public class UIManager : ManagerBase 
+namespace Assets.Scripts.UI
 {
-
-    public static UIManager Instance = null;
-
-    void Awake()
+    public class UIManager : ManagerBase 
     {
-        Instance = this;
+
+        public static UIManager Instance = null;
+
+        void Awake()
+        {
+            Instance = this;
+        }
     }
 }

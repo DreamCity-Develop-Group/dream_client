@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
 
 /***
@@ -16,22 +13,25 @@ using System.IO;
   *
   *
 ***/
-public class Copyright : UnityEditor.AssetModificationProcessor
+namespace Assets.Editor
 {
-    private const string AuthorName = "zp";
-
-    private const string DateFormat = "yyyy/MM/dd HH:mm:ss";
-    private static void OnWillCreateAsset(string path)
+    public class Copyright : UnityEditor.AssetModificationProcessor
     {
-        path = path.Replace(".meta", "");
-        if (path.EndsWith(".cs"))
-        {
-            string allText = File.ReadAllText(path);
-            allText = allText.Replace("#AuthorName#", AuthorName);
-            allText = allText.Replace("#CreateTime#", System.DateTime.Now.ToString(DateFormat));
-            File.WriteAllText(path, allText);
-            UnityEditor.AssetDatabase.Refresh();
-        }
+        private const string AuthorName = "zp";
 
+        private const string DateFormat = "yyyy/MM/dd HH:mm:ss";
+        private static void OnWillCreateAsset(string path)
+        {
+            path = path.Replace(".meta", "");
+            if (path.EndsWith(".cs"))
+            {
+                string allText = File.ReadAllText(path);
+                allText = allText.Replace("#AuthorName#", AuthorName);
+                allText = allText.Replace("#CreateTime#", System.DateTime.Now.ToString(DateFormat));
+                File.WriteAllText(path, allText);
+                UnityEditor.AssetDatabase.Refresh();
+            }
+
+        }
     }
 }

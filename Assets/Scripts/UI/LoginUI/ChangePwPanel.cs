@@ -1,4 +1,4 @@
-﻿
+
 /***
   * Title:     
   *
@@ -12,37 +12,36 @@
   *
   *
 ***/
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-
-public class ChangePwPanel : UIBase
+namespace Assets.Scripts.UI.LoginUI
 {
-    private void Awake()
+    public class ChangePwPanel : UIBase
     {
-        Bind(UIEvent.CHANGETRADE_ACTIVE);
-    }
-
-    public override void Execute(int eventCode, object message)
-    {
-        switch (eventCode)
+        private void Awake()
         {
-            case UIEvent.CHANGETRADE_ACTIVE:
-                setPanelActive((bool)message);
-                break;
-            default:
-                break;
+            Bind(UIEvent.CHANGETRADE_ACTIVE);
         }
-    }
-    void Start()
-    {
-        setPanelActive(false);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        protected internal override void Execute(int eventCode, object message)
+        {
+            switch (eventCode)
+            {
+                case UIEvent.CHANGETRADE_ACTIVE:
+                    setPanelActive((bool)message);
+                    break;
+                default:
+                    break;
+            }
+        }
+        void Start()
+        {
+            setPanelActive(false);
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
         
+        }
     }
 }

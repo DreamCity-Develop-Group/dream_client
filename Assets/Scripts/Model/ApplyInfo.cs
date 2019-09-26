@@ -12,14 +12,16 @@
   *
   *
 ***/
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class ApplyInfo 
+using System.Collections.Generic;
+
+namespace Assets.Scripts.Model
 {
-    /// <summary>
-    /// �Ѿ������û��б�
-    /// </summary>
-    public static List<string> applyList = new List<string>();
+    public class ApplyInfo 
+    {
+        /// <summary>
+        /// �Ѿ������û��б�
+        /// </summary>
+        public static List<string> applyList = new List<string>();
+    }
 }

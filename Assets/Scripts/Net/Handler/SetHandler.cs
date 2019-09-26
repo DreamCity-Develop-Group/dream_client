@@ -1,63 +1,67 @@
 
 /***
-  * Title:     设置模块
+  * Title:     璁剧疆妯″潡
   *
   * Created:	zp
   *
   * CreatTime:  2019/09/09 18:09:46
   *
-  * Description:设置模块消息处理
+  * Description:璁剧疆妯″潡娑堟伅澶勭悊
   *
   * Version:    0.1
   *
   *
 ***/
-using System.Collections;
-using System.Collections.Generic;
+
+using Assets.Scripts.Framework;
+using Assets.Scripts.UI;
+using Assets.Scripts.UI.Msg;
 using UnityEngine;
 
-
-public class SetHandler : HandlerBase
+namespace Assets.Scripts.Net.Handler
 {
-    public override bool OnReceive(int subCode, object value)
+    public class SetHandler : HandlerBase
     {
-        switch (subCode)
+        public override bool OnReceive(int subCode, object value)
         {
-            case EventType.expw:
-                expwRespon(value.ToString());
-                break;
-            case EventType.expwshop:
-                expwshopRespon(value.ToString());
-                break;
-            default:
-                break;
+            switch (subCode)
+            {
+                case EventType.expw:
+                    expwRespon(value.ToString());
+                    break;
+                case EventType.expwshop:
+                    expwshopRespon(value.ToString());
+                    break;
+                default:
+                    break;
+            }
+            return false;
         }
-        return false;
-    }
 
-    private HintMsg promptMsg = new HintMsg();
-    private void expwRespon(string value)
-    {
-        promptMsg.Change(value, Color.red);
-        Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-        if (value == "修改成功")
+        private HintMsg promptMsg = new HintMsg();
+        private void expwRespon(string value)
         {
-            promptMsg.Change(value.ToString(), Color.green);
-           // Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, null);
+            promptMsg.Change(value, Color.red);
+            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+            if (value == "淇敼鎴愬姛")
+            {
+                promptMsg.Change(value.ToString(), Color.green);
+                // Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, null);
+            }
         }
-    }
-    private void expwshopRespon(string value)
-    {
-        promptMsg.Change(value, Color.red);
-        Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-        if (value == "设置成功")
+        private void expwshopRespon(string value)
         {
-            promptMsg.Change(value.ToString(), Color.green);
-          //  Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, null);
+            promptMsg.Change(value, Color.red);
+            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+            if (value == "璁剧疆鎴愬姛")
+            {
+                promptMsg.Change(value.ToString(), Color.green);
+                //  Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, null);
+            }
         }
+        //private void voicesetRespon(object value)
+        //{
+        //    Dispatch(AreaCode.UI, UIEvent.GAMEVOICE, value);
+        //}
     }
-    //private void voicesetRespon(object value)
-    //{
-    //    Dispatch(AreaCode.UI, UIEvent.GAMEVOICE, value);
-    //}
 }
