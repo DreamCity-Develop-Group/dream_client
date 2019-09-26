@@ -1,4 +1,4 @@
-﻿using Language;
+using Language;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +13,11 @@ public class MenuPanel : UIBase
     Button btnCommerce;//商会
     Button btnTreasure;//资产
     Button btnAdd;
+
+    Image imageBtnCommerce;
+    Image imageBtnTreasure;
+    Image imageBtnFriends;
+
     private GameObject HandPortrait;                    //头像选择
     private Button changeHand;                          //换头像
     private Button[] handArray = new Button[8];         //头像数组
@@ -65,6 +70,10 @@ public class MenuPanel : UIBase
         btnMsg = transform.Find("BtnMsg").GetComponent<Button>();
         btnFriends = transform.Find("BtnFriends").GetComponent<Button>();
 
+        imageBtnCommerce = btnCommerce.transform.GetComponent<Image>();
+        imageBtnFriends = btnFriends.transform.GetComponent<Image>();
+        imageBtnTreasure = btnTreasure.transform.GetComponent<Image>();
+
         txtUsdt = transform.Find("USDTCharge").GetComponentInChildren<Text>() ;
         txtMt = transform.Find("MTCharge").GetComponentInChildren<Text>();
         btnAdd = transform.Find("BtnAdd").GetComponent<Button>();
@@ -90,7 +99,7 @@ public class MenuPanel : UIBase
         btnMsg.onClick.AddListener(clickEmali);
         btnCommerce.onClick.AddListener(clickCommerce);
         txtNotice1.gameObject.SetActive(false);
-        
+        initSource();
         //LanguageService.Instance.Language = new LanguageInfo(PlayerPrefs.GetString("language"));
         //Dispatch(AreaCode.UI, UIEvent.LANGUAGE_VIEW, PlayerPrefs.GetString("language"));
     }
@@ -122,6 +131,14 @@ public class MenuPanel : UIBase
         //menuInfo.data.notices
     }
 
+    private void initSource()
+    {
+        //string language = PlayerPrefs.GetString("language");
+        string language = "chinese";
+        imageBtnCommerce.sprite = Resources.Load<Sprite>("UI/menu/"+language+"/"+"商会@2x");
+        imageBtnFriends.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/" + "好友@2x");
+        imageBtnTreasure.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/" + "资产@2x");
+    }
 
     private void IsHasMsg(int count)
     {
