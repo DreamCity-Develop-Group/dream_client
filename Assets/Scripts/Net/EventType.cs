@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /**
@@ -67,6 +67,19 @@ public class EventType
     /// 投资信息
     /// </summary>
     public const int invest_info = 22;
+    /// <summary>
+    /// 投资请求
+    /// </summary>
+    public const int invest_req = 23;
+    /// <summary>
+    /// 转账
+    /// </summary>
+    public const int transfer = 24;
+    /// <summary>
+    /// 充值
+    /// </summary>
+    public const int recharge = 25;
+
 
     public const int exit = int.MaxValue;
 }

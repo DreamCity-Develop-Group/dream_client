@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 using SimpleJSON;
+using System.IO;
+using LitJson;
+
 namespace Language
 {
 	public class LanguageInfo : IEquatable<LanguageInfo>
@@ -111,14 +114,17 @@ namespace Language
 			}
 			return group[key];
 		}
-		// 读取Josn文件
-		void ReadJosnFiles()
+        // 读取Josn文件
+        /// <summary>
+        /// 对应UI语言
+        /// </summary>
+        void ReadJosnFiles()
 		{
 			Strings = new Dictionary<string, string>();
 			StringsByFile = new Dictionary<string, Dictionary<string, string>>();
 			Files = new List<string>();
 
-			var path = "Localization/" + Language.Name + "/";
+			var path = "Localization/" + Language.Name + "/"+"UI"+"/";
 
 			var resources = Resources.LoadAll<TextAsset>(path);
 			if (!resources.Any())
@@ -130,6 +136,7 @@ namespace Language
 				ReadTextAsset(resource);
 			}
 		}
+       
 
 		// 将TextAsset内容读取到字典中
 		void ReadTextAsset(TextAsset resource)

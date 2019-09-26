@@ -147,7 +147,20 @@ public class UIEvent
     /// <summary>
     /// 成功加入商会
     /// </summary>
-    public const int SUCCESSFULSHAMBER_ACTIVE = 30; 
+    public const int SUCCESSFULSHAMBER_ACTIVE = 30;
+    /// <summary>
+    /// 投资商家界面
+    /// </summary>
+    public const int IVEST_PANEL_ACTIVE = 31;
+    /// <summary>
+    /// 选择投资商界面
+    /// </summary>
+    public const int SELECTINVEST_PANEL_ACTIVE = 32;
+    /// <summary>
+    /// 选择投资商版本数据
+    /// </summary>
+    public const int SELECCTINVEST_PANEL_VIEW = 33;
+
 
 
 
@@ -156,5 +169,4 @@ public class UIEvent
     /// 提示界面
     /// </summary>
     public const int HINT_ACTIVE = int.MaxValue;
-
 }

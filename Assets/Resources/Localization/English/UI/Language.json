@@ -123,4 +123,11 @@
 "请输入搜索关键字":"please enter keyword to search",
 "加好友":"add friend",
 "换一批":"Change batch",
+"投资类型":"Investment type:",
+"投资名称":"Investment name:",
+"投资金额":"Investment amount:",
+"预计收益":"Estimated revenue:",
+"税收":"tax revenue:",
+"释放条件":"Release conditions:",
+"投资条件":"Investment conditions:"
 }

@@ -1,4 +1,4 @@
-﻿
+
 /***
   * Title:    SquareListPanel 
   *
@@ -28,7 +28,7 @@ public class SquareListPanel : UIBase
     /// </summary>
     /// <param name="eventCode"></param>
     /// <param name="message"></param>
-    List<UserInfo> dicSquareData = new List<UserInfo>();
+    List<UserInfos> squareData;//= new List<UserInfos>();
     private GameObject PersonalInformationBox;           //列表信息框预制体
     private Transform ListBox;                           //列表框
     private List<GameObject> list_InformationBox = new List<GameObject>();
@@ -50,11 +50,11 @@ public class SquareListPanel : UIBase
                 }
                 break;
             case UIEvent.SQUARE_LIST_PANEL_VIEW:
-                dicSquareData = message as List<UserInfo>;
-                if (dicSquareData.Count > 0)
+                squareData = message as List<UserInfos>;
+                if (squareData.Count > 0)
                 {
                     GameObject obj = null;
-                    for (int i = 0; i < dicSquareData.Count; i++)
+                    for (int i = 0; i < squareData.Count; i++)
                     {
                         obj = CreatePreObj(PersonalInformationBox, ListBox);
                     obj.transform.SetParent(ListBox);

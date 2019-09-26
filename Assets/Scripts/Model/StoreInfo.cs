@@ -17,12 +17,31 @@ using UnityEngine;
 public class StoreInfo 
 {
     public   string id;
-    public  string 投资类型;
-    public string 投资名称;
-    public string 投资金额;
-    public string 预计收益;
-    public string 税收;
-    public string 释放条件;
-    public string 投资条件;
+    public string 鎶曡祫绫诲瀷;
+    /// <summary>
+    /// 鎶曡祫鍚嶇О
+    /// </summary>
+    public string 鎶曡祫鍚嶇О;
+    /// <summary>
+    /// 绋庢敹
+    /// </summary>
+    public string 绋庢敹;
+    /// <summary>
+    /// 棰勮鏀剁泭
+    /// </summary>
+    public string 棰勮鏀剁泭;
+    /// <summary>
+    /// 鎶曡祫閲戦
+    /// </summary>
+    public string 鎶曡祫閲戦;
+    /// <summary>
+    /// 閲婃斁鏉′欢
+    /// </summary>
+    public string 閲婃斁鏉′欢;
+    /// <summary>
+    /// 鎶曡祫鏉′欢
+    /// </summary>
+    public string 鎶曡祫鏉′欢;
 
 }
+

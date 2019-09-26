@@ -15,7 +15,7 @@ using UnityEngine;
   *
 ***/
 /// <summary>
-/// 广场用户组
+/// 锟姐场锟矫伙拷锟斤拷
 /// </summary>
 public class SquareUser
 {
@@ -46,16 +46,16 @@ public class SquareUser
 }
 
 /// <summary>
-/// 广场用户
+/// 鍗曚釜骞垮満鏁版嵁
 /// </summary>
 public class UserInfos
 {
     /// <summary>
-    /// 
+    /// 鏄电О
     /// </summary>
     public string friendName { get; set; }
     /// <summary>
-    /// 
+    /// 鍥剧墖閾炬帴
     /// </summary>
     public string imgurl { get; set; }
     /// <summary>

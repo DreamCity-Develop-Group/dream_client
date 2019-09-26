@@ -17,7 +17,7 @@ using UnityEngine;
 public class InvestInfo 
 {
     /// <summary>
-    /// 投资商家id标识
+    /// 投锟斤拷锟教硷拷id锟斤拷识
     /// </summary>
     public  List<int> storeids;
 

@@ -8,7 +8,7 @@ using UnityEngine;
   *
   * CreatTime:          2019/09/23 09:08:12
   *
-  * Description:Ö÷Ò³ÐÅÏ¢Êý¾Ý
+  * Description:ï¿½ï¿½Ò³ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
   *
   * Version:    0.1
   *
@@ -25,7 +25,7 @@ public class MenuInfo
     /// </summary>
     public int code { get; set; }
     /// <summary>
-    /// Ö÷Ò³ÐÅÏ¢
+    /// ï¿½ï¿½Ò³ï¿½ï¿½Ï¢
     /// </summary>
     public string msg { get; set; }
     /// <summary>
@@ -64,7 +64,7 @@ public class MenuNoticesItem
     /// </summary>
     public int noticeId { get; set; }
     /// <summary>
-    /// ÄãÒª×öÊ²Ã´£¬¸æËßÎÒ¿´¿´£¡
+    /// ï¿½ï¿½Òªï¿½ï¿½Ê²Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¿ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public string noticeContent { get; set; }
     /// <summary>
@@ -84,15 +84,15 @@ public class MenuData
     /// </summary>
     public Profile profile { get; set; }
     /// <summary>
-    /// ÊÇ·ñ¼ÓÈëÁËÉÌ»á
+    /// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì»ï¿½
     /// </summary>
     public bool commerce { get; set; }
     /// <summary>
-    /// ÓÊ¼þÊý
+    /// ï¿½Ê¼ï¿½ï¿½ï¿½
     /// </summary>
     public int messages { get; set; }
     /// <summary>
-    /// ¸öÈËmtºÍusdt
+    /// ï¿½ï¿½ï¿½ï¿½mtï¿½ï¿½usdt
     /// </summary>
     public MenuAccount account { get; set; }
     /// <summary>

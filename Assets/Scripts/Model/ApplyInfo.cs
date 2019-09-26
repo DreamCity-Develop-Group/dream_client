@@ -19,7 +19,7 @@ using UnityEngine;
 public class ApplyInfo 
 {
     /// <summary>
-    /// ÒÑ¾­ÉêÇëÓÃ»§ÁÐ±í
+    /// ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ð±ï¿½
     /// </summary>
     public static List<string> applyList = new List<string>();
 }
