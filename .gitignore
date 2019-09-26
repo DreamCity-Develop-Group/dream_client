@@ -1,4 +1,4 @@
-﻿[Ll]ibrary/
+[Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
@@ -48,3 +48,4 @@ Assets/Resources/Localization.meta
 Assets/Editor/Copyright.cs
 Assets/Editor/ChangeText.cs
 Assets/Editor/AssetBoundTool.cs
+UIElementsSchema/UIElements.xsd
