@@ -24,6 +24,9 @@ namespace Assets.Scripts.Net.Handler
                     return registResponse(value.ToString());
                 case EventType.identy:
                     return getCodeResponse(value.ToString());
+                case EventType.transfer:
+                    return transferResponse(value.ToString());
+                    break;
                 default:
                     break;
             }
@@ -114,17 +117,25 @@ namespace Assets.Scripts.Net.Handler
             }
             return false;
         }
-
+        /// <summary>
+        /// 转账响应
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
         private bool transferResponse(string result)
         {
+            
             if (result == "转账成功")
             {
-                promptMsg.Change(result.ToString(), Color.green);
+                promptMsg.Change(result.ToString(), Color.white);
                 Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-                //Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, false);
-                //Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
+                //Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                ////Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, false);
+                ////Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
                 return true;
             }
+            promptMsg.Change(result.ToString(), Color.green);
+            Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
             return false;
         }
         /// <summary>

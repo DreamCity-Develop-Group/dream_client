@@ -59,6 +59,10 @@ namespace Assets.Scripts.Net
         public Queue<SocketMsg<Dictionary<string, string>>> MsgQueue { get => _msgQueue; set => _msgQueue = value; }
         public Queue<SocketMsg<SquareUser>> SquareQueue { get => _squareQueue; set => _squareQueue = value; }
         public Queue<SocketMsg<MenuInfo>> MenuQueue { get => _menuQueue; set => _menuQueue = value; }
+        /// <summary>
+        /// 登录消息依次加载存储队列
+        /// </summary>
+        //public Queue<string> CacheData = new Queue<string>() {"","" };
 
         public void OpenWebSocket()
         {
@@ -179,12 +183,13 @@ namespace Assets.Scripts.Net
             }
 
             SocketMsg<object> info = JsonMapper.ToObject<SocketMsg<object>>(jsonmsg);
+
             if (info == null)
             {
                 Debug.Log("msg null error");
                 return;
             }
-
+            //todo 建立一个响应字典
             if(info.data.type== "squarefriend" || info.data.type == "listfriend")
             {
                 SocketMsg<SquareUser> squareinfo = JsonMapper.ToObject<SocketMsg<SquareUser>>(jsonmsg);

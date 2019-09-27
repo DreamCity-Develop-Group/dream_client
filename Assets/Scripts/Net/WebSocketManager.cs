@@ -460,6 +460,16 @@ namespace Assets.Scripts.Net
                     break;
                 case "property":
                     break;
+                case "transferaccount":
+                    if (!dicRegLogRespon.ContainsKey("desc"))
+                    {
+                        Debug.LogError("transferaccount error");
+                        return;
+                    }
+                    accountHandler.OnReceive(EventType.transfer, dicRegLogRespon["desc"]);
+                    break;
+                case "recharge":
+                    break;
                 default:
                     break;
             }

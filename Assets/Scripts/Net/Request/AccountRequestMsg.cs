@@ -261,8 +261,8 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token", PlayerPrefs.GetString("token"));
-            messageData.Change("consumer", "property", t);
-            socketMsg.Change(LoginInfo.ClientId, "资产信息", messageData);
+            messageData.Change("consumer", "transferaccount", t);
+            socketMsg.Change(LoginInfo.ClientId, "转账请求消息", messageData);
             return socketMsg;
         }
         /// <summary>
@@ -275,7 +275,7 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token", PlayerPrefs.GetString("token"));
-            messageData.Change("consumer", "property", t);
+            messageData.Change("consumer", "recharge", t);
             socketMsg.Change(LoginInfo.ClientId, "充值请求", messageData);
             return socketMsg;
         }
