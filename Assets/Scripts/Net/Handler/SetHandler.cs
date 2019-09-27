@@ -41,7 +41,7 @@ namespace Assets.Scripts.Net.Handler
         private HintMsg promptMsg = new HintMsg();
         private void expwRespon(string value)
         {
-            promptMsg.Change(value, Color.red);
+            promptMsg.Change(value, Color.white);
             if (value == "修改成功")
             {
                 promptMsg.Change(value.ToString(), Color.green);
@@ -50,7 +50,7 @@ namespace Assets.Scripts.Net.Handler
         }
         private void expwshopRespon(string value)
         {
-            promptMsg.Change(value, Color.red);
+            promptMsg.Change(value, Color.white);
            
             if (value == "设置成功")
             {

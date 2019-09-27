@@ -47,7 +47,7 @@ namespace Assets.Scripts.Net.Request
             };
             messageData.model = "consumer";
             messageData.type = "pwlog";
-            messageData.Change("consumer/player", "pwlog",t);
+            messageData.Change("consumer/player", "login",t);
             socketMsg.Change(LoginInfo.ClientId, "登入操作", messageData);
             PlayerPrefs.SetString("username", loginInfo.UserName);
             return socketMsg;
@@ -178,10 +178,10 @@ namespace Assets.Scripts.Net.Request
             {
                 // ["IsIdentityLog"] = loginInfo.Identity,
                 ["username"] = loginInfo.UserName,
-                ["userpass"] = loginInfo.Password,
+                ["code"] = loginInfo.Password,
                 //["Identity"] = loginInfo.Identity
             };
-            messageData.Change("consumer", "idlog", t);
+            messageData.Change("consumer/player", "codeLogin", t);
             socketMsg.Change(LoginInfo.ClientId, "登入操作", messageData);
             return socketMsg;
         }

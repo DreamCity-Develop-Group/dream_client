@@ -51,9 +51,9 @@ namespace Assets.Scripts.Net.Handler
         /// </summary>
         private bool loginResponse(string result)
         {
-            promptMsg.Change(result, Color.red);
+            promptMsg.Change(result, Color.white);
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            if (result == "登入成功")
+            if (result == "登录成功")
             {
                 //跳转场景 TODO
                 SceneMsg msg = new SceneMsg("menu", 
@@ -67,7 +67,7 @@ namespace Assets.Scripts.Net.Handler
             }
             return false;
             //登录错误
-            //promptMsg.Change(result.ToString(), Color.red);
+            //promptMsg.Change(result.ToString(), Color.white);
             //Dispatch(AreaCode.UI, UIEvent.PROMPT_MSG, promptMsg);
         }
         /// <summary>
@@ -75,7 +75,7 @@ namespace Assets.Scripts.Net.Handler
         /// </summary>
         private bool getCodeResponse(string result)
         {
-            promptMsg.Change(result, Color.red);
+            promptMsg.Change(result, Color.white);
 
             Dispatch(AreaCode.UI, UIEvent.REG_PANEL_CODEVIEW, result);
        
@@ -86,7 +86,7 @@ namespace Assets.Scripts.Net.Handler
         /// </summary>
         private bool registResponse(string result)
         {
-            if (result == "注册成功!")
+            if (result == "注册成功")
             {
                 promptMsg.Change(result.ToString(), Color.green);
                 Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
@@ -94,12 +94,12 @@ namespace Assets.Scripts.Net.Handler
                 Dispatch(AreaCode.UI,UIEvent.LOG_ACTIVE,true);
                 return true;
             }
-            promptMsg.Change(result, Color.red);
+            promptMsg.Change(result, Color.white);
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
        
             return false;
             //注册错误
-            // promptMsg.Change(result.ToString(), Color.red);
+            // promptMsg.Change(result.ToString(), Color.white);
             //Dispatch(AreaCode.UI, UIEvent.PROMPT_MSG, promptMsg);
         }
         private bool forgetpwReponse(string result)

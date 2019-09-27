@@ -22,6 +22,7 @@ namespace Assets.Scripts.UI.LoginUI
         string username = "jx";
         string password = "123";
         string identity = "000";
+        private string code;
 
         bool isLogIdentity = false;
         LoginInfo loginInfo;

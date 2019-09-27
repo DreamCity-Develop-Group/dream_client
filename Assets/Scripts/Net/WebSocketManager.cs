@@ -379,10 +379,10 @@ namespace Assets.Scripts.Net
                     accountHandler.OnReceive(EventType.init, msg.target);
                     //_wabData.ThreadStart();
                     break;
-                case "logoin":
+                case "Login":
                     if (!dicRegLogRespon.ContainsKey("desc"))
                     {
-                        Debug.LogError("logoin error");
+                        Debug.LogError("login error");
                         return;
                     }
                     if (accountHandler.OnReceive(EventType.login, dicRegLogRespon["desc"]))
@@ -394,7 +394,21 @@ namespace Assets.Scripts.Net
                         WebData.isLogin = true;
                     }
                     break;
-
+                case "codeLogin":
+                    if (!dicRegLogRespon.ContainsKey("desc"))
+                    {
+                        Debug.LogError("login error");
+                        return;
+                    }
+                    if (accountHandler.OnReceive(EventType.login, dicRegLogRespon["desc"]))
+                    {
+                        if (dicRegLogRespon.ContainsKey("token"))
+                        {
+                            PlayerPrefs.SetString("token", dicRegLogRespon["token"].ToString());
+                        }
+                        WebData.isLogin = true;
+                    }
+                    break;
                 case "reg":
                     if (!dicRegLogRespon.ContainsKey("desc"))
                     {
