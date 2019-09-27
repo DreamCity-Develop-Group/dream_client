@@ -15,6 +15,7 @@
 using System.Collections.Generic;
 using Assets.Scripts.Model;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.MeunUI
 {
@@ -32,7 +33,7 @@ namespace Assets.Scripts.UI.MeunUI
         /// </summary>
         /// <param name="eventCode"></param>
         /// <param name="message"></param>
-        List<UserInfo> dicSquareData = new List<UserInfo>();
+        List<UserInfos> dicSquareData = new List<UserInfos>();
         private GameObject PersonalInformationBox;           //列表信息框预制体
         private Transform ListBox;                           //列表框
         private List<GameObject> list_InformationBox = new List<GameObject>();
@@ -53,7 +54,7 @@ namespace Assets.Scripts.UI.MeunUI
                     }
                     break;
                 case UIEvent.APPLYFOR_VIEW:
-                    dicSquareData = message as List<UserInfo>;
+                    dicSquareData = message as List<UserInfos>;
                     if (dicSquareData.Count > 0)
                     {
                         GameObject obj = null;
@@ -64,6 +65,11 @@ namespace Assets.Scripts.UI.MeunUI
                             obj.SetActive(true);
                             list_InformationBox.Add(obj);
                             //obj里可以查找显示信息的物体，然后在赋值
+                        obj.transform.Find("Name").GetComponent<Text>().text = dicSquareData[i].friendName;
+                        obj.transform.Find("LV").GetComponent<Text>().text = dicSquareData[i].friendId;
+                        //obj.transform.Find("Hand").GetComponent<Image>().sprite = 
+                        //obj.transform.Find("Agreed").GetComponent<Button>().onClick.AddListener()
+                        //obj.transform.Find("DontAgree").GetComponent<Button>().onClick.AddListener()
                         }
                     }
                     //TODO

@@ -12,6 +12,9 @@
   *
 ***/
 
+using UnityEngine;
+using UnityEngine.UI;
+
 namespace Assets.Scripts.UI.MeunUI
 {
     /// <summary>
@@ -19,6 +22,12 @@ namespace Assets.Scripts.UI.MeunUI
     /// </summary>
     public class JionShamber : UIBase
     {
+        private Button ColseBtn;                        //关闭按钮
+        private Button ConfirmBtn;                      //确定按钮
+        private InputField InvitationCodeInput;         //邀请码输入
+        private Text PromptInformation;                 //提示信息
+        private GameObject JionChamberPanle;            //加入商会面版
+        private GameObject IncorrectPrompt;             //邀请码不正确提示面板
         private void Awake()
         {
             Bind(UIEvent.SUCCESSFULSHAMBER_ACTIVE);
@@ -37,7 +46,37 @@ namespace Assets.Scripts.UI.MeunUI
         }
         private void Start()
         {
+            JionChamberPanle = transform.Find("JionChamber").gameObject;
+            IncorrectPrompt = transform.Find("IncorrectPrompt").gameObject;
+            ColseBtn = JionChamberPanle.transform.Find("BtnClose").GetComponent<Button>();
+            ConfirmBtn = JionChamberPanle.transform.Find("BtnConfirm").GetComponent<Button>();
+            InvitationCodeInput = JionChamberPanle.transform.Find("InputField").GetComponent<InputField>();
+            PromptInformation = JionChamberPanle.transform.Find("Text").GetComponent<Text>();
+            ColseBtn.onClick.AddListener(clickColse);
+            ConfirmBtn.onClick.AddListener(clickConfirm);
             setPanelActive(false);
+        }
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        private void clickColse()
+        {
+            setPanelActive(false);
+        }
+        /// <summary>
+        /// 确定按钮
+        /// </summary>
+        private void clickConfirm()
+        {
+            //如果邀请码正确
+            //if(如果邀请码正确)
+            //{
+
+            //}
+            //else
+            //{
+            //    IncorrectPrompt.SetActive(true);
+            //}
         }
     }
 }

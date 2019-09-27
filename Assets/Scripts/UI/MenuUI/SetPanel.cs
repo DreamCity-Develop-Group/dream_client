@@ -22,8 +22,11 @@ namespace Assets.Scripts.UI.MeunUI
         private Image SoundImg;                     //声音图
         private Image MusicImg;                     //背景音乐图
         private Sprite[] switchSprite = new Sprite[2];              //开关图
-
+    private Text soundTxt;                      //音效提示 
+    private Text musicTxt;                      //背景音乐提示
         private Text TransactionCode;                //交易码设置
+    private Text ChangeLoginPassword;            //修改登录密码
+    private Text LogOut;                         //退出登录
         private int setUp;                           //是否设置了交易吗(默认是设置)
 
         Button btnPanelMusic;
@@ -91,7 +94,8 @@ namespace Assets.Scripts.UI.MeunUI
             {
                 switchSprite[i] = Resources.Load<Sprite>("UI/Switch" + i);
             }
-
+        ChangeLoginPassword = panelSecutiry.transform.Find("BtnChangePW/Text").GetComponent<Text>();
+        LogOut = panelSecutiry.transform.Find("BtnExit/Text").GetComponent<Text>();
             TransactionCode = panelSecutiry.transform.Find("BtnChangeExPW/Text").GetComponent<Text>();
             switch(setUp)
             {
@@ -108,121 +112,141 @@ namespace Assets.Scripts.UI.MeunUI
             setPanelActive(false);
         }
 
-        /// <summary>
-        /// 音效设置
-        /// </summary>
-        private void clickMusic()
+    /// <summary>
+    /// 多语系换图片
+    /// </summary>
+    private void ChangeImg()
+    {
+        MusicClik.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+        SecutiryClik.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+        HelpClik.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+        btnSecutiry.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+        btnPanelMusic.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+        btnHelp.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+        MusicClik.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+        MusicClik.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+        SoundImg.sprite = Resources.Load<Sprite>("UI/");
+        MusicImg.sprite = Resources.Load<Sprite>("UI/");
+        soundTxt = PanelSound.transform.Find("Effect/Text").GetComponent<Text>();
+        musicTxt = PanelSound.transform.Find("music/Text").GetComponent<Text>();
+        ChangeLoginPassword.text = "";
+        LogOut.text = "";
+    }
+   /// <summary>
+   /// 音效设置
+   /// </summary>
+    private void clickMusic()
+    {
+        Dispatch(AreaCode.UI, UIEvent.VOICE_PANEL_ACTIVE, true);
+        PanelSound.SetActive(true);
+        panelSecutiry.SetActive(false);
+        PanelHelp.SetActive(false);
+        MusicClik.SetActive(true);
+        SecutiryClik.SetActive(false);
+        HelpClik.SetActive(false);
+    }
+    /// <summary>
+    /// 安全设置按钮
+    /// </summary>
+    private void ClickSecutiry()
+    {
+        panelSecutiry.SetActive(true);
+        PanelHelp.SetActive(false);
+        PanelSound.SetActive(false);
+        SecutiryClik.SetActive(true);
+        HelpClik.SetActive(false);
+        MusicClik.SetActive(false);
+    }
+    /// <summary>
+    /// 帮助按钮
+    /// </summary>
+    private void ClickHelp()
+    {
+        panelSecutiry.SetActive(false);
+        PanelHelp.SetActive(true);
+        PanelSound.SetActive(false);
+        SecutiryClik.SetActive(false);
+        HelpClik.SetActive(true);
+        MusicClik.SetActive(false);
+    }
+    /// <summary>
+    /// 设置音效
+    /// </summary>
+    private void SoundClick()
+    {
+        if(!IsOpenSound)
         {
-            Dispatch(AreaCode.UI, UIEvent.VOICE_PANEL_ACTIVE, true);
-            PanelSound.SetActive(true);
-            panelSecutiry.SetActive(false);
-            PanelHelp.SetActive(false);
-            MusicClik.SetActive(true);
-            SecutiryClik.SetActive(false);
-            HelpClik.SetActive(false);
+            SoundImg.sprite = switchSprite[1];
+            IsOpenSound = !IsOpenSound;
+            //把所有音效开启
+            Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_EFFECT_AUDIO, "");
         }
-        /// <summary>
-        /// 安全设置按钮
-        /// </summary>
-        private void ClickSecutiry()
+        else
         {
-            panelSecutiry.SetActive(true);
-            PanelHelp.SetActive(false);
-            PanelSound.SetActive(false);
-            SecutiryClik.SetActive(true);
-            HelpClik.SetActive(false);
-            MusicClik.SetActive(false);
+            SoundImg.sprite = switchSprite[0];
+            IsOpenSound = !IsOpenSound;
+            //把所有音效关闭
         }
-        /// <summary>
-        /// 帮助按钮
-        /// </summary>
-        private void ClickHelp()
+    }
+    /// <summary>
+    /// 设置背景音乐
+    /// </summary>
+    private void MuiscClick()
+    {
+        if(IsOpenMuisc)
         {
-            panelSecutiry.SetActive(false);
-            PanelHelp.SetActive(true);
-            PanelSound.SetActive(false);
-            SecutiryClik.SetActive(false);
-            HelpClik.SetActive(true);
-            MusicClik.SetActive(false);
+            MusicImg.sprite = switchSprite[1];
+            IsOpenMuisc = !IsOpenMuisc;
+            //把背景音乐开启
         }
-        /// <summary>
-        /// 设置音效
-        /// </summary>
-        private void SoundClick()
+        else
         {
-            if(!IsOpenSound)
-            {
-                SoundImg.sprite = switchSprite[1];
-                IsOpenSound = !IsOpenSound;
-                //把所有音效开启
-                Dispatch(AreaCode.AUDIO, AudioEvent.PLAY_EFFECT_AUDIO, "");
-            }
-            else
-            {
-                SoundImg.sprite = switchSprite[0];
-                IsOpenSound = !IsOpenSound;
-                //把所有音效关闭
-            }
+            MusicImg.sprite = switchSprite[0];
+            IsOpenMuisc = !IsOpenMuisc;
+            //把背景音乐关闭
         }
-        /// <summary>
-        /// 设置背景音乐
-        /// </summary>
-        private void MuiscClick()
+    }
+    private void clickChangeTradePassword()
+    {
+        switch (setUp)
         {
-            if(IsOpenMuisc)
-            {
-                MusicImg.sprite = switchSprite[1];
-                IsOpenMuisc = !IsOpenMuisc;
-                //把背景音乐开启
-            }
-            else
-            {
-                MusicImg.sprite = switchSprite[0];
-                IsOpenMuisc = !IsOpenMuisc;
-                //把背景音乐关闭
-            }
+            case 0:
+                Dispatch(AreaCode.UI, UIEvent.SETTRANSACT_ACTIVE, true);
+                break;
+            case 1:
+                Dispatch(AreaCode.UI, UIEvent.SETTRANSACT_ACTIVE, true);
+                break;
         }
-        private void clickChangeTradePassword()
-        {
-            switch (setUp)
-            {
-                case 0:
-                    Dispatch(AreaCode.UI, UIEvent.SETTRANSACT_ACTIVE, true);
-                    break;
-                case 1:
-                    Dispatch(AreaCode.UI, UIEvent.SETTRANSACT_ACTIVE, true);
-                    break;
-            }
-        }
-        private void clickChangeLoginPassword()
-        {
-            Dispatch(AreaCode.UI, UIEvent.CHANGELONG_ACTIVE, true);
-        }
-        /// <summary>
-        /// 退出按钮
-        /// </summary>
-        private void clickExit()
-        {
-            Dispatch(AreaCode.NET,EventType.exit,null);
-            Application.Quit();
-        }
-        /// <summary>
-        /// 关闭设置按钮
-        /// </summary>
-        private void clickClose()
-        {
-            Dispatch(AreaCode.UI, UIEvent.VOICE_PANEL_ACTIVE, false);
-            setPanelActive(false);
-        }
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            btnClose.onClick.RemoveAllListeners();
-            //btnMusic.onClick.RemoveAllListeners();
-            //btnHelp.onClick.RemoveAllListeners();
-            //btnChangeExPW.onClick.RemoveAllListeners();
-            //btnChangePW.onClick.RemoveAllListeners();
-        }
+    }
+    private void clickChangeLoginPassword()
+    {
+        Dispatch(AreaCode.UI, UIEvent.CHANGELONG_ACTIVE, true);
+    }
+    /// <summary>
+    /// 退出按钮
+    /// </summary>
+    private void clickExit()
+    {
+        Dispatch(AreaCode.NET,EventType.exit,null);
+        Application.Quit();
+    }
+    /// <summary>
+    /// 关闭设置按钮
+    /// </summary>
+    private void clickClose()
+    {
+        Dispatch(AreaCode.UI, UIEvent.VOICE_PANEL_ACTIVE, false);
+        setPanelActive(false);
+    }
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        btnClose.onClick.RemoveAllListeners();
+        //btnMusic.onClick.RemoveAllListeners();
+        //btnHelp.onClick.RemoveAllListeners();
+        //btnChangeExPW.onClick.RemoveAllListeners();
+        //btnChangePW.onClick.RemoveAllListeners();
+    }
 
 
 

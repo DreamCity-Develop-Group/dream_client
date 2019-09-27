@@ -27,6 +27,10 @@ namespace Assets.Scripts.UI.MeunUI
         private GameObject FriendBtn;         //好友激活按钮
         private GameObject SquareBtn;         //广场激活按钮
         private GameObject AppyForBtn;        //申请激活按钮  
+    private Image FriendClick;            //好友点击按钮换图
+    private Image SquareBtnClick;         //广场点击按钮换图
+    private Image AppyForClick;           //申请点击按钮换图
+    private Image SearchClick;            //搜索点击按钮换图
         private void Awake()
         {
             Bind(UIEvent.FRIENDMENU_PANEL_ACTIVE);
@@ -90,6 +94,18 @@ namespace Assets.Scripts.UI.MeunUI
             btnSearch = transform.Find("BtnSearch").GetComponent<Button>();
             btnClose = transform.Find("BtnClose").GetComponent<Button>();
             textTitle = transform.Find("TextTitle").GetComponent<Text>();
+        //动态加载图片
+        //FriendClick = transform.Find("BtnFriend").GetComponent<Image>();
+        //SquareBtnClick = transform.Find("BtnGround").GetComponent<Image>();
+        //AppyForClick = transform.Find("BtnApply").GetComponent<Image>();
+        //FriendBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+        //SquareBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+        //AppyForBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+        //FriendClick.sprite = Resources.Load<Sprite>("UI/");
+        //AppyForClick.sprite = Resources.Load<Sprite>("UI/");
+        //SquareBtnClick.sprite = Resources.Load<Sprite>("UI/");
+        //SearchClick = transform.Find("BtnSearch").GetComponent<Image>();
+        //SearchClick.sprite = Resources.Load<Sprite>("UI/");
 
             btnFriend.onClick.AddListener(clickFriend);
             btnSearch.onClick.AddListener(clickSearch);

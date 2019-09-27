@@ -64,6 +64,9 @@ namespace Assets.Scripts.UI.MeunUI
                             obj.SetActive(true);
                             list_InformationBox.Add(obj);
                             //obj里可以查找显示信息的物体，然后在赋值
+                            obj.transform.Find("Name").GetComponent<Text>().text = squareData[i].friendName;
+                            obj.transform.Find("LV").GetComponent<Text>().text = squareData[i].friendId;
+                            obj.transform.Find("Add").GetComponent<Button>().onClick.AddListener(clickAddFriend);
                         }
                     }
                     //TODO
@@ -126,6 +129,13 @@ namespace Assets.Scripts.UI.MeunUI
         /// 换一批
         /// </summary>
         private void clickInABatch()
+        {
+
+        }
+        /// <summary>
+        /// 点击加好友做什么
+        /// </summary>
+        private void clickAddFriend()
         {
 
         }

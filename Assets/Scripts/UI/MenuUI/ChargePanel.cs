@@ -35,16 +35,49 @@ namespace Assets.Scripts.UI.MeunUI
         private Transform TransactionListPraent;          //交易列表父物体
         private List<UserInfo> List_Transaction = new List<UserInfo>();  //存储交易记录的所有记录
 
-        private void Awake()
-        {
-            Bind(UIEvent.CHARGE_PANEL_ACTIVE);
-        }
+    //动态加载图片
+    private Image Bg;                             //背景
+    private Image transferBtn;                    //转账按钮
+    private Image TopUpBtn;                       //充值按钮
+    private Image InviteFriendsBtn;               //邀请好友按钮
+
+    private Text UserName;                       //玩家昵称
+    private Text AccumulatedEarnings;            //累计收益
+    private Text AccumulatedEarningsNum;         //累计收益数  
+    private Text TotalAssets;                    //持仓总资产
+    private Text TotalAssetsNum;                 //持仓总资产数
+    private Text PositionUSDT;                   //持仓USDT
+    private Text PositionUSDTNum;                //持仓USDT数
+    private Text AvailableUSDT;                  //可用USDT
+    private Text AvailableUSDTNum;               //可用USDT数
+    private Text FreezeUSDT;                     //冻结USDT
+    private Text FreezeUSDTNum;                  //冻结USDT数
+    private Text PositionMT;                     //持仓MT;
+    private Text positionMTNum;                  //持仓MT数
+    private Text AvailableMT;                    //可用MT
+    private Text AvailableNum;                   //可用MT数
+    private Text FreezeMT;                       //冻结MT
+    private Text FreezeMTNum;                    //冻结MT数
+    private Text ChamberOfCommerceLV;            //商会等级
+    private Text ChamberOfCommerceMembers;       //商会成员
+    private Text TxtInviteCode;                  //邀请码
+    private Text TxtTransactionRecords;          //交易记录 
+
+
+
+
+    private void Awake()
+    {
+        Bind(UIEvent.CHARGE_PANEL_ACTIVE);
+    }
 
         protected internal override void Execute(int eventCode, object message)
         {
             switch (eventCode)
             {
                 case UIEvent.CHARGE_PANEL_ACTIVE:
+                UserName.text = "";
+                AccumulatedEarnings.text = "";
                     setPanelActive(true);
                     break;
                 default:
@@ -59,45 +92,79 @@ namespace Assets.Scripts.UI.MeunUI
 
         Button btnClose;
 
-        private void Start()
+    private void Start()
+    {
+        Bg = transform.Find("bg").GetComponent<Image>();
+        transferBtn = transform.Find("BtnTransfer").GetComponent<Image>();
+        TopUpBtn = transform.Find("BtnRecharge").GetComponent<Image>();
+        InviteFriendsBtn = transform.Find("BtnApplyFreind").GetComponent<Image>();
+        //多语系动态加载图片
+        //Bg.sprite = Resources.Load<Sprite>("UI/");
+        //transferBtn.sprite = Resources.Load<Sprite>("UI/");
+        //TopUpBtn.sprite = Resources.Load<Sprite>("UI/");
+        //InviteFriendsBtn.sprite = Resources.Load<Sprite>("UI/");
+
+        PanleInviterFrindsBG = transform.Find("PanleInviterFrindsBG").gameObject;
+        TransactionRecord = transform.Find("TransactionRecord").gameObject;
+        transferAccounts = transform.Find("BtnTransfer").GetComponent<Button>();
+        topUp = transform.Find("BtnRecharge").GetComponent<Button>();
+        InviteFriends = transform.Find("BtnApplyFreind").GetComponent<Button>();
+        transactionRecord = transform.Find("BtnChargeLog").GetComponent<Button>();
+        CopyInvitationCode = transform.Find("bg/BtnCopy").GetComponent<Button>();
+        btnClose = transform.Find("bg/BtnClose").GetComponent<Button>();
+        TransctionClose = TransactionRecord.transform.Find("Frame/BtnColse").GetComponent<Button>();
+        TransactionListPraent = TransactionRecord.transform.Find("Frame/RecordList/Viewport/Content");
+
+        UserName = transform.Find("NickName").GetComponent<Text>();
+        AccumulatedEarnings = transform.Find("NameEarning").GetComponent<Text>();
+        AccumulatedEarningsNum = transform.Find("TextAllEarning").GetComponent<Text>();
+        TotalAssets = transform.Find("NameHold").GetComponent<Text>();
+        TotalAssetsNum = transform.Find("TextAllHold").GetComponent<Text>();
+        TxtTransactionRecords = transform.Find("BtnChargeLog/Text").GetComponent<Text>();
+        PositionUSDT = transform.Find("bg/HoldUSDT").GetComponent<Text>();     
+        PositionUSDTNum = transform.Find("bg/HoldNum").GetComponent<Text>();
+        AvailableUSDT = transform.Find("bg/AvailableUSDT").GetComponent<Text>();
+        AvailableUSDTNum = transform.Find("bg/AvailableNum").GetComponent<Text>();
+        FreezeUSDT = transform.Find("bg/FreezeUSDT").GetComponent<Text>();
+        FreezeUSDTNum = transform.Find("bg/FreezeNum").GetComponent<Text>();
+        PositionMT = transform.Find("bg/HoldMT").GetComponent<Text>();
+        positionMTNum = transform.Find("bg/HoldNumMT").GetComponent<Text>();
+        AvailableMT = transform.Find("bg/AvailableMT").GetComponent<Text>();
+        AvailableNum = transform.Find("bg/AvailableNumMT").GetComponent<Text>();
+        FreezeMT = transform.Find("bg/FreezeMT").GetComponent<Text>();
+        FreezeMTNum = transform.Find("bg/FreezeNumMT").GetComponent<Text>();
+        ChamberOfCommerceLV = transform.Find("bg/ChamberLV").GetComponent<Text>();
+        ChamberOfCommerceMembers = transform.Find("bg/ChamberMembers").GetComponent<Text>();
+        TxtInviteCode = transform.Find("bg/InviteCode").GetComponent<Text>();
+
+
+        transferAccounts.onClick.AddListener(clickTransferAccounts);
+        topUp.onClick.AddListener(clickTopUp);
+        InviteFriends.onClick.AddListener(clickInviteFriends);
+        transactionRecord.onClick.AddListener(clicktransactionRecord);
+        CopyInvitationCode.onClick.AddListener(clickCopyInvitationCode);
+        btnClose.onClick.AddListener(clickClose);
+        TransctionClose.onClick.AddListener(clickTransactionCosle);
+        setPanelActive(false);
+        if(List_Transaction.Count>0)
         {
-            PanleInviterFrindsBG = transform.Find("PanleInviterFrindsBG").gameObject;
-            TransactionRecord = transform.Find("TransactionRecord").gameObject;
-            transferAccounts = transform.Find("BtnTransfer").GetComponent<Button>();
-            topUp = transform.Find("BtnRecharge").GetComponent<Button>();
-            InviteFriends = transform.Find("BtnApplyFreind").GetComponent<Button>();
-            transactionRecord = transform.Find("BtnChargeLog").GetComponent<Button>();
-            CopyInvitationCode = transform.Find("bg/BtnCopy").GetComponent<Button>();
-            btnClose = transform.Find("bg/BtnClose").GetComponent<Button>();
-            TransctionClose = TransactionRecord.transform.Find("Frame/BtnColse").GetComponent<Button>();
-            TransactionListPraent = TransactionRecord.transform.Find("Frame/RecordList/Viewport/Content");
-            transferAccounts.onClick.AddListener(clickTransferAccounts);
-            topUp.onClick.AddListener(clickTopUp);
-            InviteFriends.onClick.AddListener(clickInviteFriends);
-            transactionRecord.onClick.AddListener(clicktransactionRecord);
-            CopyInvitationCode.onClick.AddListener(clickCopyInvitationCode);
-            btnClose.onClick.AddListener(clickClose);
-            TransctionClose.onClick.AddListener(clickTransactionCosle);
-            setPanelActive(false);
-            if(List_Transaction.Count>0)
+            for (int i = 0; i <List_Transaction.Count; i++)
             {
-                for (int i = 0; i <List_Transaction.Count; i++)
+                if(i%2==0)
                 {
-                    if(i%2==0)
-                    {
-                        GameObject obj = Resources.Load("PerFab/RecordItme0") as GameObject;
-                        obj= CreatePreObj(obj, TransactionListPraent);
-                        //找到Test，赋值信息
-                    }
-                    else
-                    {
-                        GameObject obj = Resources.Load("PerFab/RecordItme1") as GameObject;
-                        obj= CreatePreObj(obj, TransactionListPraent);
-                        //找到Test，赋值信息
-                    }
+                    GameObject obj = Resources.Load("PerFab/RecordItme0") as GameObject;
+                    obj= CreatePreObj(obj, TransactionListPraent);
+                    //找到Test，赋值信息
+                }
+                else
+                {
+                    GameObject obj = Resources.Load("PerFab/RecordItme1") as GameObject;
+                    obj= CreatePreObj(obj, TransactionListPraent);
+                    //找到Test，赋值信息
                 }
             }
         }
+    }
 
         /// <summary>
         /// 关闭资产面板

@@ -16,6 +16,7 @@
 using System.Collections.Generic;
 using Assets.Scripts.Model;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.MeunUI
 {
@@ -33,7 +34,7 @@ namespace Assets.Scripts.UI.MeunUI
         /// <param name="eventCode"></param>
         /// <param name="message"></param>
     
-        List<UserInfo> dicFriendData = new List<UserInfo>();
+        List<UserInfos> dicFriendData = new List<UserInfos>();
         private GameObject PersonalInformationBox;           //列表信息框预制体
         private Transform ListBox;                           //列表框
         private List<GameObject> list_InformationBox = new List<GameObject>();
@@ -57,7 +58,7 @@ namespace Assets.Scripts.UI.MeunUI
                     break;
                 case UIEvent.FRIEND_LIST_PANEL_VIEW:
                 
-                    dicFriendData = message as List< UserInfo>;
+                    dicFriendData = message as List< UserInfos>;
                     if (dicFriendData != null && dicFriendData.Count > 0)
                     {
                         GameObject obj = null;
@@ -68,6 +69,10 @@ namespace Assets.Scripts.UI.MeunUI
                             obj.SetActive(true);
                             list_InformationBox.Add(obj);
                             //obj里可以查找显示信息的物体，然后在赋值
+                        obj.transform.Find("Name").GetComponent<Text>().text = dicFriendData[i].friendName;
+                        //obj.transform.Find("LV").GetComponent<Text>().text = dicFriendData[i].friendId;
+                        //obj.transform.Find("Hand").GetComponent<Image>().sprite=换头像
+                        //obj.GetComponent<Button>().onClick.AddListener(() => { 跳转到好友的投资页面})
                         }
                     }
                     //TODO
