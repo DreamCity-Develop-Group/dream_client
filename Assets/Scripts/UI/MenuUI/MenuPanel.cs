@@ -242,6 +242,12 @@ namespace Assets.Scripts.UI.MeunUI
 
         private void clickSet()
         {
+            Dispatch(AreaCode.UI,UIEvent.CHARGE_PANEL_ACTIVE, false);
+            Dispatch(AreaCode.UI, UIEvent.FRIENDMENU_PANEL_ACTIVE, false);
+            //Dispatch(AreaCode.UI, UIEvent., false);
+            Dispatch(AreaCode.UI, UIEvent.MSG_PANEL_ACTIVE, false);
+            Dispatch(AreaCode.UI, UIEvent.IVEST_PANEL_ACTIVE, false);
+            //todo close all menu other UI
             Dispatch(AreaCode.UI,UIEvent.SET_PANEL_ACTIVE,true);
         }
 

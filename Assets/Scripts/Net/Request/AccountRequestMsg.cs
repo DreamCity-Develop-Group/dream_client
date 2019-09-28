@@ -69,48 +69,12 @@ namespace Assets.Scripts.Net.Request
                 ["code"] = loginInfo.Identity,
                 ["token"] = PlayerPrefs.GetString("token")
             };
-            messageData.Change("consumer", "pwforget", t);
+            messageData.Change("consumer/palyer", "pwforget", t);
             socketMsg.Change(LoginInfo.ClientId, "忘记密码消息", messageData);
             return socketMsg;
         }
 
 
-        /// <summary>
-        /// 修改密码消息
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
-        public SocketMsg<Dictionary<string,string>> ReqPWChangeMsg(object msg)
-        {
-            
-            Dictionary<string, string> t =msg as Dictionary<string, string>;
-            //todo配置
-            if (t["oldpw"] == null || t["oldpw"].Equals(""))
-            {
-                promptMsg.Change("请输入当前密码", Color.red);
-                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-                return null;
-            }
-            if (t["newpw"] == null || t["newpw"].Equals(""))
-            {
-                promptMsg.Change("请输入新密码", Color.red);
-                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-                return null;
-            }
-            if (t["code"] == null || t["code"].Equals(""))
-            {
-                promptMsg.Change("请输入验证码", Color.red);
-                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-                return null;
-            }
-            t.Add("username",PlayerPrefs.GetString("username"));
-            t.Add("token",PlayerPrefs.GetString("token"));
-            t["oldpw"] = MsgTool.MD5Encrypt(t["oldpw"]);
-            t["newpw"] = MsgTool.MD5Encrypt(t["newpw"]);
-            messageData.Change("consumer", "expw", t);
-            socketMsg.Change(LoginInfo.ClientId,  "修改登入密码操作", messageData);
-            return socketMsg;
-        }
         /// <summary>
         /// 获取验证码请求消息
         /// </summary>
@@ -125,7 +89,7 @@ namespace Assets.Scripts.Net.Request
                     ["username"] = PlayerPrefs.GetString("username"),
                     ["token"] = PlayerPrefs.GetString("token")
                 };
-                messageData.Change("consumer", "getCode", t1);
+                messageData.Change("consumer/message", "getCode", t1);
                 socketMsg.Change(LoginInfo.ClientId, "获取验证码操作", messageData);
             }
             else
@@ -262,7 +226,7 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token", PlayerPrefs.GetString("token"));
-            messageData.Change("consumer", "transferaccount", t);
+            messageData.Change("consumer/player", "transferaccount", t);
             socketMsg.Change(LoginInfo.ClientId, "转账请求消息", messageData);
             return socketMsg;
         }
@@ -276,7 +240,7 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token", PlayerPrefs.GetString("token"));
-            messageData.Change("consumer", "recharge", t);
+            messageData.Change("consumer/player", "recharge", t);
             socketMsg.Change(LoginInfo.ClientId, "充值请求", messageData);
             return socketMsg;
         }
@@ -304,7 +268,7 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string> t = new  Dictionary<string, string>();
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token", PlayerPrefs.GetString("token"));
-            messageData.Change("consumer", "eixt", t);
+            messageData.Change("consumer/player", "eixt", t);
             socketMsg.Change(LoginInfo.ClientId, "退出登入请求", messageData);
             return socketMsg;
         }

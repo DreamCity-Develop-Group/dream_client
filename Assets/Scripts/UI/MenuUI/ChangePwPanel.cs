@@ -74,6 +74,7 @@ namespace Assets.Scripts.UI.LoginUI
             {
                 ["oldpw"]=_currentpassword,
                 ["newpw"] = _newpassword,
+                ["code"]=_verificationcode,
             };
             Dispatch(AreaCode.NET, EventType.expw, msg); 
         }

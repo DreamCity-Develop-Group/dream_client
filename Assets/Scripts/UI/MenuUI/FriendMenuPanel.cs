@@ -52,7 +52,7 @@ namespace Assets.Scripts.UI.MeunUI
             switch (eventCode)
             {
                 case UIEvent.FRIENDMENU_PANEL_ACTIVE:
-                    setPanelActive(true);
+                    setPanelActive((bool)message);
                     break;
                 case UIEvent.FRIEND_LIST_PANEL_VIEW:
                     friendData = message as List<UserInfos>;
@@ -129,7 +129,6 @@ namespace Assets.Scripts.UI.MeunUI
             else if(AppyForBtn.activeInHierarchy)
             {
                 Dispatch(AreaCode.UI, UIEvent.APPLYFOR_ACTIVE, true);
-                Dispatch(AreaCode.UI, UIEvent.APPLYFOR_VIEW, true);
             }
         }
         private void clickClose()
@@ -145,9 +144,9 @@ namespace Assets.Scripts.UI.MeunUI
             SquareBtn.SetActive(true);
             AppyForBtn.SetActive(false);
             FriendBtn.SetActive(false);
+            Dispatch(AreaCode.NET,EventType.squarefriend,null);
             Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_ACTIVE, false);
             Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_ACTIVE, true);
-            Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_VIEW, true);
             Dispatch(AreaCode.UI, UIEvent.APPLYFOR_ACTIVE, false);
             //
         }
@@ -171,7 +170,7 @@ namespace Assets.Scripts.UI.MeunUI
             Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_ACTIVE, false);
             Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_ACTIVE, false);
             Dispatch(AreaCode.UI, UIEvent.APPLYFOR_ACTIVE, true);
-            Dispatch(AreaCode.UI, UIEvent.APPLYFOR_VIEW, true);
+            Dispatch(AreaCode.NET,EventType.applyfriend,null);
         }
         private void clickSearch()
         {

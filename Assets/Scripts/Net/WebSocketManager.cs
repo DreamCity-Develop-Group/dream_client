@@ -23,12 +23,13 @@ namespace Assets.Scripts.Net
             Add(0, this);
         }
         #region 处理发送服务器的请求
-        AccountRequestMsg accountRequestMsg = new AccountRequestMsg();
-        FriendRequestMsg friendRequestMsg = new FriendRequestMsg();
-        SetRequestMsg setRequestMsg = new SetRequestMsg();
-        CommerceRequsetMsg commerceRequsetMsg = new CommerceRequsetMsg();
-        SocketMsg<Dictionary<string,string>> socketMsg;
-        SocketMsg<SquareUser> squareMsg;
+
+        private AccountRequestMsg accountRequestMsg = new AccountRequestMsg();
+        private FriendRequestMsg friendRequestMsg = new FriendRequestMsg();
+        private SetRequestMsg setRequestMsg = new SetRequestMsg();
+        private CommerceRequsetMsg commerceRequsetMsg = new CommerceRequsetMsg();
+        private SocketMsg<Dictionary<string,string>> socketMsg;
+        private SocketMsg<SquareUser> squareMsg;
 
         protected internal override void Execute(int eventCode, object message)
         {
@@ -106,7 +107,7 @@ namespace Assets.Scripts.Net
                         break;
                     case EventType.expw:
                         //修改密码
-                        socketMsg = accountRequestMsg.ReqPWChangeMsg(message);
+                        socketMsg = setRequestMsg.ReqPWChangeMsg(message);
                         if (socketMsg == null)
                         {
                             return;
@@ -181,8 +182,24 @@ namespace Assets.Scripts.Net
                     case EventType.invest_req:
 
                         break;
+                    case EventType.squarefriend:
+                        socketMsg = friendRequestMsg.ReqSearchUserMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
+                        _wabData.SendMsg(socketMsg);
+                        break;
                     case EventType.menu_req:
                         socketMsg = accountRequestMsg.ReqMenuMsg(message);
+                        _wabData.SendMsg(socketMsg);
+                        break;
+                    case EventType.change_expwshop:
+                        socketMsg = setRequestMsg.ReqPWShopChangeMsg(message);
+                        _wabData.SendMsg(socketMsg);
+                        break;
+                    case EventType.applyfriend:
+                        socketMsg = friendRequestMsg.ReqApplyFriendList(message);
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.exit:
@@ -210,31 +227,31 @@ namespace Assets.Scripts.Net
         /// <summary>  
         /// The WebSocket address to connect  
         /// </summary>  
-        string _address;
+        private string _address;
 
         /// <summary>  
         /// Debug text to draw on the gui  
         /// </summary>  
-        string _text;
+        private string _text;
 
         /// <summary>  
         /// GUI scroll position  
         /// </summary>  
-        Vector2 _scrollPos;
+        private Vector2 _scrollPos;
 
         private WebData _wabData;
 
         #endregion
 
 
-        void Start()
+        private void Start()
         {
             _wabData = WebData.Instance();
             _address = _wabData.Address;
             _text = _wabData.Text;
         }
 
-        void Update()
+        private void Update()
         {
             if (_wabData.MsgQueue.Count > 0)
             {
@@ -256,7 +273,7 @@ namespace Assets.Scripts.Net
         }
 
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             //if (_wabData.WebSocket != null)
             //    _wabData.WebSocket.Close();
@@ -268,11 +285,12 @@ namespace Assets.Scripts.Net
         //}
 
         #region 处理接收到的服务器发来的消息
-        HandlerBase accountHandler = new AccoutHandler();
-        Dictionary<string, string> dicRegLogRespon;
-        SquareUser squareData;
-   
-        HandlerBase setHandler = new SetHandler();
+
+        private HandlerBase accountHandler = new AccoutHandler();
+        private Dictionary<string, string> dicRegLogRespon;
+        private SquareUser squareData;
+
+        private HandlerBase setHandler = new SetHandler();
         /// <summary>
         /// 设置模块
         /// </summary>
@@ -295,7 +313,7 @@ namespace Assets.Scripts.Net
         //            break;
         //    }
         //}
-        HandlerBase friendHandler = new FriendHandler();
+        private HandlerBase friendHandler = new FriendHandler();
         /// <summary>
         /// friend模块
         /// </summary>
@@ -340,6 +358,7 @@ namespace Assets.Scripts.Net
             switch (msg.data.type)
             {
                 case "default":
+                    //todo 缓存
                     Dispatch(AreaCode.UI,UIEvent.MENU_PANEL_VIEW,msg.data.data);
                     break;
                 default:
@@ -354,18 +373,19 @@ namespace Assets.Scripts.Net
 
             switch (msg.data.type)
             {
-                case "squarefriend":
+                case "squareFriends":
                     SquareUser squareUser = msg.data.data as SquareUser;
                     friendHandler.OnReceive(EventType.squarefriend, squareUser);
                     break;
-                case "applyfriend":
+                case "applyFriend":
                     SquareUser applyUser = msg.data.data as SquareUser;
                     friendHandler.OnReceive(EventType.applyfriend, applyUser);
                     break;
-                case "listfriend":
+                case "friendList":
                     SquareUser friendUser = msg.data.data as SquareUser;
                     friendHandler.OnReceive(EventType.listfriend, friendUser);
                     break;
+           
                 default:
                     break;
             }
@@ -376,7 +396,12 @@ namespace Assets.Scripts.Net
             string jsonmsg = JsonMapper.ToJson(msg);
             Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg" + MsgTool.utf8_gb2312(jsonmsg));
 
-       
+            if (msg == null||msg.data==null)
+            {
+                Debug.Log("message is null");
+                return;
+            }
+            
             dicRegLogRespon = msg.data.data as Dictionary<string, string>;
         
             switch (msg.data.type)
@@ -386,7 +411,7 @@ namespace Assets.Scripts.Net
                     //_wabData.ThreadStart();
                     break;
                 case "Login":
-                    if (!dicRegLogRespon.ContainsKey("desc"))
+                    if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("login error");
                         return;
@@ -401,7 +426,7 @@ namespace Assets.Scripts.Net
                     }
                     break;
                 case "codeLogin":
-                    if (!dicRegLogRespon.ContainsKey("desc"))
+                    if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("login error");
                         return;
@@ -416,7 +441,7 @@ namespace Assets.Scripts.Net
                     }
                     break;
                 case "reg":
-                    if (!dicRegLogRespon.ContainsKey("desc"))
+                    if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("reg error");
                         return;
@@ -427,7 +452,7 @@ namespace Assets.Scripts.Net
                     // setHandler.OnReceive(EventType.voiceset, msg.data.t);
                     break;
                 case "expw":
-                    if (!dicRegLogRespon.ContainsKey("desc"))
+                    if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("expw error");
                         return;
@@ -437,8 +462,11 @@ namespace Assets.Scripts.Net
                 case "expwshop":
                     setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
                     break;
-                case "addfriend":
-                    if (!dicRegLogRespon.ContainsKey("desc"))
+                case "":
+
+                    break;
+                case "addFriend":
+                    if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("addfriend error");
                         return;
@@ -453,12 +481,17 @@ namespace Assets.Scripts.Net
                 //    friendHandler.OnReceive(EventType.searchfriend, msg.data.t);
                 //    break;
                 case "getCode":
+                    if (dicRegLogRespon==null||!dicRegLogRespon.ContainsKey("code"))
+                    {
+                        Debug.LogError("addfriend error");
+                        return;
+                    }
                     accountHandler.OnReceive(EventType.identy, msg.data.data["code"]);
                     break;
                 case "pwforget":
                     //忘记密码响应和修改一样
                     //setHandler.OnReceive(EventType)
-                    if (!dicRegLogRespon.ContainsKey("desc"))
+                    if (dicRegLogRespon == null||!dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("pwforget error");
                         return;
@@ -468,7 +501,7 @@ namespace Assets.Scripts.Net
                 case "property":
                     break;
                 case "transferaccount":
-                    if (!dicRegLogRespon.ContainsKey("desc"))
+                    if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("transferaccount error");
                         return;

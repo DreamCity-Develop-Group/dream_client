@@ -75,10 +75,12 @@ namespace Assets.Scripts.UI.MeunUI
             verificationcode = inputFieldVerification.text;
             Dictionary<string, string> msg = new Dictionary<string, string>()
             {
-                ["oldpw"] = currentpassword,
-                ["newpw"] = newpassword,
+                ["oldpwshop"] = currentpassword,
+                ["newpwshop"] = newpassword,
+                ["code"] = verificationcode
+
             };
-            Dispatch(AreaCode.NET, EventType.expw, msg);
+            Dispatch(AreaCode.NET, EventType.change_expwshop, msg);
         }
 
         private void clickClose()

@@ -24,6 +24,9 @@ namespace Assets.Scripts.Net
         /// 修改密码
         /// </summary>
         public const int expw = 8;
+        /// <summary>
+        /// 设置交易密码
+        /// </summary>
         public const int expwshop = 9;
         /// <summary>
         /// //搜索用户
@@ -91,6 +94,13 @@ namespace Assets.Scripts.Net
         /// 主界面数据请求
         /// </summary>
         public const int menu_req = 26;
+
+        /// <summary>
+        /// 修改交易密码
+        /// </summary>
+        public const int change_expwshop=27;
+
+
         /// <summary>
         /// 退出登入
         /// </summary>

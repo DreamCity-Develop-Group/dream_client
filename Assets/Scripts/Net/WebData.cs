@@ -232,7 +232,7 @@ namespace Assets.Scripts.Net
                 return;
             }
             //todo 建立一个响应字典
-            if(info.data.type== "squarefriend" || info.data.type == "listfriend")
+            if(info.data.type== "squareFriends" || info.data.type == "friendList" || info.data.type =="applyFriend")
             {
                 SocketMsg<SquareUser> squareinfo = JsonMapper.ToObject<SocketMsg<SquareUser>>(jsonmsg);
                 //TODO 过滤过时消息

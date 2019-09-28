@@ -3,6 +3,7 @@ using Assets.Scripts.Model;
 using Assets.Scripts.Scenes;
 using Assets.Scripts.Scenes.Msg;
 using Assets.Scripts.UI;
+using Assets.Scripts.UI.MeunUI;
 using Assets.Scripts.UI.Msg;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace Assets.Scripts.Net.Handler
                     return getCodeResponse(value.ToString());
                 case EventType.transfer:
                     return transferResponse(value.ToString());
-                    break;
+               
                 default:
                     break;
             }
@@ -48,7 +49,7 @@ namespace Assets.Scripts.Net.Handler
             }
             return true;
         }
-
+       
         /// <summary>
         /// 登录响应
         /// </summary>

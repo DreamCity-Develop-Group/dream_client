@@ -38,8 +38,9 @@ namespace Assets.Scripts.Net.Request
             {
                 ["nick"] = applyUserName,
                 ["username"] = PlayerPrefs.GetString("username"),
+                ["token"] = PlayerPrefs.GetString("token")
             };
-            messageData.Change("consumer", "addfriend", t);
+            messageData.Change("consumer/player/friend", "addFriend", t);
             socketMsg.Change(LoginInfo.ClientId, "申请好友操作", messageData);
             return socketMsg;
         }
@@ -52,10 +53,11 @@ namespace Assets.Scripts.Net.Request
         {
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             //TODO
-            messageData.model = "friend";
-            messageData.type = "addTofriend";
-            messageData.Change("consumer", "addfriend", t);
+            t.Add("username", PlayerPrefs.GetString("username"));
+            t.Add("token", PlayerPrefs.GetString("token"));
+            messageData.Change("consumer/player/friend", "agreeApply", t);
             socketMsg.Change(LoginInfo.ClientId, "添加好友操作", messageData);
+           
             //TODO
             //Dispatch(AreaCode.UI,11111,"removeList");
             return socketMsg;
@@ -75,8 +77,9 @@ namespace Assets.Scripts.Net.Request
                 ["nick"] = userInfo.NickName,
                 ["likes"] = userInfo.Like,
                 ["username"] = PlayerPrefs.GetString("username"),
+                ["token"] = PlayerPrefs.GetString("token"),
             };
-            messageData.Change("consumer", "likefriend", t);
+            messageData.Change("consumer/player/friend", "likefriend", t);
             socketMsg.Change(LoginInfo.ClientId, "好友点赞", messageData);
             //Dispatch(AreaCode.UI,11111,"activefalse");
             return socketMsg;
@@ -88,20 +91,19 @@ namespace Assets.Scripts.Net.Request
         /// <returns></returns>
         public SocketMsg<Dictionary<string, string>> ReqSearchUserMsg(object msg)
         {
-            string nickName = msg.ToString();
-            if (nickName == null)
+            string nickName="";
+            if (msg != null)
             {
-                //TODO提示界面
-                return null;
+                 nickName = msg.ToString();
             }
+           
             Dictionary<string, string>t = new Dictionary<string, string>
             {
                 ["nick"] = nickName,
                 ["username"] = PlayerPrefs.GetString("username"),
+                ["token"]=PlayerPrefs.GetString("token"),
             };
-            messageData.model = "friend";
-            messageData.type = "searchfriend";
-            messageData.Change("consumer", "searchfriend", t);
+            messageData.Change("consumer/player", "squareFriends", t);
             socketMsg.Change(LoginInfo.ClientId, "搜索用户", messageData);
             return socketMsg;
         }
@@ -110,8 +112,26 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string>t = new Dictionary<string, string>
             {
                 ["username"] = PlayerPrefs.GetString("username"),
+                ["token"] = PlayerPrefs.GetString("token"),
             };
+            messageData.Change("consumer/player/friend", "searchFriend", t);
             socketMsg.Change(LoginInfo.ClientId, "换一批广场玩家", messageData);
+            return socketMsg;
+        }
+        /// <summary>
+        /// 申请好友列表
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string, string>> ReqApplyFriendList(object msg)
+        {
+            Dictionary<string, string> t = new Dictionary<string, string>
+            {
+                ["username"] = PlayerPrefs.GetString("username"),
+                ["token"] = PlayerPrefs.GetString("token"),
+            };
+            messageData.Change("consumer/player/friend", "applyFriend", t);
+            socketMsg.Change(LoginInfo.ClientId, "申请好友列表", messageData);
             return socketMsg;
         }
     }

@@ -22,9 +22,9 @@ namespace Assets.Scripts.Net.Handler
 {
     public class FriendHandler : HandlerBase
     {
-        List<UserInfos> _squareData = new List<UserInfos>();
-        List<UserInfos> _friendData = new List<UserInfos>();
-        List<UserInfos> _applyData = new List<UserInfos>();
+        SquareUser _squareData = new SquareUser();
+        SquareUser _friendData = new SquareUser();
+        SquareUser _applyData = new SquareUser();
         private UserInfo userInfo = new UserInfo();
         public override bool OnReceive(int subCode, object value)
         {
@@ -35,19 +35,22 @@ namespace Assets.Scripts.Net.Handler
                     addfriendRespon();
                     break;
                 case EventType.listfriend:
-                    _friendData = value as List<UserInfos>;
+                    _friendData = value as SquareUser;
                     listfriendRespon();
                     break;
                 case EventType.searchfriend:
                     searchfriendRespon(value);
                     break;
                 case EventType.applyfriend:
-                    _applyData = value as List<UserInfos>;
+                    _applyData = value as SquareUser;
                     applyListRespon();
                     break;
                 case EventType.squarefriend:
-                    _squareData = value as List<UserInfos>;
+                    _squareData = value as SquareUser;
                     dicSquareFriendRespon();
+                    break;
+                case EventType.applytofriend:
+                    isAgreedResonse(value.ToString());
                     break;
                 default:
                     break;
@@ -62,12 +65,12 @@ namespace Assets.Scripts.Net.Handler
         /// </summary>
         private void dicSquareFriendRespon()
         {
-            if (_squareData.Count < 1)
+            if (_squareData.result.Count < 1)
             {
                 Debug.LogError("dicSquareFriend is null");
                 return;
             }
-            Dispatch(AreaCode.UI,UIEvent.SQUARE_LIST_PANEL_VIEW,_squareData);
+            Dispatch(AreaCode.UI,UIEvent.SQUARE_LIST_PANEL_VIEW, _squareData.result);
 
         }
 
@@ -77,7 +80,7 @@ namespace Assets.Scripts.Net.Handler
         /// <param name="value"></param>
         private void listfriendRespon()
         {
-            if (_friendData.Count < 1)
+            if (_friendData.result.Count < 1)
             {
                 Debug.LogError("dicFriendData is null");
                 return;
@@ -86,7 +89,8 @@ namespace Assets.Scripts.Net.Handler
         }
         private void searchfriendRespon(object value)
         {
-
+            //todo 
+            Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_VIEW, _friendData);
         }
         private void addfriendRespon()
         {
@@ -98,7 +102,7 @@ namespace Assets.Scripts.Net.Handler
         List<UserInfo> applyList = new List<UserInfo>();
         private void applyListRespon()
         {
-            Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_VIEW, _applyData);
+            Dispatch(AreaCode.UI, UIEvent.APPLYFOR_VIEW, _applyData.result);
         }
         /// <summary>
         /// 申请好友响应
@@ -125,6 +129,25 @@ namespace Assets.Scripts.Net.Handler
         private void searchuserReson(object msg)
         {
 
+        }
+
+        /// <summary>
+        ///申请好友同意与否响应
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        private bool isAgreedResonse(string result)
+        {
+
+            if (result == "agreed")
+            {
+                promptMsg.Change(result.ToString(), Color.green);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, false);
+                Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
+                return true;
+            }
+            return false;
         }
     }
 }

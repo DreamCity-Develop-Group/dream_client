@@ -69,7 +69,7 @@ namespace Assets.Scripts.UI.MeunUI
                             obj.SetActive(true);
                             list_InformationBox.Add(obj);
                             //obj里可以查找显示信息的物体，然后在赋值
-                        obj.transform.Find("Name").GetComponent<Text>().text = dicFriendData[i].friendName;
+                        obj.transform.Find("Name").GetComponent<Text>().text = dicFriendData[i].nick;
                         //obj.transform.Find("LV").GetComponent<Text>().text = dicFriendData[i].friendId;
                         //obj.transform.Find("Hand").GetComponent<Image>().sprite=换头像
                         //obj.GetComponent<Button>().onClick.AddListener(() => { 跳转到好友的投资页面})

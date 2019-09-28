@@ -78,7 +78,7 @@ namespace Assets.Scripts.UI.MeunUI
                 case UIEvent.CHARGE_PANEL_ACTIVE:
                 UserName.text = "";
                 AccumulatedEarnings.text = "";
-                    setPanelActive(true);
+                    setPanelActive((bool)message);
                     break;
                 default:
                     break;

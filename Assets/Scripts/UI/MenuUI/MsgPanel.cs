@@ -30,7 +30,7 @@ namespace Assets.Scripts.UI.MeunUI
             switch (eventCode)
             {
                 case UIEvent.MSG_PANEL_ACTIVE:
-                    setPanelActive(true);
+                    setPanelActive((bool)message);
                     break;
                 default:
                     break;

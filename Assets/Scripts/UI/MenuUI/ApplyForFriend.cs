@@ -13,9 +13,11 @@
 ***/
 
 using System.Collections.Generic;
+using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.UI;
+using EventType=Assets.Scripts.Net.EventType;
 
 namespace Assets.Scripts.UI.MeunUI
 {
@@ -37,7 +39,11 @@ namespace Assets.Scripts.UI.MeunUI
         private GameObject PersonalInformationBox;           //列表信息框预制体
         private Transform ListBox;                           //列表框
         private List<GameObject> list_InformationBox = new List<GameObject>();
-
+        Dictionary<string, string> t = new Dictionary<string, string>()
+        {
+            ["nick"] = "",
+            ["agree"] = ""
+        };
         protected internal override void Execute(int eventCode, object message)
         {
             switch (eventCode)
@@ -55,7 +61,7 @@ namespace Assets.Scripts.UI.MeunUI
                     break;
                 case UIEvent.APPLYFOR_VIEW:
                     dicSquareData = message as List<UserInfos>;
-                    if (dicSquareData.Count > 0)
+                    if (dicSquareData != null && dicSquareData.Count > 0)
                     {
                         GameObject obj = null;
                         for (int i = 0; i < dicSquareData.Count; i++)
@@ -65,11 +71,27 @@ namespace Assets.Scripts.UI.MeunUI
                             obj.SetActive(true);
                             list_InformationBox.Add(obj);
                             //obj里可以查找显示信息的物体，然后在赋值
-                        obj.transform.Find("Name").GetComponent<Text>().text = dicSquareData[i].friendName;
-                        obj.transform.Find("LV").GetComponent<Text>().text = dicSquareData[i].friendId;
+                            string nick = dicSquareData[i].nick;
+                        obj.transform.Find("Name").GetComponent<Text>().text = dicSquareData[i].nick;
+                        obj.transform.Find("LV").GetComponent<Text>().text = dicSquareData[i].grade;
                         //obj.transform.Find("Hand").GetComponent<Image>().sprite = 
-                        //obj.transform.Find("Agreed").GetComponent<Button>().onClick.AddListener()
-                        //obj.transform.Find("DontAgree").GetComponent<Button>().onClick.AddListener()
+                         obj.transform.Find("Agreed").GetComponent<Button>().onClick.AddListener(()=>
+                         {
+                             t["nick"] = nick;
+                             t["agree"] = "agreed";
+                             Dispatch(AreaCode.NET,EventType.applytofriend,t);
+
+                             RePreObj(obj);
+
+                         });
+                         obj.transform.Find("DontAgree").GetComponent<Button>().onClick.AddListener(() =>
+                         {
+                             t["nick"] = nick;
+                             t["agree"] = "disagreed";
+                             Dispatch(AreaCode.NET, EventType.applytofriend, t);
+
+                             RePreObj(obj);
+                         });
                         }
                     }
                     //TODO

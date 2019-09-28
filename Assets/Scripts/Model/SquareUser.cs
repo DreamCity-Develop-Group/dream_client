@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
 
 namespace Assets.Scripts.Model
 {
@@ -18,7 +20,7 @@ namespace Assets.Scripts.Model
   *
 ***/
     /// <summary>
-    /// �㳡�û���
+    /// 广场数据
     /// </summary>
     public class SquareUser
     {
@@ -41,7 +43,7 @@ namespace Assets.Scripts.Model
         /// <summary>
         /// 
         /// </summary>
-        public Condition condition { get; set; }
+        public object condition { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -54,51 +56,32 @@ namespace Assets.Scripts.Model
     public class UserInfos
     {
         /// <summary>
-        /// 昵称
-        /// </summary>
-        public string friendName { get; set; }
-        /// <summary>
-        /// 图片链接
+        /// 图片
         /// </summary>
         public string imgurl { get; set; }
         /// <summary>
-        /// 
+        /// 好友id
         /// </summary>
         public string friendId { get; set; }
         /// <summary>
-        /// 
+        /// 昵称
         /// </summary>
-        public string friendNick { get; set; }
+        public string nick { get; set; }
         /// <summary>
-        /// 
+        /// 是否好友
         /// </summary>
-        public int id { get; set; }
+        public bool agree { get; set; }
         /// <summary>
-        /// 
+        /// 主页链接
         /// </summary>
-        public string agree { get; set; }
+        public string playerLink { get; set; }
         /// <summary>
-        /// 
-        /// </summary>
-        public string friendlink { get; set; }
-        /// <summary>
-        /// 
+        /// 本身id
         /// </summary>
         public string playerId { get; set; }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class Condition
-    {
         /// <summary>
-        /// 
+        /// 用户等级
         /// </summary>
-        public string friendId { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string playerId { get; set; }
+        public string grade { get; set; }
     }
 }

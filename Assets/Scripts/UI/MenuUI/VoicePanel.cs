@@ -1,6 +1,6 @@
 
 /***
-  * Title:     音效面版
+  * Title:     音效界面
   *
   * Created:	zp
   *
@@ -13,6 +13,7 @@
   *
 ***/
 
+using Assets.Scripts.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,7 +51,9 @@ namespace Assets.Scripts.UI.MeunUI
             btnGameMusic.onClick.AddListener(clickGameMusic);
             btnBgMusic.onClick.AddListener(clickBgMusic);
         }
-
+        /// <summary>
+        /// 背景音乐
+        /// </summary>
         private void clickBgMusic()
         {
         
@@ -59,7 +62,7 @@ namespace Assets.Scripts.UI.MeunUI
                 PlayerPrefs.SetString("BGMUSIC", "FALSE");
 
                 //TODO
-                //Dispatch(AreaCode.AUDIO);
+                //Dispatch(AreaCode.AUDIO,);
             }
             else
             {
@@ -68,7 +71,9 @@ namespace Assets.Scripts.UI.MeunUI
                 //Dispatch(AreaCode.AUDIO);
             }
         }
-
+        /// <summary>
+        /// 游戏音效
+        /// </summary>
         private void clickGameMusic()
         {
             if (!PlayerPrefs.HasKey("GAMEMUSIC") || PlayerPrefs.GetString("GAMEMUSIC") == "TRUE")

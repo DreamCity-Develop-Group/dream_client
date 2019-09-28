@@ -38,7 +38,9 @@ namespace Assets.Scripts.UI.LoginUI
             {
                 case UIEvent.LOAD_PANEL_ACTIVE:
                     setPanelActive((bool)message);
-                    StartCoroutine(Loading());
+                    //test hide TODO
+                    gameObjectLoginSelectPanel.SetActive(true);
+                    // StartCoroutine(Loading());
                     //gameObjectLoginSelectPanel.gameObject.SetActive(true);
                     break;
             }

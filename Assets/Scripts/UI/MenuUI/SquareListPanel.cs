@@ -13,10 +13,13 @@
   *
 ***/
 
+using System;
 using System.Collections.Generic;
+using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.UI;
+using EventType=Assets.Scripts.Net.EventType;
 
 namespace Assets.Scripts.UI.MeunUI
 {
@@ -31,11 +34,12 @@ namespace Assets.Scripts.UI.MeunUI
         /// </summary>
         /// <param name="eventCode"></param>
         /// <param name="message"></param>
-        List<UserInfos> squareData;//= new List<UserInfos>();
+        List<UserInfos> squareData;
         private GameObject PersonalInformationBox;           //列表信息框预制体
         private Transform ListBox;                           //列表框
         private List<GameObject> list_InformationBox = new List<GameObject>();
         private Button InABatchBtn;                          //换一批按钮
+        
 
         protected internal override void Execute(int eventCode, object message)
         {
@@ -54,19 +58,23 @@ namespace Assets.Scripts.UI.MeunUI
                     break;
                 case UIEvent.SQUARE_LIST_PANEL_VIEW:
                     squareData = message as List<UserInfos>;
-                    if (squareData.Count > 0)
+                    if (squareData != null && squareData.Count > 0)
                     {
                         GameObject obj = null;
-                        for (int i = 0; i < squareData.Count; i++)
+                        foreach (var t in squareData)
                         {
                             obj = CreatePreObj(PersonalInformationBox, ListBox);
                             obj.transform.SetParent(ListBox);
                             obj.SetActive(true);
                             list_InformationBox.Add(obj);
                             //obj里可以查找显示信息的物体，然后在赋值
-                            obj.transform.Find("Name").GetComponent<Text>().text = squareData[i].friendName;
-                            obj.transform.Find("LV").GetComponent<Text>().text = squareData[i].friendId;
-                            obj.transform.Find("Add").GetComponent<Button>().onClick.AddListener(clickAddFriend);
+                            string friendNick= t.nick;
+                            obj.transform.Find("Name").GetComponent<Text>().text = t.nick;
+                            obj.transform.Find("LV").GetComponent<Text>().text = t.grade;
+                            obj.transform.Find("Add").GetComponent<Button>().onClick.AddListener(()=>
+                            {
+                                Dispatch(AreaCode.NET,EventType.addfriend, friendNick);
+                            });
                         }
                     }
                     //TODO
