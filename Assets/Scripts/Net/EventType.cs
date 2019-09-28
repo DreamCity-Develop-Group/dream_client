@@ -88,6 +88,10 @@ namespace Assets.Scripts.Net
         public const int recharge = 25;
 
         /// <summary>
+        /// 主界面数据请求
+        /// </summary>
+        public const int menu_req = 26;
+        /// <summary>
         /// 退出登入
         /// </summary>
         public const int exit = int.MaxValue;

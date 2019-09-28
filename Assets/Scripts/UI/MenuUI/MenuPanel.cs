@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
 using Assets.Scripts.Tools;
@@ -19,6 +21,8 @@ namespace Assets.Scripts.UI.MeunUI
         Image imageBtnCommerce;
         Image imageBtnTreasure;
         Image imageBtnFriends;
+        private Text textNickName;
+        private Text textLv;
 
         private GameObject HandPortrait;                    //头像选择
         private Button changeHand;                          //换头像
@@ -38,6 +42,7 @@ namespace Assets.Scripts.UI.MeunUI
         //通知数
         int noticeCount = 2;
         //
+        Queue<MenuNoticesItem> noticeQueue=new Queue<MenuNoticesItem>();
         float t = 0;
 
         bool isinCommerce=false;
@@ -53,9 +58,13 @@ namespace Assets.Scripts.UI.MeunUI
             {
                 case UIEvent.MENU_PANEL_VIEW:
                     MenuInfo menuInfo = message as MenuInfo;
-                    IsHasMsg(menuInfo.data.messages);
-                    //InitInfo(null);
-                    //setPanelActive((bool)message);
+
+                    if (menuInfo != null)
+                    {
+                        IsHasMsg(menuInfo.messages);
+                        InitInfo(menuInfo);
+                    }
+
                     break;
                 default:
                     break;
@@ -76,9 +85,13 @@ namespace Assets.Scripts.UI.MeunUI
             imageBtnFriends = btnFriends.transform.GetComponent<Image>();
             imageBtnTreasure = btnTreasure.transform.GetComponent<Image>();
 
-            txtUsdt = transform.Find("USDTCharge").GetComponentInChildren<Text>() ;
-            txtMt = transform.Find("MTCharge").GetComponentInChildren<Text>();
+            txtUsdt = transform.Find("USDTCharge/Text").GetComponent<Text>() ;
+            txtMt = transform.Find("MTCharge/Text").GetComponent<Text>();
             btnAdd = transform.Find("BtnAdd").GetComponent<Button>();
+
+            textNickName = transform.Find("BtnPersonInfo/NickName").GetComponent<Text>();
+            textLv = transform.Find("BtnPersonInfo/Lv").GetComponent<Text>();
+
 
             notice = transform.Find("Notice").gameObject;
             txtLength = notice.GetComponent<RectTransform>().rect.width;
@@ -108,17 +121,22 @@ namespace Assets.Scripts.UI.MeunUI
 
         private void InitInfo(MenuInfo menuInfo)
         {
-            txtMt.text = menuInfo.data.account.mt.ToString();
-            txtUsdt.text = menuInfo.data.account.usdt.ToString();
-            noticeCount = menuInfo.data.notices.Count;
-       
+            txtMt.text = menuInfo.account.mt.ToString(CultureInfo.InvariantCulture);
+            txtUsdt.text = menuInfo.account.usdt.ToString(CultureInfo.InvariantCulture);
+            noticeCount = menuInfo.notices.Count;
+            textNickName.text = menuInfo.profile.nick;
+            textLv.text = menuInfo.profile.level.ToString();
+            foreach (var item in menuInfo.notices)
+            {
+                noticeQueue.Enqueue(item);
+            }
+            //txtNotice1.text = menuInfo.notices
             if (noticeCount > 0)
             {
                 notice.gameObject.SetActive(true);
                 StartCoroutine(NoticeStart());
-          
             }
-            isinCommerce = menuInfo.data.commerce;
+            isinCommerce = menuInfo.commerce;
             btnCommerce.onClick.AddListener(clickChamber);
             changeHand.onClick.AddListener(clickChangeHand);
             handArray[0].onClick.AddListener(clickHand0);
@@ -166,6 +184,7 @@ namespace Assets.Scripts.UI.MeunUI
                 noticeCount--;
                 txtNotice1.gameObject.SetActive(true);
                 t = 0;
+                txtNotice1.text = noticeQueue.Dequeue().noticeContent;
                 StartCoroutine(NoticeRuning());
                 yield return new WaitForSeconds(15);
             }
@@ -189,7 +208,7 @@ namespace Assets.Scripts.UI.MeunUI
             //CreatQRcode(textForEncoding,)
             //Sprite spriteQRcode=GetSprite(textForEncoding);
             // Dispatch(AreaCode.Net,EventType);
-        
+            
             Dispatch(AreaCode.UI,UIEvent.QRECODE_PANEL_ACTIVE,CreatQRcode(textForEncoding));
 
         }

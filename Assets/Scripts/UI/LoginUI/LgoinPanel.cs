@@ -82,6 +82,7 @@ namespace Assets.Scripts.UI.LoginUI
         private void clickForget()
         {
             Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, true);
+            Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, false);
             Debug.Log("clickGetIdentity");
         }
         private void clickGetIdentity()

@@ -4,6 +4,8 @@ using System.Threading;
 using Assets.Scripts.Model;
 using Assets.Scripts.Net.Code;
 using LitJson;
+using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 using WebSocketSharp;
 //using LitJson;
@@ -12,6 +14,36 @@ namespace Assets.Scripts.Net
 {
     public class WebData
     {
+
+        private static volatile WebData _instance = null;
+
+        private static readonly object LockHelper = new object();
+
+        private WebData() { }
+
+        public static WebData Instance()
+
+        {
+
+            if (_instance == null)
+
+            {
+
+                lock (LockHelper)
+
+                {
+
+                    if (_instance == null)
+
+                        _instance = new WebData();
+
+                }
+
+            }
+
+            return _instance;
+
+        }
         /// <summary>  
         /// The WebSocket address to connect  
         /// </summary>  
@@ -33,7 +65,7 @@ namespace Assets.Scripts.Net
         /// <summary>
         /// 重连判断
         /// </summary>
-        public  bool isReconnect=false;
+        public static  bool isReconnect=false;
         /// <summary>  
         /// Debug text to draw on the gui  
         /// </summary>  
@@ -165,22 +197,32 @@ namespace Assets.Scripts.Net
             }
             Debug.Log("-WebSocket Open!\n");
         }
+
         /// <summary>  
         /// Called when we received a text message from the server  
-        /// </summary>  
+        /// </summary>
+        ///
+        public   void Test(string testmsg)
+        {
+            OnMessageReceived(testmsg);
+        }
+        /// <summary>
+        /// test调成私有
+        /// </summary>
+        /// <param name="jsonmsg"></param>
         void OnMessageReceived(string jsonmsg)
         {
             Debug.Log("receiveMsg:  "+jsonmsg);
-            if (jsonmsg.Contains("success"))
-            {
-                if (jsonmsg.Length>7)
-                {
-                    PlayerPrefs.SetString("token", jsonmsg.Substring(8));
-                }
-                isReconnect = true;
-                Debug.Log("isconnect"+jsonmsg);
-                return;
-            }
+            //if (jsonmsg.Contains("success"))
+            //{
+            //    if (jsonmsg.Length>7)
+            //    {
+            //        PlayerPrefs.SetString("token", jsonmsg.Substring(8));
+            //    }
+            //    isReconnect = true;
+            //    Debug.Log("isconnect"+jsonmsg);
+            //    return;
+            //}
 
             SocketMsg<object> info = JsonMapper.ToObject<SocketMsg<object>>(jsonmsg);
 
@@ -198,12 +240,13 @@ namespace Assets.Scripts.Net
                 SquareQueue.Enqueue(squareinfo);
             
             }
-            else if (info.data.type=="")
+            else if (info.data.type=="default")
             {
                 SocketMsg<MenuInfo> menuinfo = JsonMapper.ToObject<SocketMsg<MenuInfo>>(jsonmsg);
                 //TODO 过滤过时消息
                 Debug.Log(menuinfo);
                 MenuQueue.Enqueue(menuinfo);
+
             }
             else
             {

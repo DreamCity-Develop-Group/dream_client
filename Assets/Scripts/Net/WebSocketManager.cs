@@ -1,3 +1,4 @@
+using System.CodeDom;
 using System.Collections.Generic;
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
@@ -38,7 +39,7 @@ namespace Assets.Scripts.Net
             if (eventCode == EventType.init && _wabData.WebSocket == null)
             {
                 _wabData.OpenWebSocket();
-                if (PlayerPrefs.HasKey("token"))
+                if (PlayerPrefs.HasKey("token")&&WebData.isReconnect)
                 {
                     Dictionary<string, string> logMsg = new Dictionary<string, string>()
                     {
@@ -180,10 +181,15 @@ namespace Assets.Scripts.Net
                     case EventType.invest_req:
 
                         break;
+                    case EventType.menu_req:
+                        socketMsg = accountRequestMsg.ReqMenuMsg(message);
+                        _wabData.SendMsg(socketMsg);
+                        break;
                     case EventType.exit:
                         socketMsg = accountRequestMsg.ReqExitMsg(null);
                         _wabData.SendMsg(socketMsg);
                         _wabData.WebSocket.Close(1000, "Bye!");
+                        Dispatch(AreaCode.SCENE,UIEvent.LOG_ACTIVE,true);
                         break;
                     default:
                         break;
@@ -223,7 +229,7 @@ namespace Assets.Scripts.Net
 
         void Start()
         {
-            _wabData = new WebData();
+            _wabData = WebData.Instance();
             _address = _wabData.Address;
             _text = _wabData.Text;
         }
@@ -330,11 +336,11 @@ namespace Assets.Scripts.Net
         {
             //test
             string jsonmsg = JsonMapper.ToJson(msg);
-            Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg"+ MsgTool.utf8_gb2312(jsonmsg));
+            //Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg"+ MsgTool.utf8_gb2312(jsonmsg));
             switch (msg.data.type)
             {
-                case "":
-
+                case "default":
+                    Dispatch(AreaCode.UI,UIEvent.MENU_PANEL_VIEW,msg.data.data);
                     break;
                 default:
                     break;
@@ -450,6 +456,7 @@ namespace Assets.Scripts.Net
                     accountHandler.OnReceive(EventType.identy, msg.data.data["code"]);
                     break;
                 case "pwforget":
+                    //忘记密码响应和修改一样
                     //setHandler.OnReceive(EventType)
                     if (!dicRegLogRespon.ContainsKey("desc"))
                     {

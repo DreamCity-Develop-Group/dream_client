@@ -35,14 +35,14 @@ namespace Assets.Scripts.UI.LoginUI
         private string _verificationcode;
         private void Awake()
         {
-            Bind(UIEvent.CHANGETRADE_ACTIVE);
+            Bind(UIEvent.CHANGELONG_ACTIVE);
         }
 
         protected internal override void Execute(int eventCode, object message)
         {
             switch (eventCode)
             {
-                case UIEvent.CHANGETRADE_ACTIVE:
+                case UIEvent.CHANGELONG_ACTIVE:
                     setPanelActive((bool)message);
                     break;
                 default:

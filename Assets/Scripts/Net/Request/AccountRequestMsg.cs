@@ -84,24 +84,25 @@ namespace Assets.Scripts.Net.Request
         {
             
             Dictionary<string, string> t =msg as Dictionary<string, string>;
-            //if (t["oldpw"] == null || t["oldpw"].Equals(""))
-            //{
-            //    promptMsg.Change("请输入密码", Color.red);
-            //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            //    return null;
-            //}
-            //if (t["newpw"] == null || t["newpw"].Equals(""))
-            //{
-            //    promptMsg.Change("请输入手机号", Color.red);
-            //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            //    return null;
-            //}
-            //if(t["code"]==null || t["code"].Equals(""))])
-            //{
-            //    promptMsg.Change("请输入手机号", Color.red);
-            //    Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-            //    return null;
-            //}
+            //todo配置
+            if (t["oldpw"] == null || t["oldpw"].Equals(""))
+            {
+                promptMsg.Change("请输入当前密码", Color.red);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                return null;
+            }
+            if (t["newpw"] == null || t["newpw"].Equals(""))
+            {
+                promptMsg.Change("请输入新密码", Color.red);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                return null;
+            }
+            if (t["code"] == null || t["code"].Equals(""))
+            {
+                promptMsg.Change("请输入验证码", Color.red);
+                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
+                return null;
+            }
             t.Add("username",PlayerPrefs.GetString("username"));
             t.Add("token",PlayerPrefs.GetString("token"));
             t["oldpw"] = MsgTool.MD5Encrypt(t["oldpw"]);
@@ -277,6 +278,20 @@ namespace Assets.Scripts.Net.Request
             t.Add("token", PlayerPrefs.GetString("token"));
             messageData.Change("consumer", "recharge", t);
             socketMsg.Change(LoginInfo.ClientId, "充值请求", messageData);
+            return socketMsg;
+        }
+        /// <summary>
+        /// 主界面信息请求
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string, string>> ReqMenuMsg(object msg)
+        {
+            Dictionary<string, string> t = new Dictionary<string, string>();
+            t.Add("username", PlayerPrefs.GetString("username"));
+            t.Add("token", PlayerPrefs.GetString("token"));
+            messageData.Change("consumer/main", "default", t);
+            socketMsg.Change(LoginInfo.ClientId, "主界面信息请求", messageData);
             return socketMsg;
         }
         /// <summary>

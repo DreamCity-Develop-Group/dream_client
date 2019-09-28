@@ -83,10 +83,6 @@ namespace Assets.Scripts.UI.LoginUI
             Dispatch(AreaCode.UI,UIEvent.LOG_ACTIVE,true);
         }
 
-        private void clickForget()
-        {
-
-        }
         private void clickGetIdentity()
         {
             Dispatch(AreaCode.NET, EventType.identy, null);

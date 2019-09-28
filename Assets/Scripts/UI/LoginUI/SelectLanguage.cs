@@ -29,7 +29,6 @@ namespace Assets.Scripts.UI.LoginUI
         Button btnKorean;
         bool isSelect;
 
-        Text localText;
         Button btnConfim;
         InputField testInputIp;
 
@@ -39,7 +38,7 @@ namespace Assets.Scripts.UI.LoginUI
             switch (eventCode)
             {
                 case UIEvent.TEST_PANEL_ACTIVE:
-                    localText.text = message.ToString();
+                    //localText.text = message.ToString();
                     //gameObjectLoginSelectPanel.gameObject.SetActive(true);
                     break;
                 default:
@@ -57,7 +56,6 @@ namespace Assets.Scripts.UI.LoginUI
             btnEnglish = transform.Find("BtnEnglish").GetComponent<Button>();
             btnKorean = transform.Find("BtnKorean").GetComponent<Button>();
 
-            localText = transform.Find("Test/LocalText").GetComponent<Text>();
             btnConfim = transform.Find("Test/TestInput/BtnIp").GetComponent<Button>();
             testInputIp = transform.Find("Test/TestInput").GetComponent<InputField>();
             btnConfim.onClick.AddListener(clickIpConfim);
