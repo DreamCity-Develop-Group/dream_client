@@ -21,8 +21,6 @@ namespace Assets.Scripts.UI.MeunUI
         Image imageBtnCommerce;
         Image imageBtnTreasure;
         Image imageBtnFriends;
-        private Text textNickName;
-        private Text textLv;
 
         private GameObject HandPortrait;                    //头像选择
         private Button changeHand;                          //换头像
@@ -113,6 +111,16 @@ namespace Assets.Scripts.UI.MeunUI
             btnFriends.onClick.AddListener(clickFriend);
             btnMsg.onClick.AddListener(clickEmali);
             btnCommerce.onClick.AddListener(clickCommerce);
+            btnCommerce.onClick.AddListener(clickChamber);
+            changeHand.onClick.AddListener(clickChangeHand);
+            handArray[0].onClick.AddListener(clickHand0);
+            handArray[1].onClick.AddListener(clickHand1);
+            handArray[2].onClick.AddListener(clickHand2);
+            handArray[3].onClick.AddListener(clickHand3);
+            handArray[4].onClick.AddListener(clickHand4);
+            handArray[5].onClick.AddListener(clickHand5);
+            handArray[6].onClick.AddListener(clickHand6);
+            handArray[7].onClick.AddListener(clickHand7);
             txtNotice1.gameObject.SetActive(false);
             initSource();
             //LanguageService.Instance.Language = new LanguageInfo(PlayerPrefs.GetString("language"));
