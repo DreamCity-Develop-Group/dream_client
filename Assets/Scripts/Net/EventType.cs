@@ -4,6 +4,9 @@
  *
  *  请求操作事件码
  **/
+
+using System.CodeDom;
+
 namespace Assets.Scripts.Net
 {
     public class EventType
@@ -100,6 +103,10 @@ namespace Assets.Scripts.Net
         /// </summary>
         public const int change_expwshop=27;
 
+        /// <summary>
+        /// 提现
+        /// </summary>
+        public const int cach_withdrawal = 28;
 
         /// <summary>
         /// 退出登入

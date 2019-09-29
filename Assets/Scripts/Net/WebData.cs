@@ -4,8 +4,6 @@ using System.Threading;
 using Assets.Scripts.Model;
 using Assets.Scripts.Net.Code;
 using LitJson;
-using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
 using WebSocketSharp;
 //using LitJson;
@@ -83,6 +81,8 @@ namespace Assets.Scripts.Net
         private Queue<SocketMsg<SquareUser>> _squareQueue = new Queue<SocketMsg<SquareUser>>();
 
         private Queue<SocketMsg<MenuInfo>> _menuQueue = new Queue<SocketMsg<MenuInfo>>();
+
+        private Queue<SocketMsg<List<InvestInfo>>> _investQueue = new Queue<SocketMsg<List<InvestInfo>>>();
         //private 
         public WebSocket WebSocket { get { return _webSocket; } }
         public string Address { get { return address; } }
@@ -91,6 +91,12 @@ namespace Assets.Scripts.Net
         public Queue<SocketMsg<Dictionary<string, string>>> MsgQueue { get => _msgQueue; set => _msgQueue = value; }
         public Queue<SocketMsg<SquareUser>> SquareQueue { get => _squareQueue; set => _squareQueue = value; }
         public Queue<SocketMsg<MenuInfo>> MenuQueue { get => _menuQueue; set => _menuQueue = value; }
+
+        public Queue<SocketMsg<List<InvestInfo>>> InvestQueue
+        {
+            get => _investQueue;
+            set => _investQueue = value;
+        }
         /// <summary>
         /// 登录消息依次加载存储队列
         /// </summary>
@@ -247,6 +253,13 @@ namespace Assets.Scripts.Net
                 Debug.Log(menuinfo);
                 MenuQueue.Enqueue(menuinfo);
 
+            }
+            else if (info.data.type=="getInvestList")
+            {
+                SocketMsg<List<InvestInfo>> investinfo = JsonMapper.ToObject<SocketMsg<List<InvestInfo>>>(jsonmsg);
+                //TODO 过滤过时消息
+                Debug.Log(investinfo);
+                InvestQueue.Enqueue(investinfo);
             }
             else
             {

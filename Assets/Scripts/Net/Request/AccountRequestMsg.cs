@@ -223,6 +223,7 @@ namespace Assets.Scripts.Net.Request
         /// <returns></returns>
         public SocketMsg<Dictionary<string, string>> ReqTransferMsg(object msg)
         {
+            //msg金额todo
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token", PlayerPrefs.GetString("token"));
@@ -237,6 +238,7 @@ namespace Assets.Scripts.Net.Request
         /// <returns></returns>
         public SocketMsg<Dictionary<string, string>> ReqRechargeMsg(object msg)
         {
+            //msg金额，钱包地址todo，
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token", PlayerPrefs.GetString("token"));
@@ -244,6 +246,22 @@ namespace Assets.Scripts.Net.Request
             socketMsg.Change(LoginInfo.ClientId, "充值请求", messageData);
             return socketMsg;
         }
+        /// <summary>
+        /// 提现请求消息
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public SocketMsg<Dictionary<string, string>> ReqCachWithdrawalMsg(object msg)
+        {
+            //msg金额，钱包地址,type,todo,
+            Dictionary<string, string> t = msg as Dictionary<string, string>;
+            t.Add("username", PlayerPrefs.GetString("username"));
+            t.Add("token", PlayerPrefs.GetString("token"));
+            messageData.Change("consumer/player", "recharge", t);
+            socketMsg.Change(LoginInfo.ClientId, "提现请求消息", messageData);
+            return socketMsg;
+        }
+        
         /// <summary>
         /// 主界面信息请求
         /// </summary>
@@ -258,6 +276,7 @@ namespace Assets.Scripts.Net.Request
             socketMsg.Change(LoginInfo.ClientId, "主界面信息请求", messageData);
             return socketMsg;
         }
+       
         /// <summary>
         /// 退出登入
         /// </summary>
@@ -268,7 +287,7 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string> t = new  Dictionary<string, string>();
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token", PlayerPrefs.GetString("token"));
-            messageData.Change("consumer/player", "eixt", t);
+            messageData.Change("consumer/player", "exit", t);
             socketMsg.Change(LoginInfo.ClientId, "退出登入请求", messageData);
             return socketMsg;
         }

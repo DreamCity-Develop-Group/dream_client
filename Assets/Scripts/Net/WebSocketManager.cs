@@ -28,6 +28,7 @@ namespace Assets.Scripts.Net
         private FriendRequestMsg friendRequestMsg = new FriendRequestMsg();
         private SetRequestMsg setRequestMsg = new SetRequestMsg();
         private CommerceRequsetMsg commerceRequsetMsg = new CommerceRequsetMsg();
+        private InvestRequestMsg investRequestMsg = new InvestRequestMsg();
         private SocketMsg<Dictionary<string,string>> socketMsg;
         private SocketMsg<SquareUser> squareMsg;
 
@@ -180,7 +181,8 @@ namespace Assets.Scripts.Net
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.invest_req:
-
+                        socketMsg = investRequestMsg.ReqInvestMsg(message);
+                        _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.squarefriend:
                         socketMsg = friendRequestMsg.ReqSearchUserMsg(message);
@@ -269,6 +271,12 @@ namespace Assets.Scripts.Net
                 SocketMsg<MenuInfo> menuinfo = _wabData.MenuQueue.Dequeue();
                 processMenuMsg(menuinfo);
             }
+
+            if (_wabData.InvestQueue.Count>0)
+            {
+                SocketMsg<List<InvestInfo>> investinfo = _wabData.InvestQueue.Dequeue();
+                processInvestSocketMsg(investinfo);
+            }
         
         }
 
@@ -289,7 +297,7 @@ namespace Assets.Scripts.Net
         private HandlerBase accountHandler = new AccoutHandler();
         private Dictionary<string, string> dicRegLogRespon;
         private SquareUser squareData;
-
+        private InvestHandler investHandler = new InvestHandler();
         private HandlerBase setHandler = new SetHandler();
         /// <summary>
         /// 设置模块
@@ -390,6 +398,24 @@ namespace Assets.Scripts.Net
                     break;
             }
         }
+
+        private void processInvestSocketMsg(SocketMsg<List<InvestInfo>> msg)
+        {
+            if (msg == null || msg.data == null)
+            {
+                Debug.Log("message is null");
+                return;
+            }
+
+            switch (msg.data.type)
+            {
+                case "getInvestList":
+
+                    investHandler.OnReceive(EventType.invest_info, msg.data.data);
+                    break;
+            }
+        }
+
         private void processSocketMsg(SocketMsg<Dictionary<string,string>> msg)
         {
             //test
@@ -509,6 +535,14 @@ namespace Assets.Scripts.Net
                     accountHandler.OnReceive(EventType.transfer, dicRegLogRespon["desc"]);
                     break;
                 case "recharge":
+                    break;
+                case "playerInvest":
+                    if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
+                    {
+                        Debug.LogError("playerInvest error");
+                        return;
+                    }
+                    investHandler.OnReceive(EventType.invest_req, dicRegLogRespon["desc"]);
                     break;
                 default:
                     break;
