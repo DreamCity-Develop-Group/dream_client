@@ -25,6 +25,8 @@ namespace Assets.Scripts.UI.MeunUI
         Image imageBtnCommerce;
         Image imageBtnTreasure;
         Image imageBtnFriends;
+        private Text textNickName;
+        private Text textLv;
 
         private GameObject HandPortrait;                    //头像选择
         private Button changeHand;                          //换头像
