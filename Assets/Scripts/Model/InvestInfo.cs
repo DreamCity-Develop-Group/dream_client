@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+// ReSharper disable InconsistentNaming
 
 /***
   * Title:     
@@ -18,13 +19,19 @@ namespace Assets.Scripts.Model
     public class InvestInfo 
     {
         /// <summary>
-        /// Ͷ���̼�id��ʶ
+        /// 投资项目id
         /// </summary>
-        public  List<int> storeids;
+        public string inId { get; set; }
+        /// <summary>
+        /// 可提取usdt
+        /// </summary>
+        public string extractable { get; set; }
+        /// <summary>
+        /// 收益usdt
+        /// </summary>
+        public string income { get; set; }
 
-        public string username;
-
-        public string token;
     }
+
 }
 
