@@ -17,6 +17,10 @@ namespace Assets.Scripts.UI.MeunUI
         Button btnCommerce;//商会
         Button btnTreasure;//资产
         Button btnAdd;
+        /// <summary>
+        /// 投资
+        /// </summary>
+        private Button btnManage;
 
         Image imageBtnCommerce;
         Image imageBtnTreasure;
@@ -81,6 +85,8 @@ namespace Assets.Scripts.UI.MeunUI
             btnMsg = transform.Find("BtnMsg").GetComponent<Button>();
             btnFriends = transform.Find("BtnFriends").GetComponent<Button>();
 
+            btnManage = transform.Find("BtnManage").GetComponent<Button>();
+
             imageBtnCommerce = btnCommerce.transform.GetComponent<Image>();
             imageBtnFriends = btnFriends.transform.GetComponent<Image>();
             imageBtnTreasure = btnTreasure.transform.GetComponent<Image>();
@@ -104,8 +110,9 @@ namespace Assets.Scripts.UI.MeunUI
             {
                 handArray[i] = HandPortrait.transform.Find("Frame/Hand" + i).GetComponent<Button>();
             }
-       
+            
             btnAdd = transform.Find("BtnAdd").GetComponent<Button>();
+            btnManage.onClick.AddListener(clickManage);
             HandPortrait.SetActive(false);
             btnAdd.onClick.AddListener(clickAdd);
             btnTreasure.onClick.AddListener(clickTreasure);
@@ -199,6 +206,12 @@ namespace Assets.Scripts.UI.MeunUI
                 t+= Time.deltaTime/10;
                 yield return new WaitForEndOfFrame();
             }
+        }
+
+        private void clickManage()
+        {
+            //投资
+            Dispatch(AreaCode.UI,UIEvent.SELECTINVEST_PANEL_ACTIVE, true);
         }
         private void clickAdd()
         {

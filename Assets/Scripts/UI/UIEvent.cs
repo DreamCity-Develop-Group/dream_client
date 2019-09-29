@@ -161,8 +161,14 @@ namespace Assets.Scripts.UI
         /// 选择投资商版本数据
         /// </summary>
         public const int SELECCTINVEST_PANEL_VIEW = 33;
-
-
+        /// <summary>
+        /// 预约中结果是否经营
+        /// </summary>
+        public const int INVESTED_REPLY_VIEW = 34;
+        /// <summary>
+        /// 经营中结果是否可提取
+        /// </summary>
+        public const int INVESTING_REPLY_VIEW = 35;
 
 
 

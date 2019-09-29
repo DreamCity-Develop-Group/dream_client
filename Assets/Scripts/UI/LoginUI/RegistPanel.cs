@@ -17,6 +17,8 @@ namespace Assets.Scripts.UI.LoginUI
         InputField inputPassWord;
         InputField inputNickName;
         InputField inputInviteCode;
+        private Image getCodeImage;
+        private Image registImage;
 
         string phone;
         string identify;
@@ -26,7 +28,7 @@ namespace Assets.Scripts.UI.LoginUI
         //InputField inputRePassWord;
         private void Awake()
         {
-            Bind(UIEvent.REG_ACTIVE, UIEvent.REG_PANEL_CODEVIEW);
+            Bind(UIEvent.REG_ACTIVE, UIEvent.REG_PANEL_CODEVIEW,UIEvent.LANGUAGE_VIEW);
        
         }
 
@@ -39,6 +41,9 @@ namespace Assets.Scripts.UI.LoginUI
                     break;
                 case UIEvent.REG_PANEL_CODEVIEW:
                     inputIdentify.text = message.ToString();
+                    break;
+                case UIEvent.LANGUAGE_VIEW:
+                    initSource(message.ToString());
                     break;
                 default:
                     break;
@@ -57,6 +62,9 @@ namespace Assets.Scripts.UI.LoginUI
             inputNickName = transform.Find("InputNickName").GetComponent<InputField>();
             inputInviteCode = transform.Find("InputInviteCode").GetComponent<InputField>();
 
+            getCodeImage = btnIdentify.GetComponent<Image>();
+            registImage = btnRegist.GetComponent<Image>();
+
             btnLogin.onClick.AddListener(clickLogin);
             btnIdentify.onClick.AddListener(clickIdentify);
             btnRegist.onClick.AddListener(clickRegist);
@@ -64,7 +72,14 @@ namespace Assets.Scripts.UI.LoginUI
             btnRegist.enabled = false;
             setPanelActive(false);
         }
-
+        private void initSource(string language)
+        {
+            //string language = PlayerPrefs.GetString("language");
+            //string language = "chinese";
+            Debug.Log(language);
+            getCodeImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "huoquyanzhengma@2x");
+            registImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "zhucelv");
+        }
         private void clickLogin()
         {
             setPanelActive(false);

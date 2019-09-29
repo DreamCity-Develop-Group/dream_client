@@ -35,7 +35,7 @@ namespace Assets.Scripts.UI.LoginUI
         void Start()
         {
             cg = gameObject.GetComponent<CanvasGroup>();
-            textHint = transform.Find("TextHint").GetComponent<Text>();
+            textHint = transform.Find("HintBg/TextHint").GetComponent<Text>();
             cg.alpha = 0;
         }
 

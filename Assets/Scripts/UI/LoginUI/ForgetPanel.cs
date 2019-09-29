@@ -26,6 +26,8 @@ namespace Assets.Scripts.UI.LoginUI
         Button btnForget;
         Button btnGetIdentity;
         Button btnReturn;
+        private Image getCodeImage;
+        private Image ensureImage;
 
         InputField inputUserName;
         InputField inputPassWord;
@@ -63,6 +65,10 @@ namespace Assets.Scripts.UI.LoginUI
             btnCommit = transform.Find("BtnCommit").GetComponent<Button>();
             btnReg = transform.Find("BtnReg").GetComponent<Button>();
             btnGetIdentity = transform.Find("BtnGetIdentity").GetComponent<Button>();
+
+            getCodeImage = btnGetIdentity.GetComponent<Image>();
+            ensureImage = btnCommit.GetComponent<Image>();
+
             btnGetIdentity.onClick.AddListener(clickGetIdentity);
             btnCommit.onClick.AddListener(clickCommit);
             btnReg.onClick.AddListener(clickReg);
@@ -76,7 +82,18 @@ namespace Assets.Scripts.UI.LoginUI
             btnCommit.onClick.RemoveAllListeners();
             btnGetIdentity.onClick.RemoveAllListeners();
         }
-
+        /// <summary>
+        /// /语言版本图片加载
+        /// </summary/>
+        /// <param name="language"></param>
+        private void initSource(string language)
+        {
+            //string language = PlayerPrefs.GetString("language");
+            //string language = "chinese";
+            Debug.Log(language);
+            ensureImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "queding");
+            getCodeImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "huoquyanzhengma@2x");
+        }
         private void clickReturn()
         {
             setPanelActive(false);

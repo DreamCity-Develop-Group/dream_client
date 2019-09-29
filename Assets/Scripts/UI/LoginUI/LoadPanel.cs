@@ -26,9 +26,14 @@ namespace Assets.Scripts.UI.LoginUI
         GameObject gameObjectLoginSelectPanel;
         Button btnRegist;
         Button btnLogin;
+
+        private Image headImage;
+       // private Image titleImage;
+        private Image loginImage;
+        private Image regiestImage;
         private void Awake()
         {
-            Bind(UIEvent.LOAD_PANEL_ACTIVE);
+            Bind(UIEvent.LOAD_PANEL_ACTIVE,UIEvent.LANGUAGE_VIEW);
 
         }
 
@@ -43,6 +48,9 @@ namespace Assets.Scripts.UI.LoginUI
                     // StartCoroutine(Loading());
                     //gameObjectLoginSelectPanel.gameObject.SetActive(true);
                     break;
+                case UIEvent.LANGUAGE_VIEW:
+                    initSource(message.ToString());
+                    break;
             }
         }
         // Start is called before the first frame update
@@ -51,6 +59,10 @@ namespace Assets.Scripts.UI.LoginUI
             gameObjectLoginSelectPanel = transform.Find("LoginSelectPanel").gameObject;
             btnLogin = transform.Find("LoginSelectPanel/BtnLogin").GetComponent<Button>();
             btnRegist = transform.Find("LoginSelectPanel/BtnRegist").GetComponent<Button>();
+
+            headImage = transform.Find("HeadImage").GetComponent<Image>();
+            loginImage = btnLogin.GetComponent<Image>();
+            regiestImage = btnRegist.GetComponent<Image>();
 
             btnLogin.onClick.AddListener(clickLogin);
             btnRegist.onClick.AddListener(clickRegist);
@@ -75,6 +87,19 @@ namespace Assets.Scripts.UI.LoginUI
             }
             sliderLoading.gameObject.SetActive(false);
             gameObjectLoginSelectPanel.SetActive(true);
+        }
+        /// <summary>
+        /// /语言版本图片加载
+        /// </summary/>
+        /// <param name="language"></param>
+        private void initSource(string language)
+        {
+            //string language = PlayerPrefs.GetString("language");
+            //string language = "chinese";
+            Debug.Log(language);
+            headImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "HeadTitle");
+            loginImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "dengluhuang");
+            regiestImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "zhucelan");
         }
         private void clickLogin()
         {

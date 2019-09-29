@@ -18,6 +18,12 @@ namespace Assets.Scripts.UI.LoginUI
         InputField inputIdentity;
         Button btnGetIdentity;
 
+        private Image headImage;
+        private Image titleImage;
+        private Image loginImage;
+        private Image getIndentityImage;
+
+
         Text textIdentityLog;
         string username = "jx";
         string password = "123";
@@ -28,7 +34,7 @@ namespace Assets.Scripts.UI.LoginUI
         LoginInfo loginInfo;
         private void Awake()
         {
-            Bind(UIEvent.LOG_ACTIVE);
+            Bind(UIEvent.LOG_ACTIVE,UIEvent.LANGUAGE_VIEW);
         }
 
         protected internal override void Execute(int eventCode, object message)
@@ -38,6 +44,10 @@ namespace Assets.Scripts.UI.LoginUI
                 case UIEvent.LOG_ACTIVE:
                     setPanelActive((bool)message);
                     break;
+                case UIEvent.LANGUAGE_VIEW:
+                    initSource(message.ToString());
+                    break;
+                //case 
                 default:
                     break;
             }
@@ -47,6 +57,10 @@ namespace Assets.Scripts.UI.LoginUI
             inputUserName = transform.Find("InputUserName").GetComponent<InputField>();
             inputPassWord = transform.Find("InputPassWord").GetComponent<InputField>();
             inputIdentity = transform.Find("InputIdentity").GetComponent<InputField>();
+
+           
+
+
 
             btnForget = transform.Find("BtnForget").GetComponent<Button>();
             btnLogin = transform.Find("BtnLogin").GetComponent<Button>();
@@ -62,7 +76,11 @@ namespace Assets.Scripts.UI.LoginUI
 
             btnForget.onClick.AddListener(clickForget);
 
+            getIndentityImage = btnGetIdentity.GetComponent<Image>();;
+            headImage = transform.Find("HeadImage").GetComponent<Image>();
+            loginImage = btnLogin.GetComponent<Image>();
             //inputUserName.GetComponent<LanguageText>().Key =LanguageService.Instance.GetStringByKey("UILogin.InputUserName", string.Empty);
+            
 
             btnGetIdentity.gameObject.SetActive(false);
             inputIdentity.gameObject.SetActive(false);
@@ -77,8 +95,19 @@ namespace Assets.Scripts.UI.LoginUI
             btnGetIdentity.onClick.RemoveAllListeners();
             btnIdentityLog.onClick.RemoveAllListeners();
         }
-
-
+        /// <summary>
+        /// /语言版本图片加载
+        /// </summary/>
+        /// <param name="language"></param>
+        private void initSource(string language)
+        {
+            //string language = PlayerPrefs.GetString("language");
+            //string language = "chinese";
+            Debug.Log(language);
+            headImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "HeadTitle");
+            loginImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "dengluhuang");
+            getIndentityImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "huoquyanzhengma@2x");
+        }
         private void clickForget()
         {
             Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, true);

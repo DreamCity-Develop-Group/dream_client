@@ -63,7 +63,7 @@ namespace Assets.Scripts.UI
         }
         private void Start()
         {
-            btnOrder = transform.Find("StorePrefab/StoreImage/BtnOrder").GetComponent<Button>();
+            btnOrder = transform.Find("StorePrefab/BtnOrder").GetComponent<Button>();
             storeName = transform.Find("StorePrefab/StoreInfoPanel/StoreName").GetComponent<Text>();
             incomeUSDT = transform.Find("StorePrefab/StoreInfoPanel/HeadIncomeUSDT/IncomeUSDT").GetComponent<Text>();
             quotaTax = transform.Find("StorePrefab/StoreInfoPanel/HeadQuotaTax/QuotaTax").GetComponent<Text>(); 
