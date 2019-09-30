@@ -50,6 +50,7 @@ namespace Assets.Scripts.Net.Request
             messageData.Change("consumer/player", "login",t);
             socketMsg.Change(LoginInfo.ClientId, "登入操作", messageData);
             PlayerPrefs.SetString("username", loginInfo.UserName);
+            CacheData.Instance().Username = loginInfo.UserName;
             return socketMsg;
         }
         /// <summary>
@@ -67,7 +68,8 @@ namespace Assets.Scripts.Net.Request
                 ["username"] = loginInfo.UserName,
                 ["newpw"] = userpass,
                 ["code"] = loginInfo.Identity,
-                ["token"] = PlayerPrefs.GetString("token")
+                ["token"] = PlayerPrefs.GetString("token"),
+                  
             };
             messageData.Change("consumer/palyer", "pwforget", t);
             socketMsg.Change(LoginInfo.ClientId, "忘记密码消息", messageData);
@@ -88,6 +90,8 @@ namespace Assets.Scripts.Net.Request
                 {
                     ["username"] = PlayerPrefs.GetString("username"),
                     ["token"] = PlayerPrefs.GetString("token")
+                   // ["token"] = CacheData.Instance().Token
+
                 };
                 messageData.Change("consumer/message", "getCode", t1);
                 socketMsg.Change(LoginInfo.ClientId, "获取验证码操作", messageData);
@@ -209,7 +213,8 @@ namespace Assets.Scripts.Net.Request
             {
                 // ["IsIdentityLog"] = loginInfo.Identity,
                 ["username"] = loginInfo.UserName,
-                ["token"] = PlayerPrefs.GetString("token")
+               ["token"] = PlayerPrefs.GetString("token")
+                    //["token"] = CacheData.Instance().Token
             };
             messageData.Change("consumer", "property", t);
             socketMsg.Change(LoginInfo.ClientId, "资产信息", messageData);
@@ -226,7 +231,8 @@ namespace Assets.Scripts.Net.Request
             //msg金额todo
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
-            t.Add("token", PlayerPrefs.GetString("token"));
+
+            t.Add("token",PlayerPrefs.GetString("token"));
             messageData.Change("consumer/player", "transferaccount", t);
             socketMsg.Change(LoginInfo.ClientId, "转账请求消息", messageData);
             return socketMsg;
@@ -286,7 +292,7 @@ namespace Assets.Scripts.Net.Request
         {
             Dictionary<string, string> t = new  Dictionary<string, string>();
             t.Add("username", PlayerPrefs.GetString("username"));
-            t.Add("token", PlayerPrefs.GetString("token"));
+            t.Add("token",PlayerPrefs.GetString("token"));
             messageData.Change("consumer/player", "exit", t);
             socketMsg.Change(LoginInfo.ClientId, "退出登入请求", messageData);
             return socketMsg;

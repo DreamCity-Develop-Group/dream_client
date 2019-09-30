@@ -39,6 +39,7 @@ namespace Assets.Scripts.Net.Request
                 ["nick"] = applyUserName,
                 ["username"] = PlayerPrefs.GetString("username"),
                 ["token"] = PlayerPrefs.GetString("token")
+                //["token"] = CacheData.Instance().Token
             };
             messageData.Change("consumer/player/friend", "addFriend", t);
             socketMsg.Change(LoginInfo.ClientId, "申请好友操作", messageData);
@@ -77,7 +78,8 @@ namespace Assets.Scripts.Net.Request
                 ["nick"] = userInfo.NickName,
                 ["likes"] = userInfo.Like,
                 ["username"] = PlayerPrefs.GetString("username"),
-                ["token"] = PlayerPrefs.GetString("token"),
+                ["token"] = PlayerPrefs.GetString("token")
+                //["token"] = CacheData.Instance().Token
             };
             messageData.Change("consumer/player/friend", "likefriend", t);
             socketMsg.Change(LoginInfo.ClientId, "好友点赞", messageData);

@@ -13,6 +13,8 @@
   *
 ***/
 
+using Assets.Scripts.Model;
+using Boo.Lang;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.MeunUI
@@ -20,9 +22,10 @@ namespace Assets.Scripts.UI.MeunUI
     public class MsgPanel : UIBase
     {
         Button btnClose;
+        private List<MessageInfo> msgInfos;
         private void Awake()
         {
-            Bind(UIEvent.MSG_PANEL_ACTIVE);
+            Bind(UIEvent.MSG_PANEL_ACTIVE,UIEvent.MESSAGE_PANEL_VIEW);
         }
 
         protected internal override void Execute(int eventCode, object message)
@@ -31,6 +34,9 @@ namespace Assets.Scripts.UI.MeunUI
             {
                 case UIEvent.MSG_PANEL_ACTIVE:
                     setPanelActive((bool)message);
+                    break;
+                case UIEvent.MESSAGE_PANEL_VIEW:
+                    msgInfos = message as List<MessageInfo>;
                     break;
                 default:
                     break;

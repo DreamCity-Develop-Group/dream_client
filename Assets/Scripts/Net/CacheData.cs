@@ -46,6 +46,11 @@ public class CacheData
 
     }
     /// <summary>
+    /// 登入成功token
+    /// </summary>
+    public string Token;
+
+    /// <summary>
     /// 个人账户号
     /// </summary>
     public  string Username;

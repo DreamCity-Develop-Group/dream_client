@@ -47,8 +47,8 @@ namespace Assets.Scripts.Net
         /// </summary>  
         //private readonly string address = "ws://192.168.0.102:8010/dream/city/";
         // private readonly string address = "ws://192.168.0.88:8010/dream/city/lili/你发";
-        private  string address = "ws://192.168.0.88:8010/dream/city/lili/你发";
-        public static string ip= "192.168.0.88";
+        private  string address = "ws://192.168.0.106:8010/dream/city/lili/你发";
+        public static string ip= "192.168.0.106";
         //private string address;
 
         /// <summary>  
@@ -56,14 +56,14 @@ namespace Assets.Scripts.Net
         /// </summary>  
 
         /// <summary>
-        /// 心跳时间
+        /// 重连次数
         /// </summary>
-        private int recTimes;
+        public int RecTimes;
 
         /// <summary>
         /// 重连判断
         /// </summary>
-        public static  bool isReconnect=false;
+        public  bool IsReconnect=false;
         /// <summary>  
         /// Debug text to draw on the gui  
         /// </summary>  
@@ -83,6 +83,7 @@ namespace Assets.Scripts.Net
         private Queue<SocketMsg<MenuInfo>> _menuQueue = new Queue<SocketMsg<MenuInfo>>();
 
         private Queue<SocketMsg<List<InvestInfo>>> _investQueue = new Queue<SocketMsg<List<InvestInfo>>>();
+        private Queue<SocketMsg<List<MessageInfo>>> _messageQueue = new Queue<SocketMsg<List<MessageInfo>>>();
         //private 
         public WebSocket WebSocket { get { return _webSocket; } }
         public string Address { get { return address; } }
@@ -92,6 +93,7 @@ namespace Assets.Scripts.Net
         public Queue<SocketMsg<SquareUser>> SquareQueue { get => _squareQueue; set => _squareQueue = value; }
         public Queue<SocketMsg<MenuInfo>> MenuQueue { get => _menuQueue; set => _menuQueue = value; }
 
+        public Queue<SocketMsg<List<MessageInfo>>> MessageQueue { get => _messageQueue; set => _messageQueue = value; }
         public Queue<SocketMsg<List<InvestInfo>>> InvestQueue
         {
             get => _investQueue;
@@ -104,10 +106,11 @@ namespace Assets.Scripts.Net
 
         public void OpenWebSocket()
         {
-            if (_webSocket == null)
-            {
-                address = "ws://"+ip+":8010/dream/city/lili/你发";
-                _webSocket = new WebSocket(address,null);
+            //if (_webSocket == null)
+            //{
+               
+               address = "ws://"+ip+":8010/dream/city/lili/你发";
+               _webSocket = new WebSocket(address,null);
                 //if (HTTPManager.Proxy != null)
                 //    _webSocket.InternalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address, HTTPManager.Proxy.Credentials, false);
                 // Subscribe to the WS events  
@@ -125,26 +128,25 @@ namespace Assets.Scripts.Net
                 };
                 // Start connecting to the server  
                 _webSocket.Connect();
-            }
+
+               // ThreadStart();
+           // }
         }
         //readonly CancellationToken _cancellation = new CancellationToken();
         public   void SendMsg(object msg)
         {
             // Send message to the server  
-     
-            //if (_webSocket == null)
-            //{
-            //    ReConnect();
-            //}
-            //TODOtest
-
-            //SocketMsg msg1 = new SocketMsg();
-        
-            //string jsonmsg = JsonMapper.ToJson(msg1);
+            if (_webSocket == null)
+            {
+               // ReConnect();
+               Debug.Log("SendMsg: _webSocket == null");
+            }
+            if (msg == null)
+            {
+                return;
+            }
             string jsonmsg = JsonMapper.ToJson(msg);
             Debug.Log("sendMsg: "+jsonmsg);
-            //TODOtest
-       
             _webSocket.Send(jsonmsg);
         }
         string statusDescription;
@@ -160,24 +162,28 @@ namespace Assets.Scripts.Net
         /// 心跳检测
         /// </summary> 
         Thread t1;
-
+        /// <summary>
+        /// 一分钟发一次心跳判断服务器状态
+        /// </summary>
         private int timeout = 30000;
         public static bool isLogin = false;
         private static object lockObj = new object();
-        private void heartCheck()
+        private void HeartCheck()
         {
             while (true)
             {
                 lock (lockObj)
                 {
                     Thread.Sleep(timeout);
-                    isReconnect = false;
+                    IsReconnect = false;
                     if (isLogin)
                     {
-                        _webSocket.Send("ping_" + PlayerPrefs.GetString("username"));
+                        //登入成功
+                        _webSocket.Send("ping_" + CacheData.Instance().Username);
                     }
                     else
                     {
+                        //连接成功
                         _webSocket.Send("ping");
                     }
                 }
@@ -191,13 +197,15 @@ namespace Assets.Scripts.Net
         /// </summary>  
         void OnOpen()
         {
-            recTimes = 0;
-            isReconnect = true;
+            RecTimes = 0;
+            //客户端打开网络
+            IsReconnect = true;
             if (PlayerPrefs.HasKey("token"))
             {
                 Dictionary<string, object> logMsg = new Dictionary<string, object>()
                 {
-                    ["token"] = PlayerPrefs.GetString("token"),
+                    //["token"] = CacheData.Instance().Token
+                        ["token"] = PlayerPrefs.GetString("token")
                 };
                 SendMsg(logMsg);
             }
@@ -219,24 +227,28 @@ namespace Assets.Scripts.Net
         void OnMessageReceived(string jsonmsg)
         {
             Debug.Log("receiveMsg:  "+jsonmsg);
-            //if (jsonmsg.Contains("success"))
-            //{
-            //    if (jsonmsg.Length>7)
-            //    {
-            //        PlayerPrefs.SetString("token", jsonmsg.Substring(8));
-            //    }
-            //    isReconnect = true;
-            //    Debug.Log("isconnect"+jsonmsg);
-            //    return;
-            //}
-
-            SocketMsg<object> info = JsonMapper.ToObject<SocketMsg<object>>(jsonmsg);
-
-            if (info == null)
+            if (jsonmsg.Equals("success"))
+            {
+                if (jsonmsg.Length > 7)
+                {
+                    PlayerPrefs.SetString("token", jsonmsg.Substring(8));
+                    // CacheData.Instance().Token = jsonmsg.Substring(8);
+                }
+                isLogin = true;
+                Debug.Log("isconnect" + jsonmsg);
+                return;
+            }
+            if (jsonmsg == null||jsonmsg.Equals(""))
             {
                 Debug.Log("msg null error");
                 return;
             }
+            SocketMsg<object> info = JsonMapper.ToObject<SocketMsg<object>>(jsonmsg);
+            if (info.data.model == "socket")
+            {
+                HeartStart();
+            }
+           
             //todo 建立一个响应字典
             if(info.data.type== "squareFriends" || info.data.type == "friendList" || info.data.type =="applyFriend")
             {
@@ -245,6 +257,14 @@ namespace Assets.Scripts.Net
                 Debug.Log(squareinfo);
                 SquareQueue.Enqueue(squareinfo);
             
+            }
+            else if (info.data.type =="message")
+            {
+                SocketMsg<List<MessageInfo>> messageinfo = JsonMapper.ToObject<SocketMsg<List<MessageInfo>>>(jsonmsg);
+                //TODO 过滤过时消息
+                Debug.Log(messageinfo);
+                MessageQueue.Enqueue(messageinfo);
+                
             }
             else if (info.data.type=="default")
             {
@@ -275,36 +295,21 @@ namespace Assets.Scripts.Net
         /// </summary>  
         void OnClosed(string message)
         {
-            t1.Abort();
-            isReconnect = false;
-            ReConnect();
+            t1?.Abort();
+            IsReconnect = false;
+            if (!WebSocketManager.Instance.ReConnectState)
+            {
+                WebSocketManager.Instance.StartCoroutine(WebSocketManager.Instance.ReConnect());
+            }
             Debug.Log(string.Format("-WebSocket closed! Code:  Message: [0]\n", message));
         }
+       
 
-        /// <summary>
-        /// 断线重连
-        /// </summary>
-        private void ReConnect()
-        {
-            if (!isReconnect)
-            {
-                if (recTimes < 59)
-                {
-                    recTimes += 1;
-                    OpenWebSocket();
-                }
-                else
-                {
-                    //TODO跳到登入场景中去
-                    Debug.LogError("网络断开");
-                }
-            }
-        }
         /// <summary>
         ///线程处理
         /// </summary>
         Queue<Thread> threads = new Queue<Thread>();
-        public void ThreadStart()
+        public void HeartStart()
         {
             if (threads.Count > 0)
             {
@@ -312,11 +317,26 @@ namespace Assets.Scripts.Net
             }
             else
             {
-                t1 = new Thread(heartCheck);
+                t1 = new Thread(HeartCheck);
                 t1.Start();
-                t1.IsBackground = true;
+                //t1.IsBackground = true;
+                //Application.runInBackground
             }
         }
+
+        //public void ConnectStart()
+        //{
+        //    if (threads.Count > 0)
+        //    {
+        //        t1 = threads.Dequeue();
+        //    }
+        //    else
+        //    {
+        //        t1 = new Thread(WebSocketManager.Instance.ReConnect());
+        //        t1.Start();
+        //        t1.IsBackground = true;
+        //    }
+        //}
         /// <summary>  
         /// Called when an error occured on client side  
         /// </summary>  

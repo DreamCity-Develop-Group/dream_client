@@ -30,6 +30,10 @@ namespace Assets.Scripts.Model
         /// 收益usdt
         /// </summary>
         public string income { get; set; }
+        /// <summary>
+        /// 投资状态
+        /// </summary>
+        public int state { get; set; }
 
     }
 

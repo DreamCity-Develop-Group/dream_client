@@ -169,6 +169,10 @@ namespace Assets.Scripts.UI
         /// 经营中结果是否可提取
         /// </summary>
         public const int INVESTING_REPLY_VIEW = 35;
+        /// <summary>
+        /// 邮箱数据
+        /// </summary>
+        public const int MESSAGE_PANEL_VIEW = 36;
 
 
 

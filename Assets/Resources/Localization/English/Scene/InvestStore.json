@@ -2,7 +2,7 @@
     {
         "id":"1",
 "投资类型":"One category",
-"投资名称":"food stand",
+"投资名称":"Food Stand",
 "投资金额":"30USDT",
 "预计收益":"2",
 "税收":"Quota tax: 10%",
@@ -14,7 +14,7 @@
     {
         "id":"2",
 "投资类型":"Two category",
-"投资名称":"Toy stalls",
+"投资名称":"Toy Stalls",
 "投资金额":"100USDT",
 "预计收益":"3",
 "税收":"Personal Income Tax: 10%",
@@ -49,7 +49,7 @@
     {
         "id":"5",
 "投资类型":"Five category",
-"投资名称":"Film company",
+"投资名称":"Film Company",
 "投资金额":"1000USDT",
 "预计收益":"4",
 "税收":"Personal Income Tax: 20% Enterprise Income Tax 15%.",

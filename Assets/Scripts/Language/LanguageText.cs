@@ -47,6 +47,11 @@ namespace Assets.Scripts.Language
           //  Language = language;
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+        }
+
         void Start()
 		{//LightmapsModeLegacy 
 			//Localization = LanguageService.Instance;

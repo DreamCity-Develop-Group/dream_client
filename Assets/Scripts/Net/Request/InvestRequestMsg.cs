@@ -49,6 +49,7 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token", PlayerPrefs.GetString("token"));
+            
             messageData.Change("consumer/player", "getInvestList", t);
             socketMsg.Change(LoginInfo.ClientId, "投资信息请求消息", messageData);
             return socketMsg;

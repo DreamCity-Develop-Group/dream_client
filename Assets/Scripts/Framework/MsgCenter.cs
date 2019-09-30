@@ -2,6 +2,7 @@ using Assets.Scripts.Audio;
 using Assets.Scripts.Net;
 using Assets.Scripts.Scenes;
 using Assets.Scripts.UI;
+using Assets.Scripts.UI.LoginUI;
 
 namespace Assets.Scripts.Framework
 {
@@ -26,7 +27,7 @@ namespace Assets.Scripts.Framework
             gameObject.AddComponent<WebSocketManager>();
             //gameObject.AddComponent<CharacterManager>();
             gameObject.AddComponent<ScenesMgr>();
-
+           // gameObject.AddComponent<SelectLanguage>();
             DontDestroyOnLoad(gameObject);
         }
 

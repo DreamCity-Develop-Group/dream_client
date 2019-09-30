@@ -88,8 +88,8 @@ namespace Assets.Scripts.UI
         private void Init()
         {
             //test
-            // string language = PlayerPrefs.GetString("language");
-            string language = "Chinese";
+             string language = PlayerPrefs.GetString("language");
+           // string language = "Chinese";
             //加载json文件
             var path = "/Resources/" + "Localization/" + language + "/" + "Scene" + "/"+ "InvestStore.json";
             StreamReader streamReader = new StreamReader(Application.dataPath + path);

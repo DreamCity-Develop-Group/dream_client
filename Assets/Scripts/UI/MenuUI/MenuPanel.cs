@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using Assets.Scripts.Framework;
+using Assets.Scripts.Language;
 using Assets.Scripts.Model;
 using Assets.Scripts.Tools;
 using UnityEngine;
 using UnityEngine.UI;
+using EventType=Assets.Scripts.Net.EventType;
 
 namespace Assets.Scripts.UI.MeunUI
 {
@@ -132,8 +134,9 @@ namespace Assets.Scripts.UI.MeunUI
             handArray[7].onClick.AddListener(clickHand7);
             txtNotice1.gameObject.SetActive(false);
             initSource();
-            //LanguageService.Instance.Language = new LanguageInfo(PlayerPrefs.GetString("language"));
-            //Dispatch(AreaCode.UI, UIEvent.LANGUAGE_VIEW, PlayerPrefs.GetString("language"));
+            LanguageService.Instance.Language = new LanguageInfo(PlayerPrefs.GetString("language"));
+            Dispatch(AreaCode.UI, UIEvent.LANGUAGE_VIEW, PlayerPrefs.GetString("language"));
+            Dispatch(AreaCode.NET,EventType.menu_req,null);
         }
 
         private void InitInfo(MenuInfo menuInfo)
@@ -179,14 +182,7 @@ namespace Assets.Scripts.UI.MeunUI
 
         private void IsHasMsg(int count)
         {
-            if (count > 0)
-            {
-                gameobjectRed.SetActive(true);
-            }
-            else
-            {
-                gameobjectRed.SetActive(false);
-            }
+            gameobjectRed.SetActive(count > 0);
         }
         /// <summary>
         /// 

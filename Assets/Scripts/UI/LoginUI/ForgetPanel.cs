@@ -41,7 +41,7 @@ namespace Assets.Scripts.UI.LoginUI
         LoginInfo loginInfo;
         private void Awake()
         {
-            Bind(UIEvent.Forget_ACTIVE);
+            Bind(UIEvent.Forget_ACTIVE,UIEvent.LANGUAGE_VIEW);
         }
 
         protected internal override void Execute(int eventCode, object message)
@@ -50,6 +50,9 @@ namespace Assets.Scripts.UI.LoginUI
             {
                 case UIEvent.Forget_ACTIVE:
                     setPanelActive((bool)message);
+                    break;
+                case UIEvent.LANGUAGE_VIEW:
+                    initSource(message.ToString());
                     break;
                 default:
                     break;
@@ -84,7 +87,7 @@ namespace Assets.Scripts.UI.LoginUI
         }
         /// <summary>
         /// /语言版本图片加载
-        /// </summary/>
+        /// </summary>
         /// <param name="language"></param>
         private void initSource(string language)
         {

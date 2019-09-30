@@ -62,8 +62,8 @@ namespace Assets.Scripts.Net.Handler
                 //跳转场景 TODO
                 SceneMsg msg = new SceneMsg("menu", 
                     delegate () {
-
                         Debug.Log("场景加载完成");
+                        Dispatch(AreaCode.NET, EventType.menu_req, null);
                     });
                 //
                 Dispatch(AreaCode.SCENE,SceneEvent.MENU_PLAY_SCENE,msg);

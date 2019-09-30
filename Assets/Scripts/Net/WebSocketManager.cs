@@ -1,10 +1,16 @@
 using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Sockets;
+using System.Threading;
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
 using Assets.Scripts.Net.Code;
 using Assets.Scripts.Net.Handler;
 using Assets.Scripts.Net.Request;
+using Assets.Scripts.Scenes;
+using Assets.Scripts.Scenes.Msg;
 using Assets.Scripts.Tools;
 using Assets.Scripts.UI;
 using LitJson;
@@ -34,25 +40,24 @@ namespace Assets.Scripts.Net
 
         protected internal override void Execute(int eventCode, object message)
         {
-       
-
-
-            //初始化操作
-            if (eventCode == EventType.init && _wabData.WebSocket == null)
+            //初始化联接操作
+            if (_wabData.WebSocket == null||eventCode == EventType.init)
             {
                 _wabData.OpenWebSocket();
-                if (PlayerPrefs.HasKey("token")&&WebData.isReconnect)
+                //登入断线重连
+                if (PlayerPrefs.HasKey("token")&&_wabData.WebSocket.IsAlive)
                 {
                     Dictionary<string, string> logMsg = new Dictionary<string, string>()
                     {
-                        ["token"] = PlayerPrefs.GetString("token"),
+                        // ["token"] = CacheData.Instance().Token
+                        ["token"] = PlayerPrefs.GetString("token")
                     };
                     _wabData.SendMsg(logMsg);
                 }
                 return;
             }
 
-            if  (_wabData.WebSocket!=null&&_wabData.WebSocket.IsAlive) //调试TODO(true)
+            if  (_wabData.WebSocket!=null&&_wabData.WebSocket.IsAlive)
             {
                 switch (eventCode)
                 {
@@ -95,6 +100,11 @@ namespace Assets.Scripts.Net
                     case EventType.addfriend:
                         //添加好友
                         socketMsg = friendRequestMsg.ReqAddFriendMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
+
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.identy:
@@ -141,47 +151,88 @@ namespace Assets.Scripts.Net
                     case EventType.likefriend:
                         //好友点赞
                         socketMsg = friendRequestMsg.ReqLikeFriendMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.applytofriend:
                         //申请通过/拒绝
+                        
                         socketMsg = friendRequestMsg.ReqAgreeFriendMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.property:
                         //测试资产请求
                         socketMsg = accountRequestMsg.ReqPropertyTestMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.nextgrouds:
                         //换一批
                         socketMsg = friendRequestMsg.ReqNextUserList(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.commerce:
                         //商会信息请求
                         socketMsg = commerceRequsetMsg.ReqCommerceMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.commerce_in:
                         //商会加入请求
                         socketMsg = commerceRequsetMsg.ReqComeCommerceMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.transfer:
                         socketMsg = accountRequestMsg.ReqTransferMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.recharge:
                         socketMsg = accountRequestMsg.ReqRechargeMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.commerce_sendmt:
                         socketMsg = commerceRequsetMsg.ReqSendMTMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.invest_req:
                         socketMsg = investRequestMsg.ReqInvestMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.squarefriend:
@@ -194,6 +245,10 @@ namespace Assets.Scripts.Net
                         break;
                     case EventType.menu_req:
                         socketMsg = accountRequestMsg.ReqMenuMsg(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.change_expwshop:
@@ -202,10 +257,18 @@ namespace Assets.Scripts.Net
                         break;
                     case EventType.applyfriend:
                         socketMsg = friendRequestMsg.ReqApplyFriendList(message);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         break;
                     case EventType.exit:
                         socketMsg = accountRequestMsg.ReqExitMsg(null);
+                        if (socketMsg == null)
+                        {
+                            return;
+                        }
                         _wabData.SendMsg(socketMsg);
                         _wabData.WebSocket.Close(1000, "Bye!");
                         Dispatch(AreaCode.SCENE,UIEvent.LOG_ACTIVE,true);
@@ -218,10 +281,6 @@ namespace Assets.Scripts.Net
             {
                 Debug.LogError("连接断开");
             }
-
-            //test
-            string jsonmsg = JsonMapper.ToJson(socketMsg);
-            Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "sendMsg:"+ MsgTool.gb2312_utf8(jsonmsg));
         }
         #endregion
         #region Private Fields
@@ -244,8 +303,6 @@ namespace Assets.Scripts.Net
         private WebData _wabData;
 
         #endregion
-
-
         private void Start()
         {
             _wabData = WebData.Instance();
@@ -277,6 +334,12 @@ namespace Assets.Scripts.Net
                 SocketMsg<List<InvestInfo>> investinfo = _wabData.InvestQueue.Dequeue();
                 processInvestSocketMsg(investinfo);
             }
+
+            if (_wabData.MessageQueue.Count > 0)
+            {
+                SocketMsg<List<MessageInfo>> messageinfo = _wabData.MenuQueueQueue.Dequeue();
+                processMessageSocketMsg(messageinfo);
+            }
         
         }
 
@@ -285,6 +348,45 @@ namespace Assets.Scripts.Net
         {
             //if (_wabData.WebSocket != null)
             //    _wabData.WebSocket.Close();
+        }
+
+        public bool ReConnectState = false;
+        /// <summary>
+        /// 断线重连
+        /// </summary>
+        public IEnumerator  ReConnect()
+        {
+            ReConnectState = true;
+                while (WebData.Instance().RecTimes <= 10)
+                {
+                    WebData.Instance().RecTimes += 1;
+                    yield return new WaitForSeconds(5);
+                    if (!WebData.Instance().IsReconnect)
+                    {
+                        Debug.Log("第" + WebData.Instance().RecTimes + "次重连尝试");
+                        WebData.Instance().OpenWebSocket();
+                    }
+                    else
+                    {
+                        ReConnectState = false;
+                        break;
+                    }
+                }
+                if (WebData.Instance().RecTimes >10)
+                {
+                    Debug.LogError("网络断开");
+                    //客户端断开网络退出应用
+                    //Application.Quit();
+                    SceneMsg msg = new SceneMsg("login",
+                        delegate () {
+                            Debug.Log("场景加载完成");
+                            Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
+                        });
+                    //
+                    Dispatch(AreaCode.SCENE, SceneEvent.LOGIN_PLAY_SCENE, msg);
+            }
+                   
+                
         }
 
         //void OnGUI()
@@ -356,8 +458,35 @@ namespace Assets.Scripts.Net
         /// <param name="msg"></param>
         /// 
 
+        private void processMsg(SocketMsg<MenuInfo> msg)
+        {
+            //test
+            string jsonmsg = JsonMapper.ToJson(msg);
+            //Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg"+ MsgTool.utf8_gb2312(jsonmsg));
+            switch (msg.data.type)
+            {
+                case "default":
+                    //todo 缓存
+                    Dispatch(AreaCode.UI, UIEvent.MENU_PANEL_VIEW, msg.data.data);
+                    break;
+                default:
+                    break;
+            }
+        }
 
-    
+        private void processMessageSocketMsg(SocketMsg<List<MessageInfo>> msg)
+        {
+            string jsonmsg = JsonMapper.ToJson(msg);
+            //Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg"+ MsgTool.utf8_gb2312(jsonmsg));
+            switch (msg.data.type)
+            {
+                case "message":
+                    //todo 缓存
+                    Dispatch(AreaCode.UI, UIEvent.MESSAGE_PANEL_VIEW, msg.data.data);
+
+                    break;
+            }
+        }
         private void processMenuMsg(SocketMsg<MenuInfo> msg)
         {
             //test
@@ -393,7 +522,6 @@ namespace Assets.Scripts.Net
                     SquareUser friendUser = msg.data.data as SquareUser;
                     friendHandler.OnReceive(EventType.listfriend, friendUser);
                     break;
-           
                 default:
                     break;
             }
@@ -433,6 +561,7 @@ namespace Assets.Scripts.Net
             switch (msg.data.type)
             {
                 case "init":
+                   
                     accountHandler.OnReceive(EventType.init, msg.target);
                     //_wabData.ThreadStart();
                     break;
@@ -446,7 +575,8 @@ namespace Assets.Scripts.Net
                     {
                         if (dicRegLogRespon.ContainsKey("token"))
                         {
-                            PlayerPrefs.SetString("token", dicRegLogRespon["token"].ToString());
+                          //  CacheData.Instance().Token= dicRegLogRespon["token"].ToString();
+                          PlayerPrefs.SetString("token", dicRegLogRespon["token"].ToString());
                         }
                         WebData.isLogin = true;
                     }
@@ -454,13 +584,14 @@ namespace Assets.Scripts.Net
                 case "codeLogin":
                     if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
-                        Debug.LogError("login error");
+                        Debug.LogError("codeLogin error");
                         return;
                     }
                     if (accountHandler.OnReceive(EventType.login, dicRegLogRespon["desc"]))
                     {
                         if (dicRegLogRespon.ContainsKey("token"))
                         {
+                            //CacheData.Instance().Token= dicRegLogRespon["token"].ToString();
                             PlayerPrefs.SetString("token", dicRegLogRespon["token"].ToString());
                         }
                         WebData.isLogin = true;
@@ -486,6 +617,11 @@ namespace Assets.Scripts.Net
                     setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
                     break;
                 case "expwshop":
+                    if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
+                    {
+                        Debug.LogError("expwshop error");
+                        return;
+                    }
                     setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
                     break;
                 case "":
@@ -509,7 +645,7 @@ namespace Assets.Scripts.Net
                 case "getCode":
                     if (dicRegLogRespon==null||!dicRegLogRespon.ContainsKey("code"))
                     {
-                        Debug.LogError("addfriend error");
+                        Debug.LogError("getCode error");
                         return;
                     }
                     accountHandler.OnReceive(EventType.identy, msg.data.data["code"]);

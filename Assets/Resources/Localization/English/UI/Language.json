@@ -1,4 +1,6 @@
 {
+	"投资":"Investment",
+	"敬请期待":"Please look forward to",   
 "注册":"registered",
 "登录":"log in",
 "确定":"determine",
@@ -131,5 +133,9 @@
 "释放条件":"Release conditions:",
 "投资条件":"Investment conditions:",
 "此物业每天":"The property shows the booking results at  ",
-"显示预约结果":"a.m. per day."
+"显示预约结果":"a.m. per day.",
+"个人所得税":"Individual income tax:",
+"企业所得税":"Corporate income tax:",
+"可提取":"Extractable:",
+"收益金额":"Amount of income:"
 }
