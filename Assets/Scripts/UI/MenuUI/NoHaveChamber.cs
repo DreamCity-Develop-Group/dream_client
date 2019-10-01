@@ -15,7 +15,7 @@
 using Assets.Scripts.Framework;
 using UnityEngine;
 using UnityEngine.UI;
-
+using EventType=Assets.Scripts.Net.EventType;
 namespace Assets.Scripts.UI.MeunUI
 {
     /// <summary>
@@ -66,7 +66,7 @@ namespace Assets.Scripts.UI.MeunUI
         private Text FundsTxt;                                     //描述 
         private void Awake()
         {
-            Bind(UIEvent.COMMERCE_NOJIONPANEL_ACTIVE);
+            Bind(UIEvent.COMMERCE_NOJIONPANEL_ACTIVE,UIEvent.BusinessPrompt_NOTIVE_VIEW);
         }
 
         protected internal override void Execute(int eventCode, object message)
@@ -74,7 +74,10 @@ namespace Assets.Scripts.UI.MeunUI
             switch (eventCode)
             {
                 case UIEvent.COMMERCE_NOJIONPANEL_ACTIVE:
-                    setPanelActive((bool)message);
+                  setPanelActive((bool)message);
+                    break;
+                case UIEvent.BusinessPrompt_NOTIVE_VIEW:
+
                     break;
                 default:
                     break;
@@ -170,6 +173,12 @@ namespace Assets.Scripts.UI.MeunUI
             //}
             //else
             //{
+            string commerceCode = InputChamberCode.text;
+            if (commerceCode == null || commerceCode.Equals(""))
+            {
+                //TODO输入提示
+            }
+            Dispatch(AreaCode.NET,EventType.commerce_in,InputChamberCode.text.ToString());
             JionChamber.SetActive(false);
             JIonScee.SetActive(true);
             //}

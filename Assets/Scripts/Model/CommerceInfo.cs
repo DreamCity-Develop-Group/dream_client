@@ -10,14 +10,22 @@ public class CommerceInfo
     public List<MermberInfo> members_info { get; set; }
        
 }
-
 public class MermberInfo
 {
+    /// <summary>
+    /// 名字
+    /// </summary>
         public string member_name { get; set; }
+    /// <summary>
+    /// 加入时间
+    /// </summary>
         public string come_time { get; set; }
 
 }
 
+/// <summary>
+/// 兑换记录
+/// </summary>
 public class ExchangeInfo
 {
     /// <summary>

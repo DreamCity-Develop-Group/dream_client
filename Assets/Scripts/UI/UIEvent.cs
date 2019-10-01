@@ -1,4 +1,7 @@
 // ReSharper disable InconsistentNaming
+
+using System.CodeDom;
+
 namespace Assets.Scripts.UI
 {
     // ReSharper disable once InconsistentNaming
@@ -177,6 +180,27 @@ namespace Assets.Scripts.UI
         /// 商会成员信息
         /// </summary>
         public const int COMMERCE_PANEL_VIEW = 37;
+        /// <summary>
+        /// 商会邀请码弹框
+        /// </summary>
+        public const int Commerce_IsIn_VIEW =38;
+        /// <summary>
+        /// 加入企业商会弹框
+        /// </summary>
+        public const int JOIN_Chamber_Commerce_VIEW = 39;
+        /// <summary>
+        /// 
+        /// </summary>
+        public const int BusinessLicense_VIEW = 40;
+        /// <summary>
+        /// 商会升级通知
+        /// </summary>
+        public const int BusinessPrompt_NOTIVE_VIEW = 41;
+        /// <summary>
+        /// 分享海报界面
+        /// </summary>
+        public const int SHARKEPOST_PANEL_VIEW = 42;
+
 
         /// <summary>
         /// 提示界面

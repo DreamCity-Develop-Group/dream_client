@@ -25,7 +25,7 @@ using UnityEngine;
                     ComerceMtBuyRespon();
                     break;
                 case EventType.commerce_in:
-                    ComerceComeInRespon();
+                    ComerceComeInRespon(value);
                     break;
                 default:
                     break;
@@ -65,14 +65,15 @@ using UnityEngine;
         /// <summary>
         /// 商会加入
         /// </summary>
-        private void ComerceComeInRespon()
+        private void ComerceComeInRespon(object msg)
         {
             if (_commerceData.Count < 1)
             {
                 Debug.LogError("_commerceData is null");
                 return;
             }
-            Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_VIEW, _commerceData);
+            Dispatch(AreaCode.UI,UIEvent.COMMERCE_NOJIONPANEL_ACTIVE,msg);
+          //  Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_VIEW, _commerceData);
 
         }
 

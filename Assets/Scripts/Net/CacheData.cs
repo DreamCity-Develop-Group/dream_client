@@ -46,6 +46,11 @@ public class CacheData
 
     }
     /// <summary>
+    /// 下载地址
+    /// </summary>
+    public const string QrCode = "www.baidui.com";
+
+    /// <summary>
     /// 登入成功token
     /// </summary>
     public string Token;

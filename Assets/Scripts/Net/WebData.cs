@@ -47,7 +47,7 @@ namespace Assets.Scripts.Net
         /// </summary>  
         //private readonly string address = "ws://192.168.0.102:8010/dream/city/";
         // private readonly string address = "ws://192.168.0.88:8010/dream/city/lili/你发";
-        private  string address = "ws://192.168.0.106:8010/dream/city/lili/你发";
+        private  string address = "ws://192.168.0.106:8010/dream/city/topic/none";
         public static string ip= "192.168.0.106";
         //private string address;
 
@@ -109,7 +109,7 @@ namespace Assets.Scripts.Net
             //if (_webSocket == null)
             //{
                
-               address = "ws://"+ip+":8010/dream/city/lili/你发";
+               address = "ws://"+ip+":8010/dream/city/topic/"+PlayerPrefs.GetString("username");
                _webSocket = new WebSocket(address,null);
                 //if (HTTPManager.Proxy != null)
                 //    _webSocket.InternalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address, HTTPManager.Proxy.Credentials, false);
@@ -179,13 +179,20 @@ namespace Assets.Scripts.Net
                     if (isLogin)
                     {
                         //登入成功
-                        _webSocket.Send("ping_" + CacheData.Instance().Username);
+                         _webSocket.Send("ping_"+CacheData.Instance().Username);
                     }
-                    else
-                    {
-                        //连接成功
-                        _webSocket.Send("ping");
-                    }
+                    //else
+                    //{
+                    //    if (!_webSocket.IsAlive)
+                    //    {
+                    //        _webSocket.Connect();
+                    //    }
+                    //    else
+                    //    {
+                    //       // _webSocket.Send("ping");
+                    //       Debug.Log("isConnected");
+                    //    }
+                    //}
                 }
            
             }
@@ -200,15 +207,14 @@ namespace Assets.Scripts.Net
             RecTimes = 0;
             //客户端打开网络
             IsReconnect = true;
-            if (PlayerPrefs.HasKey("token"))
-            {
-                Dictionary<string, object> logMsg = new Dictionary<string, object>()
-                {
-                    //["token"] = CacheData.Instance().Token
-                        ["token"] = PlayerPrefs.GetString("token")
-                };
-                SendMsg(logMsg);
-            }
+            //if (PlayerPrefs.HasKey("token"))
+            //{
+            //    Dictionary<string, object> logMsg = new Dictionary<string, object>()
+            //    {
+            //        ["token"] = PlayerPrefs.GetString("token")
+            //    };
+            //    SendMsg(logMsg);
+            //}
             Debug.Log("-WebSocket Open!\n");
         }
 
@@ -229,12 +235,12 @@ namespace Assets.Scripts.Net
             Debug.Log("receiveMsg:  "+jsonmsg);
             if (jsonmsg.Equals("success"))
             {
-                if (jsonmsg.Length > 7)
-                {
-                    PlayerPrefs.SetString("token", jsonmsg.Substring(8));
-                    // CacheData.Instance().Token = jsonmsg.Substring(8);
-                }
-                isLogin = true;
+                //if (jsonmsg.Length > 7)
+                //{
+                //PlayerPrefs.SetString("token", jsonmsg.Substring(8));
+                //    // CacheData.Instance().Token = jsonmsg.Substring(8);
+                //}
+                //isLogin = true;
                 Debug.Log("isconnect" + jsonmsg);
                 return;
             }

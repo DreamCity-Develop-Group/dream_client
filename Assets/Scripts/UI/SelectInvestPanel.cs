@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Assets.Scripts.Framework;
+using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
@@ -60,6 +61,9 @@ namespace Assets.Scripts.UI
 
         List<string> storeIdList= new List<string>{"1","2"};
         List<string> unlockStoreList = new List<string>();
+        List<InvestInfo> investInfoList = new List<InvestInfo>();
+
+        Dictionary<string,GameObject> CacheInvest = new Dictionary<string, GameObject>();
         private void Awake()
         {
             Bind(UIEvent.SELECTINVEST_PANEL_ACTIVE,UIEvent.SELECCTINVEST_PANEL_VIEW);
@@ -145,7 +149,8 @@ namespace Assets.Scripts.UI
                         btnInvest.onClick.AddListener(() =>
                         {
                             Dispatch(AreaCode.NET, EventType.invest_req, item.id);
-                            setPanelActive(false);
+                            CacheInvest.Add(item.id,slectUIstore);
+                            btnInvest.gameObject.SetActive(false);
                         });
 
                         storeNameText.text = item.投资名称;
@@ -203,6 +208,23 @@ namespace Assets.Scripts.UI
             }
             quest.transform.SetAsLastSibling();
             //m_SR.content.localPosition = Vector2.zero;
+        }
+
+        void UpdataState()
+        {
+            foreach (var itemInfo in investInfoList)
+            {
+                switch (itemInfo.state)
+                {
+                    case InvestState.Ording:
+                        break;
+                    case InvestState.Managing:
+                        break;
+                    case InvestState.Extractable:
+                        break;
+                }
+                
+            }
         }
         private void ScrollRectChange(Vector2 T)
         {

@@ -37,5 +37,24 @@ namespace Assets.Scripts.Model
 
     }
 
+    public class InvestState
+    {
+        /// <summary>
+        /// 预定中
+        /// </summary>
+        public const int Ording = 0;
+
+        /// <summary>
+        /// 经营中
+        /// </summary>
+        ///  
+        public const int Managing=1;
+
+        /// <summary>
+        /// 可提取
+        /// </summary>
+        public const int Extractable=2;
+    }
+
 }
 

@@ -249,6 +249,20 @@ namespace Assets.Scripts.UI.MeunUI
             Dispatch(AreaCode.UI,UIEvent.QRECODE_PANEL_ACTIVE,CreatQRcode(textForEncoding));
 
         }
+        private void initSource()
+        {
+            
+            //string language = "chinese";
+          //  Debug.Log(language);
+            Image image=null;
+            //随机生成海报
+            string language = PlayerPrefs.GetString("language");
+            int num = Random.Range(1, 3);
+            image.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/" + "Poster"+num);
+            //headImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "HeadTitle");
+            //loginImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "dengluhuang");
+            //getIndentityImage.sprite = Resources.Load<Sprite>("UI/login/" + language + "/" + "huoquyanzhengma@2x");
+        }
         private Texture2D CreatQRcode(string textForEncoding, Texture2D logo = null)
         {
             if (string.IsNullOrEmpty(textForEncoding))
@@ -304,11 +318,11 @@ namespace Assets.Scripts.UI.MeunUI
             }
             else
             {
-
+                Dispatch(AreaCode.UI, UIEvent.COMMERCE_NOJIONPANEL_ACTIVE, true);
             }
             //判断是不是没有加入商会
             //if(如果没有)
-            Dispatch(AreaCode.UI, UIEvent.COMMERCE_NOJIONPANEL_ACTIVE, true);
+          
             //else
             //Dispatch(AreaCode.UI, UIEvent.COMMERCE_PANEL_ACTIVE, true);
         }
