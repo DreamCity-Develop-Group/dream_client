@@ -65,9 +65,9 @@ namespace Assets.Scripts.Net
         /// </summary>
         public const int nextgrouds=18;
         /// <summary>
-        /// 商会信息
+        /// 商会成员信息
         /// </summary>
-        public const int commerce = 19;
+        public const int commerce_member = 19;
         /// <summary>
         /// 商会加入请求
         /// </summary>

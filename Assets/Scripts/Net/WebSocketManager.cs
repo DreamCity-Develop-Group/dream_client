@@ -185,8 +185,8 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.commerce:
-                        //商会信息请求
+                    case EventType.commerce_member:
+                        //商会成员信息请求
                         socketMsg = commerceRequsetMsg.ReqCommerceMsg(message);
                         if (socketMsg == null)
                         {
@@ -401,63 +401,13 @@ namespace Assets.Scripts.Net
         private SquareUser squareData;
         private InvestHandler investHandler = new InvestHandler();
         private HandlerBase setHandler = new SetHandler();
-        /// <summary>
-        /// 设置模块
-        /// </summary>
-        /// <param name="msg"></param>
-        //private void setSocketMsg(SocketMsg msg)
-        //{
-        //    switch (msg.data.type)
-        //    {
-        //        case "voice":
-        //            // setHandler.OnReceive(EventType.voiceset, msg.data.t);
-        //            break;
-
-        //        case "expw":
-        //            setHandler.OnReceive(EventType.expw, msg.data.t["desc"]);
-        //            break;
-        //        case "expwshop":
-        //            setHandler.OnReceive(EventType.expw, msg.data.t["desc"]);
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
-        private HandlerBase friendHandler = new FriendHandler();
-        /// <summary>
-        /// friend模块
-        /// </summary>
-        /// <param name="msg"></param>
-        //private void friendSocketMsg(SocketMsg<SquareUser> msg)
-        //{
-        //    switch (msg.data.type)
-        //    {
-        //        case "addfriend":
-        //            friendHandler.OnReceive(EventType.addfriend, msg.data.t["desc"]);
-        //            break;
-        //        case "likefriend":
-        //            // friendHandler.OnReceive(EventType.likefriend, msg.data.t["desc"]);
-        //            break;
-        //        case "seachfriend":
-        //            friendHandler.OnReceive(EventType.searchfriend, msg.data.t);
-        //            break;
-        //        case "squarefriend":
-        //            friendHandler.OnReceive(EventType.squarefriend, msg.data.t);
-        //            break;
-        //        case "applyfriend":
-
-        //            friendHandler.OnReceive(EventType.applyfriend, msg.data.t);
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
+        private FriendHandler friendHandler = new FriendHandler();
+        private CommerceHander commerceHander = new CommerceHander();
         /// <summary>
         /// 处理接收到的服务器发来的消息模块
         /// </summary>
         /// <param name="msg"></param>
         /// 
-
         private void processMsg(SocketMsg<MenuInfo> msg)
         {
             //test
@@ -474,10 +424,20 @@ namespace Assets.Scripts.Net
             }
         }
 
+        private void processCommerceSocketMsg(SocketMsg<CommerceInfo> msg)
+        {
+            switch (msg.data.type)
+            {
+                case "commerce":
+                    //todo 缓存
+                    Dispatch(AreaCode.UI, UIEvent.MESSAGE_PANEL_VIEW, msg.data.data);
+
+                    break;
+            }
+        }
+
         private void processMessageSocketMsg(SocketMsg<List<MessageInfo>> msg)
         {
-            string jsonmsg = JsonMapper.ToJson(msg);
-            //Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg"+ MsgTool.utf8_gb2312(jsonmsg));
             switch (msg.data.type)
             {
                 case "message":
@@ -489,9 +449,6 @@ namespace Assets.Scripts.Net
         }
         private void processMenuMsg(SocketMsg<MenuInfo> msg)
         {
-            //test
-            string jsonmsg = JsonMapper.ToJson(msg);
-            //Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg"+ MsgTool.utf8_gb2312(jsonmsg));
             switch (msg.data.type)
             {
                 case "default":
@@ -504,9 +461,6 @@ namespace Assets.Scripts.Net
         }
         private void processSquareMsg(SocketMsg<SquareUser> msg)
         {
-            //test
-            string jsonmsg = JsonMapper.ToJson(msg);
-            Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg" + MsgTool.utf8_gb2312(jsonmsg));
 
             switch (msg.data.type)
             {
@@ -546,9 +500,6 @@ namespace Assets.Scripts.Net
 
         private void processSocketMsg(SocketMsg<Dictionary<string,string>> msg)
         {
-            //test
-            string jsonmsg = JsonMapper.ToJson(msg);
-            Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, "reciveMsg" + MsgTool.utf8_gb2312(jsonmsg));
 
             if (msg == null||msg.data==null)
             {
@@ -624,8 +575,13 @@ namespace Assets.Scripts.Net
                     }
                     setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
                     break;
-                case "":
-
+                case "sendmt":
+                    if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
+                    {
+                        Debug.LogError("sendmt error");
+                        return;
+                    }
+                    commerceHander.OnReceive(EventType.commerce_sendmt,dicRegLogRespon);
                     break;
                 case "addFriend":
                     if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
