@@ -1,4 +1,4 @@
-﻿[Ll]ibrary/
+[Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
@@ -53,3 +53,4 @@ UIElementsSchema/UIElements.xsd
 Assets/AssetsBundle/
 user.keystore
 Assets/Resources/
+Assets/UI/
