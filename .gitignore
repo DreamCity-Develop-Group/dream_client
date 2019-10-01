@@ -42,9 +42,8 @@ Assets/UI/星星/星星.meta
 Assets/UI/星星.meta
 Assets/UI/logo.meta
 Assets/Editor
-Assets/Scenes
-Assets/Prefabs
-Assets/PerFab
+Assets/Scenes/login.unity
+Assers/Scenes/menu.unity
 Assets/Malie
 Assets/Resources/Localization/Korean.meta
 Assets/Resources/Localization/English.meta
