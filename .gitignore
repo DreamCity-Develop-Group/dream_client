@@ -1,4 +1,4 @@
-[Ll]ibrary/
+﻿[Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
@@ -41,13 +41,16 @@ sysinfo.txt
 Assets/UI/星星/星星.meta
 Assets/UI/星星.meta
 Assets/UI/logo.meta
+Assets/Editor
+Assets/Scenes
+Assets/Prefabs
+Assets/PerFab
+Assets/Malie
 Assets/Resources/Localization/Korean.meta
 Assets/Resources/Localization/English.meta
 Assets/Resources/Localization/Chinese.meta
 Assets/Resources/Localization.meta
-Assets/Editor/Copyright.cs
-Assets/Editor/ChangeText.cs
-Assets/Editor/AssetBoundTool.cs
 UIElementsSchema/UIElements.xsd
 Assets/AssetsBundle/
 user.keystore
+Assets/Resources/
