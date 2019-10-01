@@ -109,6 +109,10 @@ namespace Assets.Scripts.Net
         public const int cach_withdrawal = 28;
 
         /// <summary>
+        /// 商会信息
+        /// </summary>
+        public const int commerce_info = 29;
+        /// <summary>
         /// 退出登入
         /// </summary>
         public const int exit = int.MaxValue;

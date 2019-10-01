@@ -337,7 +337,7 @@ namespace Assets.Scripts.Net
 
             if (_wabData.MessageQueue.Count > 0)
             {
-                SocketMsg<List<MessageInfo>> messageinfo = _wabData.MenuQueueQueue.Dequeue();
+                SocketMsg<List<MessageInfo>> messageinfo = _wabData.MessageQueue.Dequeue();
                 processMessageSocketMsg(messageinfo);
             }
         
