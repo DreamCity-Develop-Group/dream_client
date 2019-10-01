@@ -553,7 +553,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6813424370567815766}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -807,6 +807,7 @@ GameObject:
   - component: {fileID: 6813424371454003516}
   - component: {fileID: 6813424371454003518}
   - component: {fileID: 6813424371454003519}
+  - component: {fileID: 6813424371314575345}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -872,7 +873,23 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u6295 \u8D44"
+  m_Text: "\u6295\u8D44"
+--- !u!114 &6813424371314575345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6813424371454003517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd77ab7cb76443caaa230d163824f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Language: 
+  File: Language
+  Key: "\u6295\u8D44"
+  Value: "\u6295\u8D44"
 --- !u!1 &6813424371710562657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,6 +1030,7 @@ GameObject:
   - component: {fileID: 6835683154035763025}
   - component: {fileID: 6556420162848863411}
   - component: {fileID: 481571970581171641}
+  - component: {fileID: 6813424371314575343}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1037,7 +1055,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 108}
-  m_SizeDelta: {x: 200, y: 44}
+  m_SizeDelta: {x: 365, y: 44}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &6556420162848863411
 CanvasRenderer:
@@ -1079,3 +1097,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u656C\u8BF7\u671F\u5F85"
+--- !u!114 &6813424371314575343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8553200574416952873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd77ab7cb76443caaa230d163824f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Language: Chinese
+  File: Language
+  Key: "\u656C\u8BF7\u671F\u5F85"
+  Value: "\u656C\u8BF7\u671F\u5F85"
