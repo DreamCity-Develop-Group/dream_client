@@ -40,6 +40,7 @@ namespace Assets.Scripts.Net
 
         protected internal override void Execute(int eventCode, object message)
         {
+
             //初始化联接操作
             if (_wabData.WebSocket == null||eventCode == EventType.init)
             {
@@ -59,6 +60,7 @@ namespace Assets.Scripts.Net
 
             if  (_wabData.WebSocket!=null&&_wabData.WebSocket.IsAlive)
             {
+                Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_HINDED, true);
                 switch (eventCode)
                 {
                     case EventType.pwlogin:
@@ -322,23 +324,27 @@ namespace Assets.Scripts.Net
             {
                 SocketMsg<SquareUser> squareinfo = _wabData.SquareQueue.Dequeue();
                 processSquareMsg(squareinfo);
+                Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_HINDED, false);
             }
             if (_wabData.MenuQueue.Count > 0)
             {
                 SocketMsg<MenuInfo> menuinfo = _wabData.MenuQueue.Dequeue();
                 processMenuMsg(menuinfo);
+                Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_HINDED, false);
             }
 
             if (_wabData.InvestQueue.Count>0)
             {
                 SocketMsg<List<InvestInfo>> investinfo = _wabData.InvestQueue.Dequeue();
                 processInvestSocketMsg(investinfo);
+                Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_HINDED, false);
             }
 
             if (_wabData.MessageQueue.Count > 0)
             {
                 SocketMsg<List<MessageInfo>> messageinfo = _wabData.MessageQueue.Dequeue();
                 processMessageSocketMsg(messageinfo);
+                Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_HINDED, false);
             }
         
         }

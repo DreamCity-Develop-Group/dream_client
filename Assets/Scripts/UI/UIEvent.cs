@@ -7,11 +7,16 @@ namespace Assets.Scripts.UI
     // ReSharper disable once InconsistentNaming
     public class UIEvent 
     {
+        
+        // ReSharper disable once InconsistentNaming
+        /// <summary>
+        /// 请求屏蔽操作
+        /// </summary>
+        public const int LOAD_PANEL_HINDED = int.MinValue;
         /// <summary>
         /// 加载
         /// </summary>
-        // ReSharper disable once InconsistentNaming
-        public const int LOAD_PANEL_ACTIVE = int.MinValue;
+        public const int LOAD_PANEL_ACTIVE = -4;
         /// <summary>
         /// 测试用
         /// </summary>
