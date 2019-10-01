@@ -17,7 +17,7 @@ using UnityEngine;
         {
             switch (subCode)
             {
-                case EventType.commerce:
+                case EventType.commerce_member:
                     //diFriendData = value as Dictionary<string, UserInfo>;
                     dicComerceDataRespon();
                     break;
@@ -36,7 +36,7 @@ using UnityEngine;
        // private HintMsg promptMsg = new HintMsg();
 
         /// <summary>
-        /// 商会人员列表
+        ///鍟嗕細鏁版嵁
         /// </summary>
         private void dicComerceDataRespon()
         {
@@ -49,7 +49,7 @@ using UnityEngine;
 
         }
         /// <summary>
-        /// 商会MT购买应答
+        /// Mt璐拱
         /// </summary>
         private void ComerceMtBuyRespon()
         {
@@ -63,9 +63,23 @@ using UnityEngine;
         }
 
         /// <summary>
-        /// 商会加入购买应答
+        /// 鍟嗕細鍔犲叆
         /// </summary>
         private void ComerceComeInRespon()
+        {
+            if (_commerceData.Count < 1)
+            {
+                Debug.LogError("_commerceData is null");
+                return;
+            }
+            Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_VIEW, _commerceData);
+
+        }
+
+        /// <summary>
+        /// 鍏戞崲涓績
+        /// </summary>
+        private void ComerceexchangeRespon()
         {
             if (_commerceData.Count < 1)
             {

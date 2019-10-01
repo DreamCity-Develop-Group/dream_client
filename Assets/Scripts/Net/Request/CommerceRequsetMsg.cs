@@ -34,7 +34,7 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token",PlayerPrefs.GetString("token"));
-            messageData.Change("consumer", "commerce", t);
+            messageData.Change("consumer/tree", "commerce_in", t);
             socketMsg.Change(LoginInfo.ClientId, "商会请求加入消息", messageData);
             return socketMsg;
         }
@@ -48,7 +48,7 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token",PlayerPrefs.GetString("token"));
-            messageData.Change("consumer", "commerce", t);
+            messageData.Change("consumer/tree", "commerce_in", t);
             socketMsg.Change(LoginInfo.ClientId, "购买MT消息请求", messageData);
             return socketMsg;
         }
@@ -62,7 +62,7 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token",  PlayerPrefs.GetString("token"));
-            messageData.Change("consumer", "commerce", t);
+            messageData.Change("consumer/tree", "commerce", t);
             socketMsg.Change(LoginInfo.ClientId, "会长发放结果", messageData);
             return socketMsg;
         }
@@ -76,7 +76,7 @@ namespace Assets.Scripts.Net.Request
             Dictionary<string, string> t = msg as Dictionary<string, string>;
             t.Add("username", PlayerPrefs.GetString("username"));
             t.Add("token",PlayerPrefs.GetString("token"));
-            messageData.Change("consumer", "commerce", t);
+            messageData.Change("consumer/tree", "commerce", t);
             socketMsg.Change(LoginInfo.ClientId, "商会信息请求", messageData);
             return socketMsg;
         }
