@@ -13,12 +13,13 @@ namespace Assets.Scripts.UI.MeunUI
 {
     public class MenuPanel : UIBase
     {
-        Button btnFriends;
-        Button btnSet;
-        Button btnMsg;
-        Button btnCommerce;//商会
-        Button btnTreasure;//资产
+        Button btnFriends;   //好友
+        Button btnSet;       //设置
+        Button btnMsg;      //邮件
+        Button btnCommerce; //商会
+        Button btnTreasure; //资产
         Button btnAdd;
+
         /// <summary>
         /// 投资
         /// </summary>
@@ -133,10 +134,20 @@ namespace Assets.Scripts.UI.MeunUI
             handArray[6].onClick.AddListener(clickHand6);
             handArray[7].onClick.AddListener(clickHand7);
             txtNotice1.gameObject.SetActive(false);
-            initSource();
-            LanguageService.Instance.Language = new LanguageInfo(PlayerPrefs.GetString("language"));
-            Dispatch(AreaCode.UI, UIEvent.LANGUAGE_VIEW, PlayerPrefs.GetString("language"));
-            Dispatch(AreaCode.NET,EventType.menu_req,null);
+            //initSource();
+            //LanguageService.Instance.Language = new LanguageInfo(PlayerPrefs.GetString("language"));
+            //Dispatch(AreaCode.UI, UIEvent.LANGUAGE_VIEW, PlayerPrefs.GetString("language"));
+        }
+        /// <summary>
+        /// 多语言切换
+        /// </summary>
+        private void MangLange(string language)
+        {
+            btnFriends.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Friend");
+            btnCommerce.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Chamber");
+            btnTreasure.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Asset");
+            btnManage.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Investment");
+            HandPortrait.transform.Find("Frame").GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/HandFrame");
         }
 
         private void InitInfo(MenuInfo menuInfo)
@@ -171,18 +182,25 @@ namespace Assets.Scripts.UI.MeunUI
             //menuInfo.data.notices
         }
 
-        private void initSource()
-        {
-            //string language = PlayerPrefs.GetString("language");
-            string language = "chinese";
-            imageBtnCommerce.sprite = Resources.Load<Sprite>("UI/menu/"+language+"/"+"商会@2x");
-            imageBtnFriends.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/" + "好友@2x");
-            imageBtnTreasure.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/" + "资产@2x");
-        }
+        //private void initSource()
+        //{
+        //    //string language = PlayerPrefs.GetString("language");
+        //    string language = "chinese";
+        //    imageBtnCommerce.sprite = Resources.Load<Sprite>("UI/menu/"+language+"/"+"商会@2x");
+        //    imageBtnFriends.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/" + "好友@2x");
+        //    imageBtnTreasure.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/" + "资产@2x");
+        //}
 
         private void IsHasMsg(int count)
         {
-            gameobjectRed.SetActive(count > 0);
+            if (count > 0)
+            {
+                gameobjectRed.SetActive(true);
+            }
+            else
+            {
+                gameobjectRed.SetActive(false);
+            }
         }
         /// <summary>
         /// 
