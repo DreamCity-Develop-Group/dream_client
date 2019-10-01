@@ -173,8 +173,10 @@ namespace Assets.Scripts.UI
         /// 邮箱数据
         /// </summary>
         public const int MESSAGE_PANEL_VIEW = 36;
-
-
+        /// <summary>
+        /// 商会成员信息
+        /// </summary>
+        public const int COMMERCE_PANEL_VIEW = 37;
 
         /// <summary>
         /// 提示界面

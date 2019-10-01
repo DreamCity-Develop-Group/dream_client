@@ -129,13 +129,16 @@ namespace Assets.Scripts.UI.MeunUI
         private Transform TranExchangeCenterConnet;         //信息的父物体Transform
 
         private List<GameObject> listNoExchangeRequestForshipment = new List<GameObject>();//没有发货的兑换请求
+        /// <summary>
+        /// 商会成员信息
+        /// </summary>
+        private CommerceInfo commerceInfo = new CommerceInfo();
 
         private void Awake()
         {
             Bind(UIEvent.COMMERCE_PANEL_ACTIVE);
-            Bind(UIEvent.COMMERCE_NOJIONPANEL_ACTIVE);
+            Bind(UIEvent.COMMERCE_NOJIONPANEL_ACTIVE,UIEvent.COMMERCE_PANEL_VIEW);
         }
-
         protected internal override void Execute(int eventCode, object message)
         {
             switch (eventCode)
@@ -147,7 +150,9 @@ namespace Assets.Scripts.UI.MeunUI
                 case UIEvent.COMMERCE_PANEL_ACTIVE:
                     setPanelActive((bool)message);
                     break;
-                
+                case UIEvent.COMMERCE_PANEL_VIEW:
+                    commerceInfo = message as CommerceInfo;
+                    break;
                 default:
                     break;
             }
