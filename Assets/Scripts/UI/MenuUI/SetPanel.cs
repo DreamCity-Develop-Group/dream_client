@@ -1,8 +1,8 @@
 using Assets.Scripts.Audio;
 using Assets.Scripts.Framework;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
-using EventType = Assets.Scripts.Net.EventType;
 
 namespace Assets.Scripts.UI.MeunUI
 {
@@ -227,7 +227,7 @@ namespace Assets.Scripts.UI.MeunUI
     /// </summary>
     private void clickExit()
     {
-        Dispatch(AreaCode.NET,EventType.exit,null);
+        Dispatch(AreaCode.NET,ReqEventType.exit,null);
         Application.Quit();
     }
     /// <summary>

@@ -6,7 +6,7 @@ namespace Assets.Scripts.Audio
     {
         private void Awake()
         {
-            Bind(AudioEvent.PLAY_EFFECT_AUDIO);
+            Bind(AudioEvent.PLAY_EFFECT_AUDIO,AudioEvent.PLAY_CLICK_AUDIO);
         }
 
         protected internal override void Execute(int eventCode, object message)
@@ -14,6 +14,19 @@ namespace Assets.Scripts.Audio
             switch (eventCode)
             {
                 case AudioEvent.PLAY_EFFECT_AUDIO:
+                {
+                    if (message == null||message.Equals(""))
+                    {
+                        stopEffectAudio();
+                    }
+                    else
+                    {
+                        playeEffectAudio(message.ToString());
+                    }
+                    
+                    break;
+                }
+                case AudioEvent.PLAY_CLICK_AUDIO:
                 {
                     if (message == null||message.Equals(""))
                     {

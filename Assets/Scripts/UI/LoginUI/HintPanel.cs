@@ -29,18 +29,7 @@ namespace Assets.Scripts.UI.LoginUI
                     hintMessage(msg.Text, msg.Color);
                    
                     break;
-                case UIEvent.LOAD_PANEL_HINDED:
-                    Animation t = GetComponent<Animation>();
-                    if ((bool)message)
-                    {
-                       
-                        t.Play();
-                    }
-                    else
-                    {
-                        t.Stop();
-                    }
-                    break;
+              
                 default:
                     break;
             }

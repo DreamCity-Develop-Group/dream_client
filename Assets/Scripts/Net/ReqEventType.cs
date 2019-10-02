@@ -9,7 +9,7 @@ using System.CodeDom;
 
 namespace Assets.Scripts.Net
 {
-    public class EventType
+    public class ReqEventType
     {
         public const int init = int.MinValue; //连接
         public const int login = 0;//登入

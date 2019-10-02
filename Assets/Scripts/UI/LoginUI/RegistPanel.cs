@@ -1,8 +1,8 @@
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
-using EventType = Assets.Scripts.Net.EventType;
 
 namespace Assets.Scripts.UI.LoginUI
 {
@@ -89,7 +89,7 @@ namespace Assets.Scripts.UI.LoginUI
         {
             btnRegist.enabled = true;
             phone = inputUserName.text;
-            Dispatch(AreaCode.NET, EventType.identy, phone);
+            Dispatch(AreaCode.NET, ReqEventType.identy, phone);
             Debug.Log("clickIdentify");
         }
         private void clickReturn()
@@ -105,7 +105,7 @@ namespace Assets.Scripts.UI.LoginUI
             nickName = inputNickName.text;
             identify = inputIdentify.text;
             UserInfo userinfo = new UserInfo(phone,passWord,identify,inviteCode,nickName);
-            Dispatch(AreaCode.NET,EventType.regist, userinfo);
+            Dispatch(AreaCode.NET,ReqEventType.regist, userinfo);
         }
         public override void OnDestroy()
         {

@@ -15,9 +15,9 @@
 using System.Collections.Generic;
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
-using EventType=Assets.Scripts.Net.EventType;
 
 namespace Assets.Scripts.UI.MeunUI
 {
@@ -79,7 +79,7 @@ namespace Assets.Scripts.UI.MeunUI
                          {
                              t["nick"] = nick;
                              t["agree"] = "agreed";
-                             Dispatch(AreaCode.NET,EventType.applytofriend,t);
+                             Dispatch(AreaCode.NET,ReqEventType.applytofriend,t);
 
                              RePreObj(obj);
 
@@ -88,7 +88,7 @@ namespace Assets.Scripts.UI.MeunUI
                          {
                              t["nick"] = nick;
                              t["agree"] = "disagreed";
-                             Dispatch(AreaCode.NET, EventType.applytofriend, t);
+                             Dispatch(AreaCode.NET, ReqEventType.applytofriend, t);
 
                              RePreObj(obj);
                          });

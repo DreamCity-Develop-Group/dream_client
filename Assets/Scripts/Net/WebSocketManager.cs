@@ -9,13 +9,13 @@ using Assets.Scripts.Model;
 using Assets.Scripts.Net.Code;
 using Assets.Scripts.Net.Handler;
 using Assets.Scripts.Net.Request;
+using Assets.Scripts.Audio;
 using Assets.Scripts.Scenes;
 using Assets.Scripts.Scenes.Msg;
 using Assets.Scripts.Tools;
 using Assets.Scripts.UI;
 using LitJson;
 using UnityEngine;
-using EventType = Assets.Scripts.Net.EventType;
 
 namespace Assets.Scripts.Net
 {
@@ -40,9 +40,16 @@ namespace Assets.Scripts.Net
 
         protected internal override void Execute(int eventCode, object message)
         {
+            //发一次请求触发一次点击音效,（排除点赞，可提取，商会升级）
 
+            if(eventCode ==ReqEventType.likefriend){
+            Dispatch(AreaCode.AUDIO,AudioEvent.PLAY_CLICK_AUDIO,"LikeVoice");
+            }else{
+            Dispatch(AreaCode.AUDIO,AudioEvent.PLAY_CLICK_AUDIO,"ClickVoice");
+            }
+            
             //初始化联接操作
-            if (_wabData.WebSocket == null||eventCode == EventType.init)
+            if (_wabData.WebSocket == null||eventCode == ReqEventType.init)
             {
                 _wabData.OpenWebSocket();
                 //登入断线重连
@@ -63,7 +70,7 @@ namespace Assets.Scripts.Net
                 Dispatch(AreaCode.UI, UIEvent.LOAD_PANEL_HINDED, true);
                 switch (eventCode)
                 {
-                    case EventType.pwlogin:
+                    case ReqEventType.pwlogin:
                         //密码登入操作
                         socketMsg = accountRequestMsg.ReqPWLoginMsg(message);
                         if (socketMsg == null)
@@ -72,7 +79,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.idlogin:
+                    case ReqEventType.idlogin:
                         //验证码登入
                         socketMsg = accountRequestMsg.ReqIDLoginMsg(message);
                         if (socketMsg == null)
@@ -81,7 +88,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.regist:
+                    case ReqEventType.regist:
                         //注册操作
                         socketMsg = accountRequestMsg.ReqRegMsg(message);
                         if (socketMsg == null)
@@ -90,7 +97,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.pwforget:
+                    case ReqEventType.pwforget:
                         //忘记密码
                         socketMsg = accountRequestMsg.ReqForgetMsg(message);
                         if (socketMsg == null)
@@ -99,7 +106,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.addfriend:
+                    case ReqEventType.addfriend:
                         //添加好友
                         socketMsg = friendRequestMsg.ReqAddFriendMsg(message);
                         if (socketMsg == null)
@@ -109,7 +116,7 @@ namespace Assets.Scripts.Net
 
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.identy:
+                    case ReqEventType.identy:
                         //获取验证码
                         socketMsg = accountRequestMsg.ReqGetIdentityMsg(message);
                         if (socketMsg == null)
@@ -118,7 +125,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.expw:
+                    case ReqEventType.expw:
                         //修改密码
                         socketMsg = setRequestMsg.ReqPWChangeMsg(message);
                         if (socketMsg == null)
@@ -127,7 +134,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.expwshop:
+                    case ReqEventType.expwshop:
                         //设置交易密码
                         socketMsg = setRequestMsg.ReqExPwShopMsg(message);
                         if (socketMsg == null)
@@ -136,12 +143,12 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    //case EventType.voiceset:
+                    //case ReqEventType.voiceset:
                     //    //音效设置
                     //    socketMsg = setRequestMsg.ReqVoiceSetMsg(message);
                     //    _wabData.SendMsg(socketMsg);
                     //    break;
-                    case EventType.searchfriend:
+                    case ReqEventType.searchfriend:
                         //搜索用户
                         socketMsg = friendRequestMsg.ReqSearchUserMsg(message);
                         if (socketMsg == null)
@@ -150,7 +157,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.likefriend:
+                    case ReqEventType.likefriend:
                         //好友点赞
                         socketMsg = friendRequestMsg.ReqLikeFriendMsg(message);
                         if (socketMsg == null)
@@ -159,7 +166,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.applytofriend:
+                    case ReqEventType.applytofriend:
                         //申请通过/拒绝
                         
                         socketMsg = friendRequestMsg.ReqAgreeFriendMsg(message);
@@ -169,7 +176,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.property:
+                    case ReqEventType.property:
                         //测试资产请求
                         socketMsg = accountRequestMsg.ReqPropertyTestMsg(message);
                         if (socketMsg == null)
@@ -178,7 +185,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.nextgrouds:
+                    case ReqEventType.nextgrouds:
                         //换一批
                         socketMsg = friendRequestMsg.ReqNextUserList(message);
                         if (socketMsg == null)
@@ -187,7 +194,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.commerce_member:
+                    case ReqEventType.commerce_member:
                         //商会成员信息请求
                         socketMsg = commerceRequsetMsg.ReqCommerceMsg(message);
                         if (socketMsg == null)
@@ -196,7 +203,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.commerce_in:
+                    case ReqEventType.commerce_in:
                         //商会加入请求
                         socketMsg = commerceRequsetMsg.ReqComeCommerceMsg(message);
                         if (socketMsg == null)
@@ -205,7 +212,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.transfer:
+                    case ReqEventType.transfer:
                         socketMsg = accountRequestMsg.ReqTransferMsg(message);
                         if (socketMsg == null)
                         {
@@ -213,7 +220,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.recharge:
+                    case ReqEventType.recharge:
                         socketMsg = accountRequestMsg.ReqRechargeMsg(message);
                         if (socketMsg == null)
                         {
@@ -221,7 +228,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.commerce_sendmt:
+                    case ReqEventType.commerce_sendmt:
                         socketMsg = commerceRequsetMsg.ReqSendMTMsg(message);
                         if (socketMsg == null)
                         {
@@ -229,7 +236,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.invest_req:
+                    case ReqEventType.invest_req:
                         socketMsg = investRequestMsg.ReqInvestMsg(message);
                         if (socketMsg == null)
                         {
@@ -237,7 +244,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.squarefriend:
+                    case ReqEventType.squarefriend:
                         socketMsg = friendRequestMsg.ReqSearchUserMsg(message);
                         if (socketMsg == null)
                         {
@@ -245,7 +252,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.menu_req:
+                    case ReqEventType.menu_req:
                         socketMsg = accountRequestMsg.ReqMenuMsg(message);
                         if (socketMsg == null)
                         {
@@ -253,11 +260,11 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.change_expwshop:
+                    case ReqEventType.change_expwshop:
                         socketMsg = setRequestMsg.ReqPWShopChangeMsg(message);
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.applyfriend:
+                    case ReqEventType.applyfriend:
                         socketMsg = friendRequestMsg.ReqApplyFriendList(message);
                         if (socketMsg == null)
                         {
@@ -265,7 +272,7 @@ namespace Assets.Scripts.Net
                         }
                         _wabData.SendMsg(socketMsg);
                         break;
-                    case EventType.exit:
+                    case ReqEventType.exit:
                         socketMsg = accountRequestMsg.ReqExitMsg(null);
                         if (socketMsg == null)
                         {
@@ -434,7 +441,7 @@ namespace Assets.Scripts.Net
         {
             switch (msg.data.type)
             {
-                case "commerce":
+                case SocketEventType.Commerce:
                     //todo 缓存
                     Dispatch(AreaCode.UI, UIEvent.MESSAGE_PANEL_VIEW, msg.data.data);
 
@@ -446,7 +453,7 @@ namespace Assets.Scripts.Net
         {
             switch (msg.data.type)
             {
-                case "message":
+                case SocketEventType.Message:
                     //todo 缓存
                     Dispatch(AreaCode.UI, UIEvent.MESSAGE_PANEL_VIEW, msg.data.data);
 
@@ -470,17 +477,19 @@ namespace Assets.Scripts.Net
 
             switch (msg.data.type)
             {
-                case "squareFriends":
+                case SocketEventType.SquareFriends:
                     SquareUser squareUser = msg.data.data as SquareUser;
-                    friendHandler.OnReceive(EventType.squarefriend, squareUser);
+                    friendHandler.OnReceive(ReqEventType.squarefriend, squareUser);
                     break;
-                case "applyFriend":
+                case SocketEventType.ApplyList:
                     SquareUser applyUser = msg.data.data as SquareUser;
-                    friendHandler.OnReceive(EventType.applyfriend, applyUser);
+                    friendHandler.OnReceive(ReqEventType.applyfriend, applyUser);
                     break;
-                case "friendList":
+                case SocketEventType.FriendList:
                     SquareUser friendUser = msg.data.data as SquareUser;
-                    friendHandler.OnReceive(EventType.listfriend, friendUser);
+                    friendHandler.OnReceive(ReqEventType.listfriend, friendUser);
+                    break;
+                case SocketEventType.NextGround:
                     break;
                 default:
                     break;
@@ -497,9 +506,9 @@ namespace Assets.Scripts.Net
 
             switch (msg.data.type)
             {
-                case "getInvestList":
+                case SocketEventType.InvestInfo:
 
-                    investHandler.OnReceive(EventType.invest_info, msg.data.data);
+                    investHandler.OnReceive(ReqEventType.invest_info, msg.data.data);
                     break;
             }
         }
@@ -517,18 +526,18 @@ namespace Assets.Scripts.Net
         
             switch (msg.data.type)
             {
-                case "init":
+                case  SocketEventType.InitConnect:
                    
-                    accountHandler.OnReceive(EventType.init, msg.target);
+                    accountHandler.OnReceive(ReqEventType.init, msg.target);
                     //_wabData.ThreadStart();
                     break;
-                case "Login":
+                case SocketEventType.PassWordLogin:
                     if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("login error");
                         return;
                     }
-                    if (accountHandler.OnReceive(EventType.login, dicRegLogRespon["desc"]))
+                    if (accountHandler.OnReceive(ReqEventType.login, dicRegLogRespon["desc"]))
                     {
                         if (dicRegLogRespon.ContainsKey("token"))
                         {
@@ -538,13 +547,13 @@ namespace Assets.Scripts.Net
                         WebData.isLogin = true;
                     }
                     break;
-                case "codeLogin":
+                case SocketEventType.CodeLogin:
                     if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("codeLogin error");
                         return;
                     }
-                    if (accountHandler.OnReceive(EventType.login, dicRegLogRespon["desc"]))
+                    if (accountHandler.OnReceive(ReqEventType.login, dicRegLogRespon["desc"]))
                     {
                         if (dicRegLogRespon.ContainsKey("token"))
                         {
@@ -554,93 +563,93 @@ namespace Assets.Scripts.Net
                         WebData.isLogin = true;
                     }
                     break;
-                case "reg":
+                case SocketEventType.Regist:
                     if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("reg error");
                         return;
                     }
-                    accountHandler.OnReceive(EventType.regist, dicRegLogRespon["desc"]);
+                    accountHandler.OnReceive(ReqEventType.regist, dicRegLogRespon["desc"]);
                     break;
                 case "voice":
-                    // setHandler.OnReceive(EventType.voiceset, msg.data.t);
+                    // setHandler.OnReceive(ReqEventType.voiceset, msg.data.t);
                     break;
-                case "expw":
+                case SocketEventType.ChangPassWord:
                     if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("expw error");
                         return;
                     }
-                    setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
+                    setHandler.OnReceive(ReqEventType.expw, dicRegLogRespon["desc"]);
                     break;
-                case "expwshop":
+                case SocketEventType.SetExchangePassWord:
                     if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("expwshop error");
                         return;
                     }
-                    setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
+                    setHandler.OnReceive(ReqEventType.expw, dicRegLogRespon["desc"]);
                     break;
-                case "sendmt":
+                case SocketEventType.SendMt:
                     if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("sendmt error");
                         return;
                     }
-                    commerceHander.OnReceive(EventType.commerce_sendmt,dicRegLogRespon);
+                    commerceHander.OnReceive(ReqEventType.commerce_sendmt,dicRegLogRespon);
                     break;
-                case "addFriend":
+                case SocketEventType.AddFriend:
                     if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("addfriend error");
                         return;
                     }
-                    friendHandler.OnReceive(EventType.addfriend, dicRegLogRespon["desc"]);
+                    friendHandler.OnReceive(ReqEventType.addfriend, dicRegLogRespon["desc"]);
                     break;
-                case "likefriend":
-                    // friendHandler.OnReceive(EventType.likefriend, msg.data.t["desc"]);
+                case SocketEventType.LikeFriend:
+                    // friendHandler.OnReceive(ReqEventType.likefriend, msg.data.t["desc"]);
                     break;
-                //case "searchfriend":
+                //case SocketEventType.SearchFriend:
                 //    SquareUser searchUser = msg.data.t as SquareUser;
-                //    friendHandler.OnReceive(EventType.searchfriend, msg.data.t);
+                //    friendHandler.OnReceive(ReqEventType.searchfriend, msg.data.t);
                 //    break;
-                case "getCode":
+                case SocketEventType.GetCode:
                     if (dicRegLogRespon==null||!dicRegLogRespon.ContainsKey("code"))
                     {
                         Debug.LogError("getCode error");
                         return;
                     }
-                    accountHandler.OnReceive(EventType.identy, msg.data.data["code"]);
+                    accountHandler.OnReceive(ReqEventType.identy, msg.data.data["code"]);
                     break;
-                case "pwforget":
+                case SocketEventType.ForgerPassWord:
                     //忘记密码响应和修改一样
-                    //setHandler.OnReceive(EventType)
+                    //setHandler.OnReceive(ReqEventType)
                     if (dicRegLogRespon == null||!dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("pwforget error");
                         return;
                     }
-                    setHandler.OnReceive(EventType.expw, dicRegLogRespon["desc"]);
+                    setHandler.OnReceive(ReqEventType.expw, dicRegLogRespon["desc"]);
                     break;
-                case "property":
+                case SocketEventType.PropertyInfo:
                     break;
-                case "transferaccount":
+                case SocketEventType.TransferAccount:
                     if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("transferaccount error");
                         return;
                     }
-                    accountHandler.OnReceive(EventType.transfer, dicRegLogRespon["desc"]);
+                    accountHandler.OnReceive(ReqEventType.transfer, dicRegLogRespon["desc"]);
                     break;
                 case "recharge":
                     break;
-                case "playerInvest":
+                case SocketEventType.InvestInfo:
                     if (dicRegLogRespon == null || !dicRegLogRespon.ContainsKey("desc"))
                     {
                         Debug.LogError("playerInvest error");
                         return;
                     }
-                    investHandler.OnReceive(EventType.invest_req, dicRegLogRespon["desc"]);
+                    investHandler.OnReceive(ReqEventType.invest_req, dicRegLogRespon["desc"]);
                     break;
                 default:
                     break;

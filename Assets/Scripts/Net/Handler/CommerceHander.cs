@@ -17,14 +17,14 @@ using UnityEngine;
         {
             switch (subCode)
             {
-                case EventType.commerce_member:
+                case ReqEventType.commerce_member:
                     //diFriendData = value as Dictionary<string, UserInfo>;
                     dicComerceDataRespon();
                     break;
-                case EventType.commerce_sendmt:
+                case ReqEventType.commerce_sendmt:
                     ComerceMtBuyRespon();
                     break;
-                case EventType.commerce_in:
+                case ReqEventType.commerce_in:
                     ComerceComeInRespon(value);
                     break;
                 default:

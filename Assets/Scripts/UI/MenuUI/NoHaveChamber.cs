@@ -13,9 +13,9 @@
 ***/
 
 using Assets.Scripts.Framework;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
-using EventType=Assets.Scripts.Net.EventType;
 namespace Assets.Scripts.UI.MeunUI
 {
     /// <summary>
@@ -131,7 +131,6 @@ namespace Assets.Scripts.UI.MeunUI
             GoPayBtn.onClick.AddListener(clickGoPay);
             fundsColse.onClick.AddListener(clickClosePay);
             payDetermine.onClick.AddListener(clickConfirmationPayment);
-            setPanelActive(false);
         }
         /// <summary>
         /// 多语言换图
@@ -178,7 +177,7 @@ namespace Assets.Scripts.UI.MeunUI
             {
                 //TODO输入提示
             }
-            Dispatch(AreaCode.NET,EventType.commerce_in,InputChamberCode.text.ToString());
+            Dispatch(AreaCode.NET,ReqEventType.commerce_in,InputChamberCode.text.ToString());
             JionChamber.SetActive(false);
             JIonScee.SetActive(true);
             //}

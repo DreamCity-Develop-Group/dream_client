@@ -1,8 +1,8 @@
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
-using EventType = Assets.Scripts.Net.EventType;
 // ReSharper disable InconsistentNaming
 
 /***
@@ -105,7 +105,7 @@ namespace Assets.Scripts.UI.LoginUI
 
         private void clickGetIdentity()
         {
-            Dispatch(AreaCode.NET, EventType.identy, null);
+            Dispatch(AreaCode.NET, ReqEventType.identy, null);
             Debug.Log("clickGetIdentity");
         }
         private void clickReg()
@@ -124,7 +124,7 @@ namespace Assets.Scripts.UI.LoginUI
             loginInfo.Password = password;
             loginInfo.Identity = identity;
 
-            Dispatch(AreaCode.NET, EventType.pwforget, loginInfo);
+            Dispatch(AreaCode.NET, ReqEventType.pwforget, loginInfo);
         }
         // Update is called once per frame
         void Update()

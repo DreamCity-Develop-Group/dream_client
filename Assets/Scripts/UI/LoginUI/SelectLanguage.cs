@@ -4,7 +4,6 @@ using Assets.Scripts.Language;
 using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
-using EventType = Assets.Scripts.Net.EventType;
 
 /***
 * Title:     
@@ -71,12 +70,12 @@ namespace Assets.Scripts.UI.LoginUI
             btnChinese.gameObject.SetActive(false);
             btnEnglish.gameObject.SetActive(false);
             btnKorean.gameObject.SetActive(false);
-            //Dispatch(AreaCode.NET, EventType.init, null);
+            //Dispatch(AreaCode.NET, ReqEventType.init, null);
         }
         private void clickIpConfim()
         {
             WebData.ip = testInputIp.text;
-            Dispatch(AreaCode.NET, EventType.init, null);
+            Dispatch(AreaCode.NET, ReqEventType.init, null);
         }
 
         /// <summary>

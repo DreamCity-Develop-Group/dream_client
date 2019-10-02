@@ -14,8 +14,8 @@
 
 using System.Collections.Generic;
 using Assets.Scripts.Framework;
+using Assets.Scripts.Net;
 using UnityEngine.UI;
-using EventType = Assets.Scripts.Net.EventType;
 
 namespace Assets.Scripts.UI.MeunUI
 {
@@ -80,7 +80,7 @@ namespace Assets.Scripts.UI.MeunUI
                 ["code"] = verificationcode
 
             };
-            Dispatch(AreaCode.NET, EventType.change_expwshop, msg);
+            Dispatch(AreaCode.NET, ReqEventType.change_expwshop, msg);
         }
 
         private void clickClose()
@@ -90,7 +90,7 @@ namespace Assets.Scripts.UI.MeunUI
 
         private void clickGetVerificationCode()
         {
-            Dispatch(AreaCode.NET, EventType.identy, null);
+            Dispatch(AreaCode.NET, ReqEventType.identy, null);
         }
         // Update is called once per frame
         void Update()

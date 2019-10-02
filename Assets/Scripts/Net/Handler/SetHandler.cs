@@ -29,13 +29,13 @@ namespace Assets.Scripts.Net.Handler
         {
             switch (subCode)
             {
-                case EventType.expw:
+                case ReqEventType.expw:
                     expwRespon(value.ToString());
                     break;
-                case EventType.expwshop:
+                case ReqEventType.expwshop:
                     expwshopRespon(value.ToString());
                     break;
-                case EventType.change_expwshop:
+                case ReqEventType.change_expwshop:
                     changeExPwShopRespon(value.ToString());
                     break;
                 default:

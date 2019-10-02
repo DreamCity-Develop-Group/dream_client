@@ -17,15 +17,15 @@ namespace Assets.Scripts.Net.Handler
         {
             switch (subCode)
             {
-                case EventType.init:
+                case ReqEventType.init:
                     return initResponse(value.ToString());
-                case EventType.login:
+                case ReqEventType.login:
                     return loginResponse(value.ToString());
-                case EventType.regist:
+                case ReqEventType.regist:
                     return registResponse(value.ToString());
-                case EventType.identy:
+                case ReqEventType.identy:
                     return getCodeResponse(value.ToString());
-                case EventType.transfer:
+                case ReqEventType.transfer:
                     return transferResponse(value.ToString());
                
                 default:
@@ -63,7 +63,7 @@ namespace Assets.Scripts.Net.Handler
                 SceneMsg msg = new SceneMsg("menu", 
                     delegate () {
                         Debug.Log("场景加载完成");
-                        Dispatch(AreaCode.NET, EventType.menu_req, null);
+                        Dispatch(AreaCode.NET, ReqEventType.menu_req, null);
                     });
                 //
                 Dispatch(AreaCode.SCENE,SceneEvent.MENU_PLAY_SCENE,msg);
