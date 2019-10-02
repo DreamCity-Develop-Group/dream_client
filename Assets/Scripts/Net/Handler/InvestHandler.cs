@@ -32,11 +32,11 @@ namespace Assets.Scripts.Net.Handler
         {
             switch (subCode)
             {
-                case EventType.invest_info:
+                case ReqEventType.invest_info:
                     investInfos =value as List<InvestInfo>;
                     investInfoResponse(investInfos);
                     break;
-                case EventType.invest_req:
+                case ReqEventType.invest_req:
                     investResponse(value.ToString());
                     break;
                 default:

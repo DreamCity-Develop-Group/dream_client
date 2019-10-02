@@ -1,25 +1,34 @@
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI
 {
     /// <summary>
-    /// 帮助折叠一级
+    /// 帮助折叠二级
     /// </summary>
-    public class ParentMenu : MonoBehaviour
-    {
+    public class ItemMenu : MonoBehaviour
+    {        
         private GameObject childMenu;//子菜单的parent
         private RectTransform[] childs;//所有子菜单的rect
         private RectTransform itemRect;//子菜单的prefab
         private Vector3 offset;//单个子菜单的高度
         private int count;//子菜单的个数
-        public bool isOpening { get; private set; }//父菜单是否展开
-        public bool isCanClick { get; set; }//父菜单是否可以点击
+        private RectTransform TwoChildRect;//第三级菜单预制体
+        public bool IsOpening { get; private set; }//父菜单是否展开
+        public bool IsCanClick { get; set; }//父菜单是否可以点击
+        private RectTransform Content;           //容器
 
-        public void Init(RectTransform rect, int count,string EmailContent=null)
+        private void Start()
         {
-            childMenu = transform.Find("childMenu").gameObject;
+            Content = transform.parent.parent.parent.GetComponent<RectTransform>();
+            TwoChildRect = Resources.Load<RectTransform>("Malie/Items");
+            InitItem(TwoChildRect, 1);
+        }
+        public void InitItem(RectTransform rect, int count, string EmailContent = null)
+        {
+            childMenu = transform.Find("ChildItem").gameObject;
             itemRect = rect;
             this.count = count;
             childs = new RectTransform[this.count];
@@ -27,22 +36,21 @@ namespace Assets.Scripts.UI.MeunUI
             for (int i = 0; i < this.count; i++)
             {
                 childs[i] = Instantiate(itemRect, childMenu.transform);
-                if(EmailContent!=null)
-                {
-                    childs[i].GetComponent<Text>().text = EmailContent;
-                }
             }
             childMenu.gameObject.SetActive(false);
-            isOpening = false;
-            isCanClick = true;
+            IsOpening = false;
+            IsCanClick = true;
             GetComponent<Button>().onClick.AddListener(OnButtonClick);
         }
 
         void OnButtonClick()
         {
-            if (!isCanClick) return;
-            if (!isOpening)
+            if (!IsCanClick) return;
+            if (!IsOpening)
+            {
                 StartCoroutine(ShowChildMenu());
+            }
+               
             else
                 StartCoroutine(HideChildMenu());
         }
@@ -55,8 +63,8 @@ namespace Assets.Scripts.UI.MeunUI
                 childs[i].localPosition -= i * offset;
                 yield return new WaitForSeconds(0.1f);
             }
-            isCanClick = true;
-            isOpening = true;
+            IsCanClick = true;
+            IsOpening = true;
         }
 
         IEnumerator HideChildMenu()
@@ -67,8 +75,8 @@ namespace Assets.Scripts.UI.MeunUI
                 yield return new WaitForSeconds(0.1f);
             }
             childMenu.gameObject.SetActive(false);
-            isCanClick = true;
-            isOpening = false;
+            IsCanClick = true;
+            IsOpening = false;
         }
     }
 }

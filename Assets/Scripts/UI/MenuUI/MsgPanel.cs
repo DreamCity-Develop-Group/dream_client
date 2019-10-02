@@ -15,13 +15,21 @@
 
 using Assets.Scripts.Model;
 using Boo.Lang;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.MeunUI
 {
+    /// <summary>
+    /// 邮件信息
+    /// </summary>
     public class MsgPanel : UIBase
     {
-        Button btnClose;
+        private Image BG;                          //邮件背景框
+        private string language;                   //语言版本
+        private GameObject MaliBox;                //邮件框
+        private Transform content;                 //邮件父物体
+        Button btnClose;        
         private List<MessageInfo> msgInfos;
         private void Awake()
         {
@@ -37,6 +45,15 @@ namespace Assets.Scripts.UI.MeunUI
                     break;
                 case UIEvent.MESSAGE_PANEL_VIEW:
                     msgInfos = message as List<MessageInfo>;
+                    if(msgInfos.Count>0)
+                    {
+                        for (int i = 0; i < msgInfos.Count; i++)
+                        {
+                            GameObject obj = null;
+                            obj = CreatePreObj(MaliBox, content);
+                            obj.transform.Find("MailTitle").GetComponent<Text>().text = msgInfos[i].title;
+                        }
+                    }
                     break;
                 default:
                     break;
@@ -47,9 +64,10 @@ namespace Assets.Scripts.UI.MeunUI
             base.OnDestroy();
             btnClose.onClick.RemoveAllListeners();
         }
-        // Start is called before the first frame update
         void Start()
         {
+            MaliBox = Resources.Load("Malie/MailBox") as GameObject;
+            content = transform.Find("bg/Emali/Viewport/Content");
             btnClose = transform.Find("bg/BtnClose").GetComponent<Button>();
             btnClose.onClick.AddListener(clickClose);
             setPanelActive(false);
@@ -58,10 +76,50 @@ namespace Assets.Scripts.UI.MeunUI
         {
             setPanelActive(false);
         }
-        // Update is called once per frame
-        void Update()
+        private void Multilingual()
         {
-        
+            BG = transform.Find("bg").GetComponent<Image>();
+            BG.sprite = Resources.Load<Sprite>("UI/menu" + language + "/MailFrame");
+        }
+        private System.Collections.Generic.Queue<GameObject> m_queue_gPreObj = new System.Collections.Generic.Queue<GameObject>();          //对象池
+        private Transform TempTrans;
+        /// <summary>
+        /// 创建预制体
+        /// </summary>
+        /// <param name="Prefab">预制体</param>
+        /// <param name="m_transPerfab">预制体父物体的transform</param>
+        /// <returns></returns>
+        public GameObject CreatePreObj(GameObject Prefab, Transform m_transPerfab)
+        {
+            GameObject obj = null;
+            if (m_queue_gPreObj.Count > 0)
+            {
+                obj = m_queue_gPreObj.Dequeue();
+            }
+            else
+            {
+                Transform trans = null;
+                trans = GameObject.Instantiate(Prefab, m_transPerfab).transform;
+                //trans.localPosition = Vector3.zero;
+                trans.localRotation = Quaternion.identity;
+                trans.localScale = Vector3.one;
+                obj = trans.gameObject;
+                obj.SetActive(false);
+            }
+            return obj;
+        }
+        /// <summary>
+        /// 预制体回收
+        /// </summary>
+        /// <param name="obj">回收的预制体</param>
+        private void RePreObj(GameObject obj)
+        {
+            if (obj != null)
+            {
+                obj.SetActive(false);
+                obj.transform.SetParent(TempTrans);
+                m_queue_gPreObj.Enqueue(obj);
+            }
         }
     }
 }

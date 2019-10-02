@@ -22,7 +22,8 @@ namespace Assets.Scripts.UI.MeunUI
 {
     public class QRecodePanel : UIBase
     {
-   
+
+        private Image BG;              //充值框
         Button btnSave;
         Button btnClose;
         RawImage imageQRecode;
@@ -56,16 +57,21 @@ namespace Assets.Scripts.UI.MeunUI
         void Start()
         {
       
-            btnSave = transform.Find("BtnSave").GetComponent<Button>();
-            btnClose = transform.Find("BtnClose").GetComponent<Button>();
-            imageQRecode = transform.Find("ImageQRecode").GetComponent<RawImage>();
+            btnSave = transform.Find("bg/BtnSave").GetComponent<Button>();
+            btnClose = transform.Find("bg/BtnClose").GetComponent<Button>();
+            imageQRecode = transform.Find("bg/ImageQRecode").GetComponent<RawImage>();
+            BG = transform.Find("bg").GetComponent<Image>();
 
             btnClose.onClick.AddListener(clickClose);
             btnSave.onClick.AddListener(clickSave);
             setPanelActive(false);
-            //
+            Multilingual();
         }
-
+        private void Multilingual()
+        {
+            string language = PlayerPrefs.GetString("language");
+            BG.sprite = Resources.Load<Sprite>("UI/menu" + language + "/TopUpFrame");
+        }
         private void clickClose()
         {
             setPanelActive(false);

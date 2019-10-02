@@ -13,10 +13,14 @@
   *
 ***/
 
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.MeunUI
 {
+    /// <summary>
+    /// 设置交易码
+    /// </summary>
     public class SetExPwPanel : UIBase
     {
 
@@ -24,6 +28,7 @@ namespace Assets.Scripts.UI.MeunUI
         private Button BtnCancel;              //取消按钮
         private InputField inputTransaction;   //输入的交易密码
         private string inputInfo;              //输入信息
+        private Text Title;                    //标题
         private void Awake()
         {
             Bind(UIEvent.SETTRANSACT_ACTIVE);
@@ -40,11 +45,22 @@ namespace Assets.Scripts.UI.MeunUI
                     break;
             }
         }
+        /// <summary>
+        /// 多语言
+        /// </summary>
+        /// <param name="language"></param>
+        private void Multilingual(string language)
+        {
+            BtnDetermine.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu" + language + "/ConfirmBig");
+            BtnCancel.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu" + language + "/CancelBig");
+            Title.text = "";
+        }
         void Start()
         {
-            BtnDetermine = transform.Find("BtnCommit").GetComponent<Button>();
-            BtnCancel = transform.Find("BtnCancle").GetComponent<Button>();
-            inputTransaction = transform.Find("InputExPw").GetComponent<InputField>();
+            BtnDetermine = transform.Find("bg/BtnCommit").GetComponent<Button>();
+            BtnCancel = transform.Find("bg/BtnCancle").GetComponent<Button>();
+            inputTransaction = transform.Find("bg/InputExPw").GetComponent<InputField>();
+            Title = transform.Find("bg/Title").GetComponent<Text>();
             setPanelActive(false);
             BtnDetermine.onClick.AddListener(clickDetermine);
             BtnCancel.onClick.AddListener(clickCancel);
@@ -58,7 +74,7 @@ namespace Assets.Scripts.UI.MeunUI
         /// </summary>
         private void clickDetermine()
         {
-
+            //判断交易码输入是不是正确且不为空
         }
         /// <summary>
         /// 取消按钮

@@ -12,6 +12,7 @@
   *
 ***/
 
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.MeunUI
@@ -25,6 +26,9 @@ namespace Assets.Scripts.UI.MeunUI
         private InputField InputCode;        //输入交易码
         private Button ConfirmBtn;           //确定按钮   
         private Button CloseBtn;             //关闭按钮
+        private GameObject TransfeScc;       //提交成功
+        private GameObject TransactionFrame; //输入交易码框
+        private Button TransfeSccBtn;        //关闭交易成功 
         private void Awake()
         {
             Bind(UIEvent.TRANSACTIONCODE_ACTIVE);
@@ -36,36 +40,58 @@ namespace Assets.Scripts.UI.MeunUI
             {
                 case UIEvent.TRANSACTIONCODE_ACTIVE:
                     setPanelActive(true);
+                    TransactionFrame.SetActive(true);
                     break;
                 default:
                     break;
             }
         }
-        // Start is called before the first frame update
         void Start()
         {
+            TransactionFrame = transform.Find("TransactionFrame").gameObject;
+            TransfeScc = transform.Find("TransfeScc").gameObject;
+            TransfeSccBtn = TransfeScc.GetComponent<Button>();
             title = transform.Find("TransactionFrame/Title").GetComponent<Text>();
             InputCode = transform.Find("TransactionFrame/InputField").GetComponent<InputField>();
             ConfirmBtn = transform.Find("TransactionFrame/Confirm").GetComponent<Button>();
             CloseBtn = transform.Find("TransactionFrame/CloseBtn").GetComponent<Button>();
-            //ConfirmBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
-            //CloseBtn.GetComponent<Image>().sprite=Resources.Load<Sprite>("UI/");
+           
             ConfirmBtn.onClick.AddListener(clickConfirm);
             CloseBtn.onClick.AddListener(clickClose);
+            TransfeSccBtn.onClick.AddListener(clickCloseScc);
             setPanelActive(false);
+        }
+        /// <summary>
+        /// 多语言
+        /// </summary>
+        /// <param name="language"></param>
+        private void Multilingual(string language)
+        {
+            ConfirmBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/"+ language+ "/ConfirmMin");
+            TransfeScc.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Submitted");
+
+            title.text = "";
         }
         /// <summary>
         /// 点击确定按钮
         /// </summary>
         private void clickConfirm()
         {
-
+            TransactionFrame.SetActive(true);
         }
         /// <summary>
         /// 关闭
         /// </summary>
         private void clickClose()
         {
+            setPanelActive(false);
+        }
+        /// <summary>
+        /// 关闭交易成功提示
+        /// </summary>
+        private void clickCloseScc()
+        {
+            TransfeScc.SetActive(false);
             setPanelActive(false);
         }
     }

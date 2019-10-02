@@ -50,3 +50,5 @@ public class ExchangeInfo
     public string exchange_result { get; set; }
 
 }
+
+

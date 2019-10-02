@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
-using EventType=Assets.Scripts.Net.EventType;
 /***
   * Title:     
   *
@@ -148,7 +148,7 @@ namespace Assets.Scripts.UI
                         });
                         btnInvest.onClick.AddListener(() =>
                         {
-                            Dispatch(AreaCode.NET, EventType.invest_req, item.id);
+                            Dispatch(AreaCode.NET, ReqEventType.invest_req, item.id);
                             CacheInvest.Add(item.id,slectUIstore);
                             btnInvest.gameObject.SetActive(false);
                         });
@@ -196,11 +196,11 @@ namespace Assets.Scripts.UI
                         });
                         btnInvest.onClick.AddListener(() =>
                         {
-                            Dispatch(AreaCode.NET, EventType.invest_req, item.id);
+                            Dispatch(AreaCode.NET, ReqEventType.invest_req, item.id);
                             btnInvest.gameObject.SetActive(false);
                             setPanelActive(false);
                         });
-                        //btnStore Dispatch(AreaCode.NET, EventType.invest_req, item.id);
+                        //btnStore Dispatch(AreaCode.NET, ReqEventType.invest_req, item.id);
                         storeNameText.text = item.投资名称;
                         break;
                     }

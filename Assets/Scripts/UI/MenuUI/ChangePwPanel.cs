@@ -3,7 +3,6 @@ using Assets.Scripts.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.Net;
-using EventType = Assets.Scripts.Net.EventType;
 /***
 * Title:     
 *
@@ -76,7 +75,7 @@ namespace Assets.Scripts.UI.LoginUI
                 ["newpw"] = _newpassword,
                 ["code"]=_verificationcode,
             };
-            Dispatch(AreaCode.NET, EventType.expw, msg); 
+            Dispatch(AreaCode.NET, ReqEventType.expw, msg); 
         }
 
         private void ClickClose()
@@ -86,7 +85,7 @@ namespace Assets.Scripts.UI.LoginUI
 
         private void ClickGetVerificationCode()
         {
-            Dispatch(AreaCode.NET,EventType.identy,null);
+            Dispatch(AreaCode.NET,ReqEventType.identy,null);
         }
         // Update is called once per frame
         void Update()

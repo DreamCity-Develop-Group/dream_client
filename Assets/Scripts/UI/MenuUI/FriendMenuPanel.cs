@@ -16,9 +16,9 @@
 using System.Collections.Generic;
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
-using EventType = Assets.Scripts.Net.EventType;
 
 namespace Assets.Scripts.UI.MeunUI
 {
@@ -144,7 +144,7 @@ namespace Assets.Scripts.UI.MeunUI
             SquareBtn.SetActive(true);
             AppyForBtn.SetActive(false);
             FriendBtn.SetActive(false);
-            Dispatch(AreaCode.NET,EventType.squarefriend,null);
+            Dispatch(AreaCode.NET,ReqEventType.squarefriend,null);
             Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_ACTIVE, false);
             Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_ACTIVE, true);
             Dispatch(AreaCode.UI, UIEvent.APPLYFOR_ACTIVE, false);
@@ -170,12 +170,12 @@ namespace Assets.Scripts.UI.MeunUI
             Dispatch(AreaCode.UI, UIEvent.FRIEND_LIST_PANEL_ACTIVE, false);
             Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_ACTIVE, false);
             Dispatch(AreaCode.UI, UIEvent.APPLYFOR_ACTIVE, true);
-            Dispatch(AreaCode.NET,EventType.applyfriend,null);
+            Dispatch(AreaCode.NET,ReqEventType.applyfriend,null);
         }
         private void clickSearch()
         {
             nickName = inputSearch.text;
-            Dispatch(AreaCode.NET,EventType.searchfriend,nickName);
+            Dispatch(AreaCode.NET,ReqEventType.searchfriend,nickName);
         }
     }
 }

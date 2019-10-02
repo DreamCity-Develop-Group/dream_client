@@ -1,8 +1,8 @@
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
-using EventType = Assets.Scripts.Net.EventType;
 // ReSharper disable InconsistentNaming
 
 namespace Assets.Scripts.UI.LoginUI
@@ -117,7 +117,7 @@ namespace Assets.Scripts.UI.LoginUI
         private void clickGetIdentity()
         {
             username = inputUserName.text;
-            Dispatch(AreaCode.NET, EventType.identy,username);
+            Dispatch(AreaCode.NET, ReqEventType.identy,username);
             Debug.Log("clickGetIdentity");
         }
         private void clickIdentityLog()
@@ -159,13 +159,13 @@ namespace Assets.Scripts.UI.LoginUI
             {
                 identity = inputIdentity.text;
                 loginInfo.Password = identity;
-                Dispatch(AreaCode.NET, EventType.idlogin, loginInfo);
+                Dispatch(AreaCode.NET, ReqEventType.idlogin, loginInfo);
             }
             else
             {
                 password = inputPassWord.text;
                 loginInfo.Password = password;
-                Dispatch(AreaCode.NET, EventType.pwlogin, loginInfo);
+                Dispatch(AreaCode.NET, ReqEventType.pwlogin, loginInfo);
             }
         }
     }

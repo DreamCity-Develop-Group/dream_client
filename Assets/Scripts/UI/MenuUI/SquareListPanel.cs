@@ -17,9 +17,9 @@ using System;
 using System.Collections.Generic;
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
-using EventType=Assets.Scripts.Net.EventType;
 
 namespace Assets.Scripts.UI.MeunUI
 {
@@ -73,7 +73,7 @@ namespace Assets.Scripts.UI.MeunUI
                             obj.transform.Find("LV").GetComponent<Text>().text = t.grade;
                             obj.transform.Find("Add").GetComponent<Button>().onClick.AddListener(()=>
                             {
-                                Dispatch(AreaCode.NET,EventType.addfriend, friendNick);
+                                Dispatch(AreaCode.NET,ReqEventType.addfriend, friendNick);
                             });
                         }
                     }

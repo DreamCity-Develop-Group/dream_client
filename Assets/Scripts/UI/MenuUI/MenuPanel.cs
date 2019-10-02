@@ -7,7 +7,7 @@ using Assets.Scripts.Model;
 using Assets.Scripts.Tools;
 using UnityEngine;
 using UnityEngine.UI;
-using EventType=Assets.Scripts.Net.EventType;
+using Assets.Scripts.Net;
 
 namespace Assets.Scripts.UI.MeunUI
 {
@@ -244,7 +244,7 @@ namespace Assets.Scripts.UI.MeunUI
             textForEncoding = "0x8dbd8843d9e9de809c19ed53e0403475c987ab15";
             //CreatQRcode(textForEncoding,)
             //Sprite spriteQRcode=GetSprite(textForEncoding);
-            // Dispatch(AreaCode.Net,EventType);
+            // Dispatch(AreaCode.Net,ReqEventType);
             
             Dispatch(AreaCode.UI,UIEvent.QRECODE_PANEL_ACTIVE,CreatQRcode(textForEncoding));
 

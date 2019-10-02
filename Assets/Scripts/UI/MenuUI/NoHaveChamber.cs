@@ -13,9 +13,9 @@
 ***/
 
 using Assets.Scripts.Framework;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
-using EventType=Assets.Scripts.Net.EventType;
 namespace Assets.Scripts.UI.MeunUI
 {
     /// <summary>
@@ -63,7 +63,9 @@ namespace Assets.Scripts.UI.MeunUI
         //资金不足
         private Button fundsColse;                                 //关闭
         private Button GoPayBtn;                                   //去充值
-        private Text FundsTxt;                                     //描述 
+        private Text FundsTxt;  //描述 
+
+        CommerceInfo commerceInfo = new CommerceInfo();
         private void Awake()
         {
             Bind(UIEvent.COMMERCE_NOJIONPANEL_ACTIVE,UIEvent.BusinessPrompt_NOTIVE_VIEW);
@@ -77,7 +79,6 @@ namespace Assets.Scripts.UI.MeunUI
                   setPanelActive((bool)message);
                     break;
                 case UIEvent.BusinessPrompt_NOTIVE_VIEW:
-
                     break;
                 default:
                     break;
@@ -131,13 +132,13 @@ namespace Assets.Scripts.UI.MeunUI
             GoPayBtn.onClick.AddListener(clickGoPay);
             fundsColse.onClick.AddListener(clickClosePay);
             payDetermine.onClick.AddListener(clickConfirmationPayment);
-            setPanelActive(false);
         }
         /// <summary>
         /// 多语言换图
         /// </summary>
         private void ManyLanguages()
         {
+            string language = PlayerPrefs.GetString("language");
             DetermineBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
             CloseBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
             PromptOKBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
@@ -178,7 +179,7 @@ namespace Assets.Scripts.UI.MeunUI
             {
                 //TODO输入提示
             }
-            Dispatch(AreaCode.NET,EventType.commerce_in,InputChamberCode.text.ToString());
+            Dispatch(AreaCode.NET,ReqEventType.commerce_in,InputChamberCode.text.ToString());
             JionChamber.SetActive(false);
             JIonScee.SetActive(true);
             //}
@@ -225,6 +226,8 @@ namespace Assets.Scripts.UI.MeunUI
         /// </summary>
         private void cilckPay()
         {
+            string address = "";
+            Dispatch(AreaCode.NET,ReqEventType.recharge, address);
             ChamberOfCommerceRules.SetActive(false);
             ConfirmationPaymentPanel.SetActive(true);
         }

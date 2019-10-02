@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using Assets.Scripts.Tools;
 using Assets.Scripts.UI;
 using UnityEngine;
@@ -61,7 +58,9 @@ public class PostPanel : UIBase
         _inviteCode1 = transform.Find("Post1/InviteCode").GetComponent<Text>();
         _inviteCode2 = transform.Find("Post2/InviteCode").GetComponent<Text>();
         _inviteCode3 = transform.Find("Post3/InviteCode").GetComponent<Text>();
-        InitSource();
+
+        setPanelActive(false);
+      //  InitSource();
     }
     /// <summary>
     /// 多语言选择初始化
@@ -107,7 +106,6 @@ public class PostPanel : UIBase
         encode.Apply();
         return encode;
     }
-
     private void Onclose()
     {
         //保存海报
@@ -115,45 +113,4 @@ public class PostPanel : UIBase
         //关闭界面
         setPanelActive(false);
     }
-    byte[] byteImage;
-    //    /// <summary>
-    //    /// 保存Png图片
-    //    /// </summary>
-    //    /// <param name="texture"></param>
-    //    /// <returns></returns>
-    IEnumerator SaveImages(Texture2D texture)
-    {
-        string path = Application.persistentDataPath;
-        //#if UNITY_ANDROID
-        //        path = "/storage/emulated/0/DCIM/DreamCity"; //设置图片保存到设备的目.
-        //#endif
-        //        if (!Directory.Exists(path)) 
-        //            Directory.CreateDirectory(path);
-
-
-        byteImage = texture.EncodeToPNG();
-        string savePath = string.Format("{0}/{1}.png", path, "dreamCode");
-        File.WriteAllBytes(savePath, byteImage);
-        savePngAndUpdate(path);
-        yield return new WaitForEndOfFrame();
-    }
-    public void savePngAndUpdate(string path)
-    {
-#if UNITY_IOS
-
-#elif UNITY_ANDROID
-        //GetAndroidJavaObject().Call("saveImage", fileName, byteImage);
-        GetAndroidJavaObject().Call("testCallAndroid");
-        GetAndroidJavaObject().Call("requestExternalStorage");
-        GetAndroidJavaObject().Call("saveImageToGallery", path, "保存成功");
-
-        Debug.Log(path);
-#endif
-    }
-#if UNITY_ANDROID
-    public AndroidJavaObject GetAndroidJavaObject()
-    {
-        return new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
-    }
-#endif
 }

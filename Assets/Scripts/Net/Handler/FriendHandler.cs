@@ -30,26 +30,26 @@ namespace Assets.Scripts.Net.Handler
         {
             switch (subCode)
             {
-                case EventType.addfriend:
+                case ReqEventType.addfriend:
                     //diFriendData = value as Dictionary<string, UserInfo>;
                     addfriendRespon();
                     break;
-                case EventType.listfriend:
+                case ReqEventType.listfriend:
                     _friendData = value as SquareUser;
                     listfriendRespon();
                     break;
-                case EventType.searchfriend:
+                case ReqEventType.searchfriend:
                     searchfriendRespon(value);
                     break;
-                case EventType.applyfriend:
+                case ReqEventType.applyfriend:
                     _applyData = value as SquareUser;
                     applyListRespon();
                     break;
-                case EventType.squarefriend:
+                case ReqEventType.squarefriend:
                     _squareData = value as SquareUser;
                     dicSquareFriendRespon();
                     break;
-                case EventType.applytofriend:
+                case ReqEventType.applytofriend:
                     isAgreedResonse(value.ToString());
                     break;
                 default:
