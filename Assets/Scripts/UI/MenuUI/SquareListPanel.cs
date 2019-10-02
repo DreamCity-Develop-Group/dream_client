@@ -71,8 +71,12 @@ namespace Assets.Scripts.UI.MeunUI
                             string friendNick= t.nick;
                             obj.transform.Find("Name").GetComponent<Text>().text = t.nick;
                             obj.transform.Find("LV").GetComponent<Text>().text = t.grade;
+                            var obj1 = obj;
                             obj.transform.Find("Add").GetComponent<Button>().onClick.AddListener(()=>
                             {
+
+                                obj1.transform.Find("Add").gameObject.SetActive(false);
+                                obj1.transform.Find("Added").gameObject.SetActive(true);
                                 Dispatch(AreaCode.NET,ReqEventType.addfriend, friendNick);
                             });
                         }
