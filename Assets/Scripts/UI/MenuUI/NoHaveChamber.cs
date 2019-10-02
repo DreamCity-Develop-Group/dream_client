@@ -64,6 +64,7 @@ namespace Assets.Scripts.UI.MeunUI
         private Button fundsColse;                                 //关闭
         private Button GoPayBtn;                                   //去充值
         private Text FundsTxt;                                     //描述 
+        private string commerceCode;        //商会邀请码
         private void Awake()
         {
             Bind(UIEvent.COMMERCE_NOJIONPANEL_ACTIVE,UIEvent.BusinessPrompt_NOTIVE_VIEW);
@@ -74,7 +75,8 @@ namespace Assets.Scripts.UI.MeunUI
             switch (eventCode)
             {
                 case UIEvent.COMMERCE_NOJIONPANEL_ACTIVE:
-                  setPanelActive((bool)message);
+                    //setPanelActive((bool)message);
+                    JionChamber.SetActive((bool)message);
                     break;
                 case UIEvent.BusinessPrompt_NOTIVE_VIEW:
 
@@ -172,16 +174,14 @@ namespace Assets.Scripts.UI.MeunUI
             //}
             //else
             //{
-            string commerceCode = InputChamberCode.text;
-            if (commerceCode == null || commerceCode.Equals(""))
-            {
-                //TODO输入提示
-            }
-            Dispatch(AreaCode.NET,ReqEventType.commerce_in,InputChamberCode.text.ToString());
+            commerceCode = InputChamberCode.text;
+           
             JionChamber.SetActive(false);
             JIonScee.SetActive(true);
             //}
         }
+
+        //// Dispatch(AreaCode.NET,ReqEventType.commerce_in,InputChamberCode.text.ToString());
         /// <summary>
         /// 关闭邀请码错误提示
         /// </summary>

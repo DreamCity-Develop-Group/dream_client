@@ -22,19 +22,27 @@ namespace Assets.Scripts.Net.Request
     public class CommerceRequsetMsg 
     {
         private HintMsg promptMsg = new HintMsg();
-        SocketMsg<Dictionary<string, string>> socketMsg = new SocketMsg<Dictionary<string, string>>();
-        MessageData<Dictionary<string, string>> messageData = new MessageData<Dictionary<string, string>>();
+        SocketMsg<ReqCommerceInfo> socketMsg = new SocketMsg<ReqCommerceInfo>();
+        MessageData<ReqCommerceInfo> messageData = new MessageData<ReqCommerceInfo>();
+        ReqCommerceInfo reqCommerceInfo = new ReqCommerceInfo();
         /// <summary>
         /// 商会请求加入消息
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public SocketMsg<Dictionary<string,string>> ReqComeCommerceMsg(object msg)
+        public SocketMsg<ReqCommerceInfo> ReqComeCommerceMsg(object msg)
         {
-            Dictionary<string, string> t = msg as Dictionary<string, string>;
-            t.Add("username", PlayerPrefs.GetString("username"));
-            t.Add("token",PlayerPrefs.GetString("token"));
-            messageData.Change("consumer/tree", "commerce_in", t);
+            if (msg == null || msg.Equals(""))
+            {
+                //TODO提示
+                promptMsg.Change("null",Color.white);
+                return null;
+            }
+            reqCommerceInfo.Change(null,null,msg.ToString(),null,null);
+            //t.Add("commerce_name");
+            //t.Add("username", PlayerPrefs.GetString("username"));
+            //t.Add("token",PlayerPrefs.GetString("token"));
+            messageData.Change("consumer/tree", "commerce_in", reqCommerceInfo);
             socketMsg.Change(LoginInfo.ClientId, "商会请求加入消息", messageData);
             return socketMsg;
         }
@@ -43,12 +51,13 @@ namespace Assets.Scripts.Net.Request
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public SocketMsg<Dictionary<string, string>> ReqBuyMTMsg(object msg)
+        public SocketMsg<ReqCommerceInfo> ReqBuyMTMsg(object msg)
         {
-            Dictionary<string, string> t = msg as Dictionary<string, string>;
-            t.Add("username", PlayerPrefs.GetString("username"));
-            t.Add("token",PlayerPrefs.GetString("token"));
-            messageData.Change("consumer/tree", "commerce_in", t);
+            //Dictionary<string, string> t = msg as Dictionary<string, string>;
+            //t.Add("username", PlayerPrefs.GetString("username"));
+            //t.Add("token",PlayerPrefs.GetString("token"));
+            reqCommerceInfo.Change(null, msg.ToString(), null, null, null);
+            messageData.Change("consumer/tree", "commerce_in", reqCommerceInfo);
             socketMsg.Change(LoginInfo.ClientId, "购买MT消息请求", messageData);
             return socketMsg;
         }
@@ -57,12 +66,13 @@ namespace Assets.Scripts.Net.Request
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public SocketMsg<Dictionary<string, string>> ReqSendMTMsg(object msg)
+        public SocketMsg<ReqCommerceInfo> ReqSendMTMsg(object msg)
         {
-            Dictionary<string, string> t = msg as Dictionary<string, string>;
-            t.Add("username", PlayerPrefs.GetString("username"));
-            t.Add("token",  PlayerPrefs.GetString("token"));
-            messageData.Change("consumer/tree", "commerce", t);
+            //Dictionary<string, string> t = msg as Dictionary<string, string>;
+            //t.Add("username", PlayerPrefs.GetString("username"));
+            //t.Add("token",  PlayerPrefs.GetString("token"));
+            reqCommerceInfo.Change(null, null, null, null, msg.ToString());
+            messageData.Change("consumer/tree", "commerce", reqCommerceInfo);
             socketMsg.Change(LoginInfo.ClientId, "会长发放结果", messageData);
             return socketMsg;
         }
@@ -71,12 +81,13 @@ namespace Assets.Scripts.Net.Request
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public SocketMsg<Dictionary<string, string>> ReqCommerceMsg(object msg)
+        public SocketMsg<ReqCommerceInfo> ReqCommerceMsg(object msg)
         {
-            Dictionary<string, string> t = msg as Dictionary<string, string>;
-            t.Add("username", PlayerPrefs.GetString("username"));
-            t.Add("token",PlayerPrefs.GetString("token"));
-            messageData.Change("consumer/tree", "commerce", t);
+            //Dictionary<string, string> t = msg as Dictionary<string, string>;
+            //t.Add("username", PlayerPrefs.GetString("username"));
+            //t.Add("token",PlayerPrefs.GetString("token"));
+            reqCommerceInfo.Change(null, null, null, null, null);
+            messageData.Change("consumer/tree", "commerce", reqCommerceInfo);
             socketMsg.Change(LoginInfo.ClientId, "商会信息请求", messageData);
             return socketMsg;
         }

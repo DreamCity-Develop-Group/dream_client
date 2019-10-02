@@ -123,7 +123,7 @@ namespace Assets.Scripts.UI.MeunUI
             btnFriends.onClick.AddListener(clickFriend);
             btnMsg.onClick.AddListener(clickEmali);
             btnCommerce.onClick.AddListener(clickCommerce);
-            btnCommerce.onClick.AddListener(clickChamber);
+          //  btnCommerce.onClick.AddListener(clickChamber);
             changeHand.onClick.AddListener(clickChangeHand);
             handArray[0].onClick.AddListener(clickHand0);
             handArray[1].onClick.AddListener(clickHand1);
