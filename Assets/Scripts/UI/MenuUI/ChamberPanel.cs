@@ -198,7 +198,7 @@ namespace Assets.Scripts.UI.MeunUI
                 OpenOrClose.GetComponent<Image>().sprite = Spr_OpenOrClose[0];
             }
             setPanelActive(false);
-          
+            ManyLanguages();
         }
         /// <summary>
         /// 查找游戏物体
@@ -270,6 +270,7 @@ namespace Assets.Scripts.UI.MeunUI
         /// </summary>
         private void ManyLanguages()
         {
+            string language = PlayerPrefs.GetString("language");
             chamberTitle.text = "";
             CommonMemberNum.text = "";
             CenterTitle.text = "";

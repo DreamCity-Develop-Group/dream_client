@@ -49,8 +49,9 @@ namespace Assets.Scripts.UI.MeunUI
         /// 多语言
         /// </summary>
         /// <param name="language"></param>
-        private void Multilingual(string language)
+        private void Multilingual()
         {
+            string language = PlayerPrefs.GetString("language");
             BtnDetermine.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu" + language + "/ConfirmBig");
             BtnCancel.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu" + language + "/CancelBig");
             Title.text = "";
@@ -64,6 +65,7 @@ namespace Assets.Scripts.UI.MeunUI
             setPanelActive(false);
             BtnDetermine.onClick.AddListener(clickDetermine);
             BtnCancel.onClick.AddListener(clickCancel);
+            Multilingual();
         }
         private void Update()
         {

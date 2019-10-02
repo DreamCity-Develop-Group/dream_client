@@ -18,7 +18,7 @@ namespace Assets.Scripts.UI.MeunUI
         Button btnMsg;      //邮件
         Button btnCommerce; //商会
         Button btnTreasure; //资产
-        Button btnAdd;
+        Button btnAdd;      //充值USDT + 号按钮 
 
         /// <summary>
         /// 投资
@@ -134,6 +134,7 @@ namespace Assets.Scripts.UI.MeunUI
             handArray[6].onClick.AddListener(clickHand6);
             handArray[7].onClick.AddListener(clickHand7);
             txtNotice1.gameObject.SetActive(false);
+            MangLange();
             //initSource();
             //LanguageService.Instance.Language = new LanguageInfo(PlayerPrefs.GetString("language"));
             //Dispatch(AreaCode.UI, UIEvent.LANGUAGE_VIEW, PlayerPrefs.GetString("language"));
@@ -141,8 +142,9 @@ namespace Assets.Scripts.UI.MeunUI
         /// <summary>
         /// 多语言切换
         /// </summary>
-        private void MangLange(string language)
+        private void MangLange()
         {
+            string language = PlayerPrefs.GetString("language");
             btnFriends.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Friend");
             btnCommerce.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Chamber");
             btnTreasure.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Asset");

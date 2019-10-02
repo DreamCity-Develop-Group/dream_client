@@ -81,8 +81,9 @@ namespace Assets.Scripts.UI.MeunUI
         /// <summary>
         /// 多语言
         /// </summary>
-        private void Multilingual(string language)
+        private void Multilingual()
         {
+            string language = PlayerPrefs.GetString("language");
             //多语系动态加载图片
             transferBtn.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/TransferAccounts");
             TopUpBtn.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/TopUp");
@@ -138,17 +139,17 @@ namespace Assets.Scripts.UI.MeunUI
         private void Start()
         {
             AssetPanel = transform.Find("bg").gameObject;
-            transferBtn = transform.Find("BtnTransfer").GetComponent<Image>();
-            TopUpBtn = transform.Find("BtnRecharge").GetComponent<Image>();
-            InviteFriendsBtn = transform.Find("BtnApplyFreind").GetComponent<Image>();
-            ToHold = transform.Find("ToHold").gameObject;
+            transferBtn = transform.Find("bg/BtnTransfer").GetComponent<Image>();
+            TopUpBtn = transform.Find("bg/BtnRecharge").GetComponent<Image>();
+            InviteFriendsBtn = transform.Find("bg/BtnApplyFreind").GetComponent<Image>();
+            ToHold = transform.Find("bg/ToHold").gameObject;
             ToHoldBtn = ToHold.GetComponent<Button>();
-            PanleInviterFrindsBG = transform.Find("PanleInviterFrindsBG").gameObject;
-            TransactionRecord = transform.Find("TransactionRecord").gameObject;
-            transferAccounts = transform.Find("BtnTransfer").GetComponent<Button>();
-            topUp = transform.Find("BtnRecharge").GetComponent<Button>();
-            InviteFriends = transform.Find("BtnApplyFreind").GetComponent<Button>();
-            transactionRecord = transform.Find("BtnChargeLog").GetComponent<Button>();
+            PanleInviterFrindsBG = transform.Find("bg/PanleInviterFrindsBG").gameObject;
+            TransactionRecord = transform.Find("bg/TransactionRecord").gameObject;
+            transferAccounts = transform.Find("bg/BtnTransfer").GetComponent<Button>();
+            topUp = transform.Find("bg/BtnRecharge").GetComponent<Button>();
+            InviteFriends = transform.Find("bg/BtnApplyFreind").GetComponent<Button>();
+            transactionRecord = transform.Find("bg/BtnChargeLog").GetComponent<Button>();
             CopyInvitationCode = transform.Find("bg/BtnCopy").GetComponent<Button>();
             btnClose = transform.Find("bg/BtnClose").GetComponent<Button>();
             TransctionClose = TransactionRecord.transform.Find("Frame/BtnColse").GetComponent<Button>();
@@ -221,6 +222,7 @@ namespace Assets.Scripts.UI.MeunUI
                     obj.transform.Find("Balance").GetComponent<Text>().text = "";
                 }
             }
+            Multilingual();
         }
       
 

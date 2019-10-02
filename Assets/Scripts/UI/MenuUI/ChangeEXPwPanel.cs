@@ -54,7 +54,7 @@ namespace Assets.Scripts.UI.MeunUI
         }
         void Start()
         {
-            // inputFieldMobile = transform.Find("BG/InputFieldMobile").GetComponent<InputField>();
+            inputFieldMobile = transform.Find("BG/InputFieldMobile").GetComponent<InputField>();
             inputFieldVerification = transform.Find("BG/InputFieldVerification").GetComponent<InputField>();
             inputFieldCurrentPassword = transform.Find("BG/InputFieldCurrentPassword").GetComponent<InputField>();
             inputFieldNewPassword = transform.Find("BG/InputFieldNewPassword").GetComponent<InputField>();

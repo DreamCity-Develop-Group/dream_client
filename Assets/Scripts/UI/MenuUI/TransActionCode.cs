@@ -60,13 +60,15 @@ namespace Assets.Scripts.UI.MeunUI
             CloseBtn.onClick.AddListener(clickClose);
             TransfeSccBtn.onClick.AddListener(clickCloseScc);
             setPanelActive(false);
+            Multilingual();
         }
         /// <summary>
         /// 多语言
         /// </summary>
         /// <param name="language"></param>
-        private void Multilingual(string language)
+        private void Multilingual()
         {
+            string language = PlayerPrefs.GetString("language");
             ConfirmBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/"+ language+ "/ConfirmMin");
             TransfeScc.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Submitted");
 

@@ -71,6 +71,7 @@ namespace Assets.Scripts.UI.MeunUI
             btnClose = transform.Find("bg/BtnClose").GetComponent<Button>();
             btnClose.onClick.AddListener(clickClose);
             setPanelActive(false);
+            Multilingual();
         }
         private void clickClose()
         {
@@ -78,6 +79,7 @@ namespace Assets.Scripts.UI.MeunUI
         }
         private void Multilingual()
         {
+            language = PlayerPrefs.GetString("language");
             BG = transform.Find("bg").GetComponent<Image>();
             BG.sprite = Resources.Load<Sprite>("UI/menu" + language + "/MailFrame");
         }

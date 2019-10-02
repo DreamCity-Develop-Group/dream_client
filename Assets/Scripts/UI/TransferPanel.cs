@@ -13,6 +13,7 @@
 ***/
 
 using Assets.Scripts.Framework;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.UI
@@ -26,6 +27,7 @@ namespace Assets.Scripts.UI
         private InputField TransferTheAddress;                      //转账地址
         private Button BtnConfirm;                                  //确定按钮
         private Button BtnClose;                                    //关闭按钮
+        private string language;                                   //语言版本
 
         private void Awake()
         {
@@ -52,6 +54,8 @@ namespace Assets.Scripts.UI
             BtnConfirm.onClick.AddListener(clickConfirm);
             BtnClose.onClick.AddListener(clickClose);
             setPanelActive(false);
+            language = PlayerPrefs.GetString("language");
+            BtnConfirm.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/ConfirmBig");
         }
         /// <summary>
         /// 关闭面板

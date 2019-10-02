@@ -70,7 +70,8 @@ namespace Assets.Scripts.UI.MeunUI
         private void Multilingual()
         {
             string language = PlayerPrefs.GetString("language");
-            BG.sprite = Resources.Load<Sprite>("UI/menu" + language + "/TopUpFrame");
+            language = "chinese";
+            BG.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/TopUpFrame");
         }
         private void clickClose()
         {

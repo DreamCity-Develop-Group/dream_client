@@ -133,6 +133,7 @@ namespace Assets.Scripts.UI.MeunUI
             GoPayBtn.onClick.AddListener(clickGoPay);
             fundsColse.onClick.AddListener(clickClosePay);
             payDetermine.onClick.AddListener(clickConfirmationPayment);
+            ManyLanguages();
         }
         /// <summary>
         /// 多语言换图

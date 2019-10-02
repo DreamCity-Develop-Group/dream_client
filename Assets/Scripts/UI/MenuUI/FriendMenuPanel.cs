@@ -94,18 +94,7 @@ namespace Assets.Scripts.UI.MeunUI
             btnSearch = transform.Find("BtnSearch").GetComponent<Button>();
             btnClose = transform.Find("BtnClose").GetComponent<Button>();
             textTitle = transform.Find("TextTitle").GetComponent<Text>();
-        //动态加载图片
-        //FriendClick = transform.Find("BtnFriend").GetComponent<Image>();
-        //SquareBtnClick = transform.Find("BtnGround").GetComponent<Image>();
-        //AppyForClick = transform.Find("BtnApply").GetComponent<Image>();
-        //FriendBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
-        //SquareBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
-        //AppyForBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
-        //FriendClick.sprite = Resources.Load<Sprite>("UI/");
-        //AppyForClick.sprite = Resources.Load<Sprite>("UI/");
-        //SquareBtnClick.sprite = Resources.Load<Sprite>("UI/");
-        //SearchClick = transform.Find("BtnSearch").GetComponent<Image>();
-        //SearchClick.sprite = Resources.Load<Sprite>("UI/");
+       
 
             btnFriend.onClick.AddListener(clickFriend);
             btnSearch.onClick.AddListener(clickSearch);
@@ -113,6 +102,25 @@ namespace Assets.Scripts.UI.MeunUI
             btnGround.onClick.AddListener(clickGround);
             btnClose.onClick.AddListener(clickClose);
             setPanelActive(false);
+            Multilingual();
+        }
+        /// <summary>
+        /// 多语言
+        /// </summary>
+        private void Multilingual()
+        {
+            string language = PlayerPrefs.GetString("language");
+            FriendClick = transform.Find("BtnFriend").GetComponent<Image>();
+            SquareBtnClick = transform.Find("BtnGround").GetComponent<Image>();
+            AppyForClick = transform.Find("BtnApply").GetComponent<Image>();
+            FriendBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+            SquareBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+            AppyForBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/");
+            FriendClick.sprite = Resources.Load<Sprite>("UI/");
+            AppyForClick.sprite = Resources.Load<Sprite>("UI/");
+            SquareBtnClick.sprite = Resources.Load<Sprite>("UI/");
+            SearchClick = transform.Find("BtnSearch").GetComponent<Image>();
+            SearchClick.sprite = Resources.Load<Sprite>("UI/");
         }
         private void OnEnable()
         {

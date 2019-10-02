@@ -6,7 +6,10 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI.MeunUI
 {
-    public class SetPanel: UIBase
+    /// <summary>
+    /// 设置面板
+    /// </summary>
+    public class SetPanel : UIBase
     {
         private GameObject MusicClik;               //点击状态的音效按钮
         private GameObject SecutiryClik;            //点击状态的安全设置按钮
@@ -22,11 +25,11 @@ namespace Assets.Scripts.UI.MeunUI
         private Image SoundImg;                     //声音图
         private Image MusicImg;                     //背景音乐图
         private Sprite[] switchSprite = new Sprite[2];              //开关图
-    private Text soundTxt;                      //音效提示 
-    private Text musicTxt;                      //背景音乐提示
+        private Text soundTxt;                      //音效提示 
+        private Text musicTxt;                      //背景音乐提示
         private Text TransactionCode;                //交易码设置
-    private Text ChangeLoginPassword;            //修改登录密码
-    private Text LogOut;                         //退出登录
+        private Text ChangeLoginPassword;            //修改登录密码
+        private Text LogOut;                         //退出登录
         private int setUp;                           //是否设置了交易吗(默认是设置)
 
         Button btnPanelMusic;
@@ -38,7 +41,7 @@ namespace Assets.Scripts.UI.MeunUI
 
         private bool IsOpenSound = false;          //是否开启音效
         private bool IsOpenMuisc = false;          //是否开启背景音效
-        private bool isVoice=true;
+        private bool isVoice = true;
         private void Awake()
         {
             Bind(UIEvent.SET_PANEL_ACTIVE);
@@ -58,13 +61,13 @@ namespace Assets.Scripts.UI.MeunUI
 
         private void Start()
         {
-            btnPanelMusic = transform.Find("BtnPanelMusic").GetComponent<Button>();
-            btnSecutiry = transform.Find("BtnSecutiry").GetComponent<Button>();
-            btnHelp  = transform.Find("BtnHelp").GetComponent<Button>();
+            btnPanelMusic = transform.Find("bg/BtnPanelMusic").GetComponent<Button>();
+            btnSecutiry = transform.Find("bg/BtnSecutiry").GetComponent<Button>();
+            btnHelp = transform.Find("bg/BtnHelp").GetComponent<Button>();
             btnChangeExPW = transform.Find("panelSecutiry/BtnChangeExPW").GetComponent<Button>();
             btnChangePW = transform.Find("panelSecutiry/BtnChangePW").GetComponent<Button>();
             btnExit = transform.Find("panelSecutiry/BtnExit").GetComponent<Button>();
-            btnClose = transform.Find("BtnClose").GetComponent<Button>();
+            btnClose = transform.Find("bg/BtnClose").GetComponent<Button>();
             SetTrading = transform.parent.Find("SetExPwPanel").gameObject;
             ChangeTrading = transform.parent.Find("ChangeExPwPanel").gameObject;
             btnClose.onClick.AddListener(clickClose);
@@ -110,6 +113,7 @@ namespace Assets.Scripts.UI.MeunUI
             btnChangePW.onClick.AddListener(clickChangeLoginPassword);
 
             setPanelActive(false);
+            ChangeImg();
         }
 
         /// <summary>
@@ -118,7 +122,7 @@ namespace Assets.Scripts.UI.MeunUI
         private void ChangeImg()
         {
             string language = PlayerPrefs.GetString("language");
-            MusicClik.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu"+ language+ "/SoundBig");
+            MusicClik.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu" + language + "/SoundBig");
             SecutiryClik.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu" + language + "/SecuritySettingsBig");
             HelpClik.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu" + language + "/HelpBig");
             btnSecutiry.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu" + language + "/SecuritySettings");
@@ -230,7 +234,7 @@ namespace Assets.Scripts.UI.MeunUI
         /// </summary>
         private void clickExit()
         {
-        Dispatch(AreaCode.NET,ReqEventType.exit,null);
+            Dispatch(AreaCode.NET, ReqEventType.exit, null);
             Application.Quit();
         }
         /// <summary>
