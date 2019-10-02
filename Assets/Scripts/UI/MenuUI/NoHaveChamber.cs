@@ -135,6 +135,7 @@ namespace Assets.Scripts.UI.MeunUI
         /// </summary>
         private void ManyLanguages()
         {
+            string language = PlayerPrefs.GetString("language");
             DetermineBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
             CloseBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
             PromptOKBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
@@ -216,6 +217,7 @@ namespace Assets.Scripts.UI.MeunUI
         /// </summary>
         private void cilckPay()
         {
+            Dispatch(AreaCode.NET,ReqEvetnType.);
             ChamberOfCommerceRules.SetActive(false);
             ConfirmationPaymentPanel.SetActive(true);
         }
