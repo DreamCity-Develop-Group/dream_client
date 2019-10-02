@@ -64,7 +64,7 @@ namespace Assets.Scripts.UI.MeunUI
         private Button fundsColse;                                 //关闭
         private Button GoPayBtn;                                   //去充值
         private Text FundsTxt;  //描述 
-
+        private string commerceCode;        //商会邀请码
         CommerceInfo commerceInfo = new CommerceInfo();
         private void Awake()
         {
@@ -76,7 +76,8 @@ namespace Assets.Scripts.UI.MeunUI
             switch (eventCode)
             {
                 case UIEvent.COMMERCE_NOJIONPANEL_ACTIVE:
-                  setPanelActive((bool)message);
+                    //setPanelActive((bool)message);
+                    JionChamber.SetActive((bool)message);
                     break;
                 case UIEvent.BusinessPrompt_NOTIVE_VIEW:
                     break;
@@ -184,6 +185,8 @@ namespace Assets.Scripts.UI.MeunUI
             JIonScee.SetActive(true);
             //}
         }
+
+        //// Dispatch(AreaCode.NET,ReqEventType.commerce_in,InputChamberCode.text.ToString());
         /// <summary>
         /// 关闭邀请码错误提示
         /// </summary>

@@ -362,6 +362,7 @@ namespace Assets.Scripts.UI.MeunUI
                     }
                 }
             }
+            
         }
         /// <summary>
         /// 点击兑换中心

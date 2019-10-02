@@ -37,7 +37,7 @@ namespace Assets.Scripts.Net
         private InvestRequestMsg investRequestMsg = new InvestRequestMsg();
         private SocketMsg<Dictionary<string,string>> socketMsg;
         private SocketMsg<SquareUser> squareMsg;
-
+        private SocketMsg<ReqCommerceInfo> reqCommerceSocketMsg = new SocketMsg<ReqCommerceInfo>();
         protected internal override void Execute(int eventCode, object message)
         {
             //发一次请求触发一次点击音效,（排除点赞，可提取，商会升级）
@@ -196,7 +196,7 @@ namespace Assets.Scripts.Net
                         break;
                     case ReqEventType.commerce_member:
                         //商会成员信息请求
-                        socketMsg = commerceRequsetMsg.ReqCommerceMsg(message);
+                        reqCommerceSocketMsg = commerceRequsetMsg.ReqCommerceMsg(message);
                         if (socketMsg == null)
                         {
                             return;
@@ -205,7 +205,7 @@ namespace Assets.Scripts.Net
                         break;
                     case ReqEventType.commerce_in:
                         //商会加入请求
-                        socketMsg = commerceRequsetMsg.ReqComeCommerceMsg(message);
+                        reqCommerceSocketMsg = commerceRequsetMsg.ReqComeCommerceMsg(message);
                         if (socketMsg == null)
                         {
                             return;
@@ -229,7 +229,7 @@ namespace Assets.Scripts.Net
                         _wabData.SendMsg(socketMsg);
                         break;
                     case ReqEventType.commerce_sendmt:
-                        socketMsg = commerceRequsetMsg.ReqSendMTMsg(message);
+                        reqCommerceSocketMsg = commerceRequsetMsg.ReqSendMTMsg(message);
                         if (socketMsg == null)
                         {
                             return;
