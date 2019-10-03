@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using Assets.Scripts.Framework;
-using Assets.Scripts.Language;
 using Assets.Scripts.Model;
+using Assets.Scripts.Net;
 using Assets.Scripts.Tools;
 using UnityEngine;
 using UnityEngine.UI;
-using Assets.Scripts.Net;
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.MenuUI
 {
     public class MenuPanel : UIBase
     {
@@ -290,7 +289,8 @@ namespace Assets.Scripts.UI.MeunUI
         }
         private void clickTreasure()
         {
-            Dispatch(AreaCode.UI,UIEvent.CHARGE_PANEL_ACTIVE,true);
+            Dispatch(AreaCode.NET,ReqEventType.property,null);
+            
         }
 
         private void clickSet()

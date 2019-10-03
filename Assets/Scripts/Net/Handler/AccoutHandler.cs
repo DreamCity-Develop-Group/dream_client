@@ -3,7 +3,6 @@ using Assets.Scripts.Model;
 using Assets.Scripts.Scenes;
 using Assets.Scripts.Scenes.Msg;
 using Assets.Scripts.UI;
-using Assets.Scripts.UI.MeunUI;
 using Assets.Scripts.UI.Msg;
 using UnityEngine;
 
@@ -27,7 +26,9 @@ namespace Assets.Scripts.Net.Handler
                     return getCodeResponse(value.ToString());
                 case ReqEventType.transfer:
                     return transferResponse(value.ToString());
-               
+                case ReqEventType.property:
+                    propertyResonse(value as PropertyInfo);
+                    break;
                 default:
                     break;
             }
@@ -125,7 +126,6 @@ namespace Assets.Scripts.Net.Handler
         /// <returns></returns>
         private bool transferResponse(string result)
         {
-            
             if (result == "转账成功")
             {
                 promptMsg.Change(result.ToString(), Color.white);
@@ -135,7 +135,7 @@ namespace Assets.Scripts.Net.Handler
                 ////Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
                 return true;
             }
-            promptMsg.Change(result.ToString(), Color.green);
+            promptMsg.Change(result.ToString(), Color.white);
             Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
             return false;
         }
@@ -161,16 +161,16 @@ namespace Assets.Scripts.Net.Handler
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        private bool propertyResonse(string result)
+        private bool propertyResonse(PropertyInfo propertyInfo)
         {
-            if (result == "修改成功!")
+            if (propertyInfo == null)
             {
-                promptMsg.Change(result.ToString(), Color.green);
-                Dispatch(AreaCode.UI, UIEvent.HINT_ACTIVE, promptMsg);
-                Dispatch(AreaCode.UI, UIEvent.Forget_ACTIVE, false);
-                Dispatch(AreaCode.UI, UIEvent.LOG_ACTIVE, true);
-                return true;
+                //todo测试
+                
+                return false;
             }
+            Dispatch(AreaCode.UI, UIEvent.CHARGE_PANEL_ACTIVE, propertyInfo);
+
             return false;
         }
 

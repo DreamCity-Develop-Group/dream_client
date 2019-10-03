@@ -12,7 +12,9 @@
   *
 ***/
 
+using System.Collections.Generic;
 using Assets.Scripts.Framework;
+using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,7 +30,7 @@ namespace Assets.Scripts.UI
         private Button BtnConfirm;                                  //确定按钮
         private Button BtnClose;                                    //关闭按钮
         private string language;                                   //语言版本
-
+        private TransferInfo transferInfo; //转账信息
         private void Awake()
         {
             Bind(UIEvent.TRANSFERACCOUNTS_ACTIVE);
@@ -47,6 +49,7 @@ namespace Assets.Scripts.UI
         }
         void Start()
         {
+            transferInfo = new TransferInfo();
             TransactionMoney = transform.Find("InputChargeField").GetComponent<InputField>();
             TransferTheAddress = transform.Find("InputFieldAddress").GetComponent<InputField>();
             BtnConfirm = transform.Find("BtnDetermine").GetComponent<Button>();
@@ -56,6 +59,7 @@ namespace Assets.Scripts.UI
             setPanelActive(false);
             language = PlayerPrefs.GetString("language");
             BtnConfirm.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/ConfirmBig");
+
         }
         /// <summary>
         /// 关闭面板
@@ -69,7 +73,12 @@ namespace Assets.Scripts.UI
         /// </summary>
         private void clickConfirm()
         {
-            Dispatch(AreaCode.UI, UIEvent.TRANSACTIONCODE_ACTIVE, true);
+            string money = TransactionMoney.text;
+            string address = TransferTheAddress.text;
+            transferInfo.money = System.Convert.ToDouble(money);
+            transferInfo.moneyaddress = address;
+            Dispatch(AreaCode.UI, UIEvent.TRANSACTIONCODE_ACTIVE, transferInfo);
+          
         }
     }
 }

@@ -14,7 +14,14 @@ namespace Assets.Scripts.Net.Request
 
         private HintMsg promptMsg = new HintMsg();
         SocketMsg<Dictionary<string, string>> socketMsg = new SocketMsg<Dictionary<string, string>>();
-        MessageData<Dictionary<string,string>> messageData = new MessageData<Dictionary<string, string>>();
+        MessageData<Dictionary<string, string>> messageData = new MessageData<Dictionary<string, string>>();
+        /// <summary>
+        /// 转账消息
+        /// </summary>
+        SocketMsg<TransferInfo> transferSocketMsg = new SocketMsg<TransferInfo>();
+        MessageData<TransferInfo> transferData = new MessageData<TransferInfo>();
+
+       
         /// <summary>
         /// 登入消息
         /// </summary>
@@ -202,7 +209,7 @@ namespace Assets.Scripts.Net.Request
         }
 
         /// <summary>
-        /// 资产测试请求消息
+        /// 资产请求消息
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
@@ -216,7 +223,7 @@ namespace Assets.Scripts.Net.Request
                ["token"] = PlayerPrefs.GetString("token")
                     //["token"] = CacheData.Instance().Token
             };
-            messageData.Change("consumer", "property", t);
+            messageData.Change("consumer", SocketEventType.PropertyInfo, t);
             socketMsg.Change(LoginInfo.ClientId, "资产信息", messageData);
             return socketMsg;
         }
@@ -226,16 +233,16 @@ namespace Assets.Scripts.Net.Request
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public SocketMsg<Dictionary<string, string>> ReqTransferMsg(object msg)
+        public SocketMsg<TransferInfo> ReqTransferMsg(object msg)
         {
             //msg金额todo
-            Dictionary<string, string> t = msg as Dictionary<string, string>;
-            t.Add("username", PlayerPrefs.GetString("username"));
-
-            t.Add("token",PlayerPrefs.GetString("token"));
-            messageData.Change("consumer/player", "transferaccount", t);
-            socketMsg.Change(LoginInfo.ClientId, "转账请求消息", messageData);
-            return socketMsg;
+            if (msg == null)
+            {
+                return null;
+            }
+            transferData.Change("consumer/player", "transferaccount", msg as TransferInfo);
+            transferSocketMsg.Change(LoginInfo.ClientId, "转账请求消息", transferData);
+            return transferSocketMsg;
         }
         /// <summary>
         /// 充值请求消息

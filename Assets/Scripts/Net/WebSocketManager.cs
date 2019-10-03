@@ -38,11 +38,12 @@ namespace Assets.Scripts.Net
         private SocketMsg<Dictionary<string,string>> socketMsg;
         private SocketMsg<SquareUser> squareMsg;
         private SocketMsg<ReqCommerceInfo> reqCommerceSocketMsg = new SocketMsg<ReqCommerceInfo>();
+        private SocketMsg<TransferInfo> reqTrasferSocketMsg = new SocketMsg<TransferInfo>();
         protected internal override void Execute(int eventCode, object message)
         {
             //发一次请求触发一次点击音效,（排除点赞，可提取，商会升级）
-
-            if(eventCode ==ReqEventType.likefriend){
+            Dispatch(AreaCode.UI,UIEvent.TEST_PANEL_ACTIVE,message?.ToString());
+            if (eventCode ==ReqEventType.likefriend){
             Dispatch(AreaCode.AUDIO,AudioEvent.PLAY_CLICK_AUDIO,"LikeVoice");
             }else{
             Dispatch(AreaCode.AUDIO,AudioEvent.PLAY_CLICK_AUDIO,"ClickVoice");
@@ -213,12 +214,12 @@ namespace Assets.Scripts.Net
                         _wabData.SendMsg(socketMsg);
                         break;
                     case ReqEventType.transfer:
-                        socketMsg = accountRequestMsg.ReqTransferMsg(message);
+                        reqTrasferSocketMsg = accountRequestMsg.ReqTransferMsg(message);
                         if (socketMsg == null)
                         {
                             return;
                         }
-                        _wabData.SendMsg(socketMsg);
+                        _wabData.SendMsg(reqTrasferSocketMsg);
                         break;
                     case ReqEventType.recharge:
                         socketMsg = accountRequestMsg.ReqRechargeMsg(message);
@@ -325,7 +326,7 @@ namespace Assets.Scripts.Net
             {
                 SocketMsg<Dictionary<string,string>>info = _wabData.MsgQueue.Dequeue();
                 processSocketMsg(info);
-            
+                Dispatch(AreaCode.UI, UIEvent.TEST_PANEL_ACTIVE, info.desc.ToString());
             }
             if (_wabData.SquareQueue.Count > 0)
             {

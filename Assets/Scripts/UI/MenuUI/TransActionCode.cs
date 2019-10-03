@@ -12,10 +12,13 @@
   *
 ***/
 
+using Assets.Scripts.Framework;
+using Assets.Scripts.Model;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.MenuUI
 {
     /// <summary>
     /// 输入交易码界面
@@ -29,6 +32,7 @@ namespace Assets.Scripts.UI.MeunUI
         private GameObject TransfeScc;       //提交成功
         private GameObject TransactionFrame; //输入交易码框
         private Button TransfeSccBtn;        //关闭交易成功 
+        private TransferInfo transferInfo;
         private void Awake()
         {
             Bind(UIEvent.TRANSACTIONCODE_ACTIVE);
@@ -39,6 +43,7 @@ namespace Assets.Scripts.UI.MeunUI
             switch (eventCode)
             {
                 case UIEvent.TRANSACTIONCODE_ACTIVE:
+                    transferInfo = message as TransferInfo;
                     setPanelActive(true);
                     TransactionFrame.SetActive(true);
                     break;
@@ -79,7 +84,15 @@ namespace Assets.Scripts.UI.MeunUI
         /// </summary>
         private void clickConfirm()
         {
-            TransactionFrame.SetActive(true);
+            if (transferInfo == null)
+            {
+                //todo 提示错误
+                return;
+            }
+            transferInfo.transactPassWord = InputCode.text;
+            Dispatch(AreaCode.NET,ReqEventType.transfer,transferInfo);
+            TransactionFrame.SetActive(false);
+            transferInfo = null;
         }
         /// <summary>
         /// 关闭

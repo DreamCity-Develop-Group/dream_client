@@ -47,8 +47,8 @@ namespace Assets.Scripts.Net
         /// </summary>  
         //private readonly string address = "ws://192.168.0.102:8010/dream/city/";
         // private readonly string address = "ws://192.168.0.88:8010/dream/city/lili/你发";
-        private  string address = "ws://192.168.0.106:8010/dream/city/topic/none";
-        public static string ip= "192.168.0.106";
+       // private  string address = "ws://192.168.0.106:8010/dream/city/topic/none";
+        public static string address = "ws://192.168.0.105:8010/dream/city/topic/none";
         //private string address;
 
         /// <summary>  
@@ -109,7 +109,7 @@ namespace Assets.Scripts.Net
             //if (_webSocket == null)
             //{
                
-               address = "ws://"+ip+":8010/dream/city/topic/"+PlayerPrefs.GetString("username");
+              // address = "ws://"+ip+":8010/dream/city/topic/"+PlayerPrefs.GetString("username");
                _webSocket = new WebSocket(address,null);
                 //if (HTTPManager.Proxy != null)
                 //    _webSocket.InternalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address, HTTPManager.Proxy.Credentials, false);
@@ -124,7 +124,7 @@ namespace Assets.Scripts.Net
                     OnClosed(e.Reason);
                 };
                 _webSocket.OnError += (sender, e) => {
-                    OnError(e.Exception,e.Message);
+                    OnError(e.Message);
                 };
                 // Start connecting to the server  
                 _webSocket.Connect();
@@ -346,9 +346,9 @@ namespace Assets.Scripts.Net
         /// <summary>  
         /// Called when an error occured on client side  
         /// </summary>  
-        void OnError(Exception ex, string  error)
+        void OnError(string  error)
         {
-            Debug.Log(string.Format("-An error occured: {0}\n", ex != null ? ex.Message : "Unknown Error " + error));
+            Debug.Log($"-An error occured: {error}\n");
             //_webSocket = null;
         }
     }
