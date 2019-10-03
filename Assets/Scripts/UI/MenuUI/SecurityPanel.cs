@@ -13,7 +13,7 @@
   *
 ***/
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.MenuUI
 {
     public class SecurityPanel : UIBase
     {

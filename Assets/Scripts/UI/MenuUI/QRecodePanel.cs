@@ -18,7 +18,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.MenuUI
 {
     public class QRecodePanel : UIBase
     {

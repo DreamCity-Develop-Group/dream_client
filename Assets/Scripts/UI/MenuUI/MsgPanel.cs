@@ -18,17 +18,17 @@ using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.MenuUI
 {
     /// <summary>
-    /// ÓÊ¼şĞÅÏ¢
+    /// é‚®ä»¶ä¿¡æ¯
     /// </summary>
     public class MsgPanel : UIBase
     {
-        private Image BG;                          //ÓÊ¼ş±³¾°¿ò
-        private string language;                   //ÓïÑÔ°æ±¾
-        private GameObject MaliBox;                //ÓÊ¼ş¿ò
-        private Transform content;                 //ÓÊ¼ş¸¸ÎïÌå
+        private Image BG;                          //é‚®ä»¶èƒŒæ™¯æ¡†
+        private string language;                   //è¯­è¨€ç‰ˆæœ¬
+        private GameObject MaliBox;                //é‚®ä»¶æ¡†
+        private Transform content;                 //é‚®ä»¶çˆ¶ç‰©ä½“
         Button btnClose;        
         private List<MessageInfo> msgInfos;
         private void Awake()
@@ -83,13 +83,13 @@ namespace Assets.Scripts.UI.MeunUI
             BG = transform.Find("bg").GetComponent<Image>();
             BG.sprite = Resources.Load<Sprite>("UI/menu" + language + "/MailFrame");
         }
-        private System.Collections.Generic.Queue<GameObject> m_queue_gPreObj = new System.Collections.Generic.Queue<GameObject>();          //¶ÔÏó³Ø
+        private System.Collections.Generic.Queue<GameObject> m_queue_gPreObj = new System.Collections.Generic.Queue<GameObject>();          //å¯¹è±¡æ± 
         private Transform TempTrans;
         /// <summary>
-        /// ´´½¨Ô¤ÖÆÌå
+        /// åˆ›å»ºé¢„åˆ¶ä½“
         /// </summary>
-        /// <param name="Prefab">Ô¤ÖÆÌå</param>
-        /// <param name="m_transPerfab">Ô¤ÖÆÌå¸¸ÎïÌåµÄtransform</param>
+        /// <param name="Prefab">é¢„åˆ¶ä½“</param>
+        /// <param name="m_transPerfab">é¢„åˆ¶ä½“çˆ¶ç‰©ä½“çš„transform</param>
         /// <returns></returns>
         public GameObject CreatePreObj(GameObject Prefab, Transform m_transPerfab)
         {
@@ -111,9 +111,9 @@ namespace Assets.Scripts.UI.MeunUI
             return obj;
         }
         /// <summary>
-        /// Ô¤ÖÆÌå»ØÊÕ
+        /// é¢„åˆ¶ä½“å›æ”¶
         /// </summary>
-        /// <param name="obj">»ØÊÕµÄÔ¤ÖÆÌå</param>
+        /// <param name="obj">å›æ”¶çš„é¢„åˆ¶ä½“</param>
         private void RePreObj(GameObject obj)
         {
             if (obj != null)

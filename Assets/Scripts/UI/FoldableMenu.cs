@@ -1,5 +1,5 @@
 using System.Collections;
-using Assets.Scripts.UI.MeunUI;
+using Assets.Scripts.UI.MenuUI;
 using UnityEngine;
 using UnityEngine.UI;
 

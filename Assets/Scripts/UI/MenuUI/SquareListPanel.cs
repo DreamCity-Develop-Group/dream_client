@@ -13,7 +13,6 @@
   *
 ***/
 
-using System;
 using System.Collections.Generic;
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
@@ -21,7 +20,7 @@ using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.MenuUI
 {
     public class SquareListPanel : UIBase
     {
