@@ -54,3 +54,5 @@ Assets/AssetsBundle/
 user.keystore
 Assets/Resources/
 Assets/UI/
+.vscode/
+Assets/Scripts/ReadWriteTest.cs

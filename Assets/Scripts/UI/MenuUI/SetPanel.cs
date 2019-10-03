@@ -4,7 +4,7 @@ using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.MenuUI
 {
     /// <summary>
     /// 设置面板
@@ -200,7 +200,7 @@ namespace Assets.Scripts.UI.MeunUI
         /// </summary>
         private void MuiscClick()
         {
-            if (IsOpenMuisc)
+            if (!IsOpenMuisc)
             {
                 MusicImg.sprite = switchSprite[1];
                 IsOpenMuisc = !IsOpenMuisc;

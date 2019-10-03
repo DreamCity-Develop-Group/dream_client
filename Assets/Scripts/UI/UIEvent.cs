@@ -205,8 +205,22 @@ namespace Assets.Scripts.UI
         /// 分享海报界面
         /// </summary>
         public const int SHARKEPOST_PANEL_VIEW = 42;
-
-
+        /// <summary>
+        /// 商会邀请码正确
+        /// </summary>
+        public const int CHAMBERCODECRRECT = 43;
+        /// <summary>
+        /// 商会设置交易码
+        /// </summary>
+        public const int CHAMBERTRANSACTION = 44;
+        /// <summary>
+        /// 加入商会介绍
+        /// </summary>
+        public const int CHAMBEROFCOMMERRULES = 45;
+        /// <summary>
+        /// 加入商会成功
+        /// </summary>
+        public const int JOINCHAMBERSUCCESSFUL = 46; 
         /// <summary>
         /// 提示界面
         /// </summary>

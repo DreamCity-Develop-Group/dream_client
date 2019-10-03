@@ -33,6 +33,7 @@ namespace Assets.Scripts.UI.MenuUI
         private GameObject HandPortrait;                    //头像选择
         private Button changeHand;                          //换头像
         private Button[] handArray = new Button[8];         //头像数组
+        private int HandID = 0;                             //旋转头像ID
 
         Transform usdtCharge;
         Text txtUsdt;
@@ -51,7 +52,7 @@ namespace Assets.Scripts.UI.MenuUI
         Queue<MenuNoticesItem> noticeQueue=new Queue<MenuNoticesItem>();
         float t = 0;
 
-        bool isinCommerce=false;
+        bool isinCommerce=false;            //是否加入商会
 
         private void Awake()
         {
@@ -122,7 +123,6 @@ namespace Assets.Scripts.UI.MenuUI
             btnFriends.onClick.AddListener(clickFriend);
             btnMsg.onClick.AddListener(clickEmali);
             btnCommerce.onClick.AddListener(clickCommerce);
-          //  btnCommerce.onClick.AddListener(clickChamber);
             changeHand.onClick.AddListener(clickChangeHand);
             handArray[0].onClick.AddListener(clickHand0);
             handArray[1].onClick.AddListener(clickHand1);
@@ -134,6 +134,8 @@ namespace Assets.Scripts.UI.MenuUI
             handArray[7].onClick.AddListener(clickHand7);
             txtNotice1.gameObject.SetActive(false);
             MangLange();
+            HandID = PlayerPrefs.GetInt("HandID");
+            changeHand.GetComponent<Image>().sprite = handArray[HandID].GetComponent<Image>().sprite;
             //initSource();
             //LanguageService.Instance.Language = new LanguageInfo(PlayerPrefs.GetString("language"));
             //Dispatch(AreaCode.UI, UIEvent.LANGUAGE_VIEW, PlayerPrefs.GetString("language"));
@@ -144,6 +146,7 @@ namespace Assets.Scripts.UI.MenuUI
         private void MangLange()
         {
             string language = PlayerPrefs.GetString("language");
+            language = "Korean";
             btnFriends.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Friend");
             btnCommerce.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Chamber");
             btnTreasure.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Asset");
@@ -169,16 +172,6 @@ namespace Assets.Scripts.UI.MenuUI
                 StartCoroutine(NoticeStart());
             }
             isinCommerce = menuInfo.commerce;
-            btnCommerce.onClick.AddListener(clickChamber);
-            changeHand.onClick.AddListener(clickChangeHand);
-            handArray[0].onClick.AddListener(clickHand0);
-            handArray[1].onClick.AddListener(clickHand1);
-            handArray[2].onClick.AddListener(clickHand2);
-            handArray[3].onClick.AddListener(clickHand3);
-            handArray[4].onClick.AddListener(clickHand4);
-            handArray[5].onClick.AddListener(clickHand5);
-            handArray[6].onClick.AddListener(clickHand6);
-            handArray[7].onClick.AddListener(clickHand7);
 
             //menuInfo.data.notices
         }
@@ -308,10 +301,9 @@ namespace Assets.Scripts.UI.MenuUI
         {
             Dispatch(AreaCode.UI, UIEvent.MSG_PANEL_ACTIVE, true);
         }
-        private void clickChamber()
-        {
-
-        }
+        /// <summary>
+        /// 点击商会图标
+        /// </summary>
         private void clickCommerce()
         {
             if (isinCommerce)
@@ -322,11 +314,6 @@ namespace Assets.Scripts.UI.MenuUI
             {
                 Dispatch(AreaCode.UI, UIEvent.COMMERCE_NOJIONPANEL_ACTIVE, true);
             }
-            //判断是不是没有加入商会
-            //if(如果没有)
-          
-            //else
-            //Dispatch(AreaCode.UI, UIEvent.COMMERCE_PANEL_ACTIVE, true);
         }
         private void clickChangeHand()
         {
@@ -342,41 +329,57 @@ namespace Assets.Scripts.UI.MenuUI
         {
             changeHand.GetComponent<Image>().sprite = handArray[0].GetComponent<Image>().sprite;
             HandPortrait.SetActive(false);
+            HandID = 0;
+            PlayerPrefs.SetInt("HandID", HandID);
         }
         private void clickHand1()
         {
             changeHand.GetComponent<Image>().sprite = handArray[1].GetComponent<Image>().sprite;
             HandPortrait.SetActive(false);
+            HandID = 1;
+            PlayerPrefs.SetInt("HandID", HandID);
         }
         private void clickHand2()
         {
             changeHand.GetComponent<Image>().sprite = handArray[2].GetComponent<Image>().sprite;
             HandPortrait.SetActive(false);
+            HandID = 2;
+            PlayerPrefs.SetInt("HandID", HandID);
         }
         private void clickHand3()
         {
             changeHand.GetComponent<Image>().sprite = handArray[3].GetComponent<Image>().sprite;
             HandPortrait.SetActive(false);
+            HandID = 3;
+            PlayerPrefs.SetInt("HandID", HandID);
         }
         private void clickHand4()
         {
             changeHand.GetComponent<Image>().sprite = handArray[4].GetComponent<Image>().sprite;
             HandPortrait.SetActive(false);
+            HandID = 4;
+            PlayerPrefs.SetInt("HandID", HandID);
         }
         private void clickHand5()
         {
             changeHand.GetComponent<Image>().sprite = handArray[5].GetComponent<Image>().sprite;
             HandPortrait.SetActive(false);
+            HandID = 5;
+            PlayerPrefs.SetInt("HandID", HandID);
         }
         private void clickHand6()
         {
             changeHand.GetComponent<Image>().sprite = handArray[6].GetComponent<Image>().sprite;
             HandPortrait.SetActive(false);
+            HandID = 6;
+            PlayerPrefs.SetInt("HandID", HandID);
         }
         private void clickHand7()
         {
             changeHand.GetComponent<Image>().sprite = handArray[7].GetComponent<Image>().sprite;
             HandPortrait.SetActive(false);
+            HandID = 7;
+            PlayerPrefs.SetInt("HandID", HandID);
         }
 
     }

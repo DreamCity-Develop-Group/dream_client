@@ -16,7 +16,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.MenuUI
 {
     /// <summary>
     /// 设置交易码
@@ -69,7 +69,7 @@ namespace Assets.Scripts.UI.MeunUI
         }
         private void Update()
         {
-            inputTransaction.text = inputInfo;
+            //inputTransaction.text = inputInfo;
         }
         /// <summary>
         /// 确定事件

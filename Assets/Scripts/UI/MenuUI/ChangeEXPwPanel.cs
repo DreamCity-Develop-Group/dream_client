@@ -17,7 +17,7 @@ using Assets.Scripts.Framework;
 using Assets.Scripts.Net;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.MenuUI
 {
     /// <summary>
     /// 修改交易密码

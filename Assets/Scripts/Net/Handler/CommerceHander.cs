@@ -3,6 +3,7 @@ using Assets.Scripts.Net.Handler;
 using Assets.Scripts.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Model;
 using UnityEngine;
 
     namespace Assets.Scripts.Net.Handler
@@ -73,7 +74,10 @@ using UnityEngine;
                 return;
             }
             Dispatch(AreaCode.UI,UIEvent.COMMERCE_NOJIONPANEL_ACTIVE,msg);
-          //  Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_VIEW, _commerceData);
+            Dispatch(AreaCode.UI, UIEvent.CHAMBERTRANSACTION, true);
+            Dispatch(AreaCode.UI, UIEvent.CHAMBEROFCOMMERRULES, true);
+            Dispatch(AreaCode.UI, UIEvent.JOINCHAMBERSUCCESSFUL, true);
+            //Dispatch(AreaCode.UI, UIEvent.SQUARE_LIST_PANEL_VIEW, _commerceData);
 
         }
 

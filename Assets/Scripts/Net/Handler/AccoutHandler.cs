@@ -126,6 +126,7 @@ namespace Assets.Scripts.Net.Handler
         /// <returns></returns>
         private bool transferResponse(string result)
         {
+            
             if (result == "转账成功")
             {
                 promptMsg.Change(result.ToString(), Color.white);

@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ItemBean:ItemBeanbase
+namespace Assets.Scripts.HlepFold
 {
-
-    public string name { get; set; }
-    public int age { get; set; }
-    public ItemBean(string _name, int _age)
+    public class ItemBean:ItemBeanbase
     {
-        name = _name;
-        age = _age;
+
+        public string name { get; set; }
+        public int age { get; set; }
+        public ItemBean(string _name, int _age)
+        {
+            name = _name;
+            age = _age;
+        }
     }
 }

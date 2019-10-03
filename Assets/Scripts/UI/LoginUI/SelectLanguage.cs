@@ -28,16 +28,17 @@ namespace Assets.Scripts.UI.LoginUI
         Button btnKorean;
         bool isSelect;
 
+        //test
         Button btnConfim;
         InputField testInputIp;
-
+        private Text test;
 
         protected internal override void Execute(int eventCode, object message)
         {
             switch (eventCode)
             {
                 case UIEvent.TEST_PANEL_ACTIVE:
-                    //localText.text = message.ToString();
+                    test.text = message?.ToString();
                     //gameObjectLoginSelectPanel.gameObject.SetActive(true);
                     break;
                 default:
@@ -54,7 +55,8 @@ namespace Assets.Scripts.UI.LoginUI
             btnChinese = transform.Find("BtnChinese").GetComponent<Button>();
             btnEnglish = transform.Find("BtnEnglish").GetComponent<Button>();
             btnKorean = transform.Find("BtnKorean").GetComponent<Button>();
-
+            //test
+            test = transform.Find("Test/Text").GetComponent<Text>();
             btnConfim = transform.Find("Test/TestInput/BtnIp").GetComponent<Button>();
             testInputIp = transform.Find("Test/TestInput").GetComponent<InputField>();
             btnConfim.onClick.AddListener(clickIpConfim);
@@ -74,7 +76,7 @@ namespace Assets.Scripts.UI.LoginUI
         }
         private void clickIpConfim()
         {
-            WebData.ip = testInputIp.text;
+            WebData.address = testInputIp.text;
             Dispatch(AreaCode.NET, ReqEventType.init, null);
         }
 

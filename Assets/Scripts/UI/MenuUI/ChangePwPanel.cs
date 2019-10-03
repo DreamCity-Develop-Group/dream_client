@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Assets.Scripts.Framework;
-using UnityEngine;
-using UnityEngine.UI;
 using Assets.Scripts.Net;
+using UnityEngine.UI;
+
 /***
 * Title:     
 *
@@ -17,7 +17,7 @@ using Assets.Scripts.Net;
 *
 ***/
 
-namespace Assets.Scripts.UI.LoginUI
+namespace Assets.Scripts.UI.MenuUI
 {
     public class ChangePwPanel : UIBase
     {

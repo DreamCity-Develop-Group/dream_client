@@ -12,13 +12,14 @@
   *
 ***/
 
-using Assets.Scripts.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Framework;
+using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.MenuUI
 {
     /// <summary>
     /// 商会面板
@@ -62,38 +63,7 @@ namespace Assets.Scripts.UI.MeunUI
         private Button BtnRule;                          //规则按钮
         private Button BtnComfing;                       //确定 
         //商会规则
-        private Button CloseRule;                        //关闭规则
-        private Text RuleTitle;                          //标题
-        private Text Level;                              //商会等级
-        private Text Condition;                          //条件
-        private Text Discount;                           //折扣
-        private Text star1;                              //一星
-        private Text Condition1;                         //一星条件
-        private Text Discount1;                          //一星折扣 
-        private Text star2;                              //一星
-        private Text Condition2;                         //一星条件
-        private Text Discount2;                          //一星折扣 
-        private Text star3;                              //一星
-        private Text Condition3;                         //一星条件
-        private Text Discount3;                          //一星折扣 
-        private Text star4;                              //一星
-        private Text Condition4;                         //一星条件
-        private Text Discount4;                          //一星折扣 
-        private Text star5;                              //一星
-        private Text Condition5;                         //一星条件
-        private Text Discount5;                          //一星折扣 
-        private Text star6;                              //一星
-        private Text Condition6;                         //一星条件
-        private Text Discount6;                          //一星折扣 
-        private Text star7;                              //一星
-        private Text Condition7;                         //一星条件
-        private Text Discount7;                          //一星折扣 
-        private Text star8;                              //一星
-        private Text Condition8;                         //一星条件
-        private Text Discount8;                          //一星折扣 
-        private Text star9;                              //一星
-        private Text Condition9;                         //一星条件
-        private Text Discount9;                          //一星折扣 
+        private Button CloseRule;                        //关闭规则      
         //输入交易码
         private Button TradeClose;                       //关闭交易面板
         private Button TradeConfindBtn;                  //确定
@@ -206,13 +176,13 @@ namespace Assets.Scripts.UI.MeunUI
         private void GetGameObj()
         {
             Chamber = transform.Find("Chamber").gameObject;
-            ChamberRule = transform.Find("ChamberRule").gameObject;
+            ChamberRule = transform.Find("ChamberRuleBg").gameObject;
             BusinessesAreUnderfunded = transform.Find("BusinessesAreUnderfunded").gameObject;
             EnterTradeCode = transform.Find("EnterTradeCode").gameObject;
             TopUpRequest = transform.Find("TopUpRequest").gameObject;
             ExchangeCenterBG = transform.Find("ExchangeCenterBG").gameObject;
             AutomaticDeliveryPanel = transform.Find("AutomaticDeliveryPanel").gameObject;
-            InsufficientFund = transform.Find("InsufficientFund").gameObject;
+            InsufficientFund = transform.Find("BusinessesAreUnderfunded").gameObject;
             SuccessfullySet = transform.Find("SuccessfullySet").gameObject;
             chamberTitle = Chamber.transform.Find("Title").GetComponent<Text>();
             Enterprise = Chamber.transform.Find("Enterprise").GetComponent<Button>();
@@ -236,7 +206,7 @@ namespace Assets.Scripts.UI.MeunUI
             AKeyDelivery = ExchangeCenterBG.transform.Find("ExchangeCenterPanel/ExchangeCenterPanel/AKeyDelivery").GetComponent<Button>();
             TranExchangeCenterConnet = ExchangeCenterBG.transform.Find("ExchangeCenterPanel/ExchangeCenterPanel/ExchangeCenter/Viewport/Content");
 
-                ChanberLV = EnterpriseInfo.transform.Find("Image/ChamberOfCommerceLV").GetComponent<Text>();
+            ChanberLV = EnterpriseInfo.transform.Find("Image/ChamberOfCommerceLV").GetComponent<Text>();
             inputConversion = EnterpriseInfo.transform.Find("InputField").GetComponent<InputField>();
             ConversionRate = EnterpriseInfo.transform.Find("ConversionRate").GetComponent<Text>();
             BtnRule = EnterpriseInfo.transform.Find("BtnRule").GetComponent<Button>();
@@ -343,7 +313,7 @@ namespace Assets.Scripts.UI.MeunUI
             MyEnterpriseClick.SetActive(true);
             ExchangeCenterClick.SetActive(false);
             ExchangeCenter.gameObject.SetActive(false);
-            //初步在次生成成员信息
+            //初步在此生成成员信息
             if(listMyMember.Count>0)
             {
                 for (int i = 0; i < listMyMember.Count; i++)
@@ -370,7 +340,7 @@ namespace Assets.Scripts.UI.MeunUI
         /// </summary>
         private void OnClickExchangeCenter()
         {
-            //初步在次生成兑换信息
+            //初步在此生成兑换信息
             if (listConversion.Count > 0)
             {
                 for (int i = 0; i < listConversion.Count; i++)

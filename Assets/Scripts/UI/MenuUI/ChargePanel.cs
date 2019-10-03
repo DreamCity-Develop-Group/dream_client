@@ -16,10 +16,11 @@
 using System.Collections.Generic;
 using Assets.Scripts.Framework;
 using Assets.Scripts.Model;
+using Assets.Scripts.Net;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.MeunUI
+namespace Assets.Scripts.UI.MenuUI
 {
     public class ChargePanel : UIBase
     {
@@ -77,6 +78,7 @@ namespace Assets.Scripts.UI.MeunUI
         private Text InviteCode;                     //邀请码
         private Text TxtTransactionRecords;          //交易记录 
 
+        private PropertyInfo propertyInfo;
 
         /// <summary>
         /// 多语言
@@ -120,13 +122,31 @@ namespace Assets.Scripts.UI.MeunUI
             switch (eventCode)
             {
                 case UIEvent.CHARGE_PANEL_ACTIVE:
-                UserName.text = "";
-                AccumulatedEarnings.text = "";
-                    setPanelActive((bool)message);
+                    propertyInfo = message as PropertyInfo;
+                    Init();
+                    setPanelActive(true);
                     break;
                 default:
                     break;
             }
+        }
+        /// <summary>
+        /// 资产数据
+        /// </summary>
+        private void Init()
+        {
+            UserName.text = CacheData.Instance().nick;
+            AccumulatedEarningsNum.text = propertyInfo.total_income;
+            TotalAssetsNum.text = propertyInfo.total_property;
+            PositionUSDTNum.text = propertyInfo.total_usdt;
+            AvailableUSDTNum.text = propertyInfo.available_usdt;
+            FreezeUSDTNum.text = propertyInfo.frozen_usdt;
+            positionMTNum.text = propertyInfo.total_mt;
+            AvailableNum.text = propertyInfo.available_mt;
+            FreezeMTNum.text = propertyInfo.frozen_mt;
+            ChamberOfCommerceLV.text = propertyInfo.commerce_lv;
+            ChamberOfCommerceMembers.text = propertyInfo.commerce_member;
+            InviteCode.text = propertyInfo.invite;
         }
         public override void OnDestroy()
         {

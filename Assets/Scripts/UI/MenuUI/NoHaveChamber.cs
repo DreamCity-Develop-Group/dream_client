@@ -33,12 +33,12 @@ namespace Assets.Scripts.UI.MenuUI
         private GameObject ChamberOfCommerceRules;                //商会规则
         private GameObject ConfirmationPaymentPanel;              //确认支付面板
         private GameObject InsufficientFunds;                     //资金不足提示
+        private GameObject SuccessfulJoin;                        //成功加入商会   
         //加入商会  
         private Button DetermineBtn;                              //确定按钮
         private Button CloseBtn;                                  //关闭按钮
         private InputField InputChamberCode;                      //输入商会邀请码
         private Text txt_Text;                                    //描述
-                                                                  //邀请错误提示 
         private Button PromptOKBtn;                               //好的按钮
         private Button PromptClose;                               //错误提示关闭按钮
         private Text promptTxt;                                   //描述
@@ -48,11 +48,12 @@ namespace Assets.Scripts.UI.MenuUI
         private Button ConfindBtn;                                 //确定按钮
         //设置交易码
         private Text tradingTitle;                                 //标题
-        private GameObject ErrorMessage;                           //错误提示   
+        private GameObject ErrorMessage;                           //错误提示 
+        private Button CloseError;                                 //关闭错误提示
+        private Button ErrorGood;                                  //提示关闭
         private InputField InputField;                             //输入交易码
         private Button tradingDeDetermineBtn;                      //确定按钮
-        private Button tradingCancel;                              //取消
-        private Button tradingClose;                               //关闭
+        private Button tradingCancel;                              //取消     
         //商会规则
         private Text ChamberRulesTitle;                            //商会规则的标题
         private Image MembershipStatement;                         //规则图片
@@ -68,9 +69,10 @@ namespace Assets.Scripts.UI.MenuUI
         private Text FundsTxt;  //描述 
         private string commerceCode;        //商会邀请码
         CommerceInfo commerceInfo = new CommerceInfo();
+        private float PlayerUSDT = 0;                            //玩家的USDT
         private void Awake()
         {
-            Bind(UIEvent.COMMERCE_NOJIONPANEL_ACTIVE,UIEvent.BusinessPrompt_NOTIVE_VIEW);
+            Bind(UIEvent.COMMERCE_NOJIONPANEL_ACTIVE,UIEvent.BusinessPrompt_NOTIVE_VIEW,UIEvent.HINT_ACTIVE,UIEvent.CHAMBERTRANSACTION);
         }
 
         protected internal override void Execute(int eventCode, object message)
@@ -78,11 +80,26 @@ namespace Assets.Scripts.UI.MenuUI
             switch (eventCode)
             {
                 case UIEvent.COMMERCE_NOJIONPANEL_ACTIVE:
-                    //setPanelActive((bool)message);
+                    setPanelActive((bool)message);
                     JionChamber.SetActive((bool)message);
                     break;
                 case UIEvent.BusinessPrompt_NOTIVE_VIEW:
                     break;
+                case UIEvent.CHAMBERCODECRRECT:
+                    JIonScee.SetActive((bool)message);                     //邀请码正确弹出框
+                    if ((bool)message == true)
+                        JionChamber.SetActive(false);
+                    break;
+                case UIEvent.CHAMBEROFCOMMERRULES:
+                    ChamberOfCommerceRules.SetActive((bool)message);       //入会介绍弹出框
+                    if ((bool)message == true)
+                        SettingtradingCode.SetActive(false);
+                    break;
+                case UIEvent.JOINCHAMBERSUCCESSFUL:
+                    SuccessfulJoin.SetActive((bool)message);              //成功加入 
+                    break;
+                case UIEvent.HINT_ACTIVE:
+                     //提示交易码错误
                 default:
                     break;
             }
@@ -91,33 +108,35 @@ namespace Assets.Scripts.UI.MenuUI
         {
             JionChamber = transform.Find("JionChamber").gameObject;
             IncorrectPrompt = transform.Find("IncorrectPrompt").gameObject;
-            JIonScee = transform.Find("JIonScee").gameObject;
+            JIonScee = transform.Find("JoinScee").gameObject;
             SettingtradingCode = transform.Find("SettingtradingCode").gameObject;
             ChamberOfCommerceRules = transform.Find("ChamberOfCommerceRules").gameObject;
             ConfirmationPaymentPanel = transform.Find("ConfirmationPaymentPanel").gameObject;
             InsufficientFunds = transform.Find("InsufficientFunds").gameObject;
+            SuccessfulJoin= transform.Find("Successful").gameObject;
             DetermineBtn = transform.Find("JionChamber/BtnConfirm").GetComponent<Button>();
             CloseBtn = transform.Find("JionChamber/BtnClose").GetComponent<Button>();
             InputChamberCode = transform.Find("JionChamber/InputField").GetComponent<InputField>();
             txt_Text = transform.Find("JionChamber/Text").GetComponent<Text>();
-            succTile = JIonScee.transform.Find("Title").GetComponent<Text>();
-            succInstructions = JIonScee.transform.Find("Instructions").GetComponent<Text>();
-            ConfindBtn = JIonScee.transform.Find("OKBtn").GetComponent<Button>();
-            tradingTitle = SettingtradingCode.transform.Find("Title").GetComponent<Text>();
-            ErrorMessage = SettingtradingCode.transform.Find("Text").gameObject;
-            InputField = SettingtradingCode.transform.Find("InputField").GetComponent<InputField>();
-            tradingDeDetermineBtn = SettingtradingCode.transform.Find("DetermineBtn").GetComponent<Button>();
-            tradingCancel = SettingtradingCode.transform.Find("Cancel").GetComponent<Button>();
-            tradingClose = SettingtradingCode.transform.Find("CloseBtn").GetComponent<Button>();
+            succTile = JIonScee.transform.Find("MembershipOn/Title").GetComponent<Text>();
+            succInstructions = JIonScee.transform.Find("MembershipOn/PromptInformation").GetComponent<Text>();
+            ConfindBtn = JIonScee.transform.Find("MembershipOn/GoodBtn").GetComponent<Button>();
+            tradingTitle = SettingtradingCode.transform.Find("bg/Title").GetComponent<Text>();
+            ErrorMessage = transform.Find("TransactionCodeError").gameObject;
+            CloseError = ErrorMessage.transform.Find("Close").GetComponent<Button>();
+            ErrorGood = ErrorMessage.transform.Find("OK").GetComponent<Button>();
+            InputField = SettingtradingCode.transform.Find("bg/InputExPw").GetComponent<InputField>();
+            tradingDeDetermineBtn = SettingtradingCode.transform.Find("bg/BtnCommit").GetComponent<Button>();
+            tradingCancel = SettingtradingCode.transform.Find("bg/BtnCancle").GetComponent<Button>();
             ChamberRulesTitle = ChamberOfCommerceRules.transform.Find("Title").GetComponent<Text>();
-            MembershipStatement = ChamberOfCommerceRules.transform.Find("MembershipStatement").GetComponent<Image>();
-            PayBtn = ChamberOfCommerceRules.transform.Find("PayBtn").GetComponent<Button>();
+            MembershipStatement = ChamberOfCommerceRules.transform.Find("RulesFrame").GetComponent<Image>();
+            PayBtn = ChamberOfCommerceRules.transform.Find("RulesFrame/PayBtn").GetComponent<Button>();
             description = ConfirmationPaymentPanel.transform.Find("Text").GetComponent<Text>();
             payClose = ConfirmationPaymentPanel.transform.Find("CloseBtn").GetComponent<Button>();
-            payDetermine = ConfirmationPaymentPanel.transform.Find("Determine").GetComponent<Button>();
-            payCancle = ConfirmationPaymentPanel.transform.Find("Cancel").GetComponent<Button>();
+            payDetermine = ConfirmationPaymentPanel.transform.Find("Confirm").GetComponent<Button>();
+            payCancle = ConfirmationPaymentPanel.transform.Find("Canle").GetComponent<Button>();
             fundsColse = InsufficientFunds.transform.Find("CloseBtn").GetComponent<Button>();
-            GoPayBtn = InsufficientFunds.transform.Find("GoToPrepaid").GetComponent<Button>();
+            GoPayBtn = InsufficientFunds.transform.Find("GoTOPUP").GetComponent<Button>();
             FundsTxt = InsufficientFunds.transform.Find("Text").GetComponent<Text>();
             CloseBtn.onClick.AddListener(clickClose);
             PromptOKBtn = IncorrectPrompt.transform.Find("OK").GetComponent<Button>();
@@ -128,36 +147,33 @@ namespace Assets.Scripts.UI.MenuUI
             ConfindBtn.onClick.AddListener(clickOK);
             tradingDeDetermineBtn.onClick.AddListener(SettingTrandingOK);
             tradingCancel.onClick.AddListener(CloseSettingTranding);
-            tradingClose.onClick.AddListener(CloseSettingTranding);
             PayBtn.onClick.AddListener(cilckPay);
             payClose.onClick.AddListener(CloseConfirmationPaymentPanel);
             payCancle.onClick.AddListener(CloseConfirmationPaymentPanel);
             GoPayBtn.onClick.AddListener(clickGoPay);
             fundsColse.onClick.AddListener(clickClosePay);
             payDetermine.onClick.AddListener(clickConfirmationPayment);
+            CloseError.onClick.AddListener(CloseErrorTrand);
+            ErrorGood.onClick.AddListener(CloseErrorTrand);
             ManyLanguages();
         }
+
         /// <summary>
         /// 多语言换图
         /// </summary>
         private void ManyLanguages()
         {
             string language = PlayerPrefs.GetString("language");
-            DetermineBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            CloseBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            PromptOKBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            PromptClose.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            ConfindBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            tradingDeDetermineBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            tradingCancel.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            tradingClose.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            MembershipStatement.sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            PayBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            payClose.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            payDetermine.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            payCancle.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            fundsColse.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
-            GoPayBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/chinese");
+            DetermineBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/"+ language+ "/ConfirmBig");
+            PromptOKBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/"+ language + "/OK");
+            ConfindBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/OK");
+            tradingDeDetermineBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/ConfirmBig");
+            tradingCancel.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/CancelBig");
+            MembershipStatement.sprite = Resources.Load<Sprite>("UI/menu/" + language + "/MembershipRules");
+            PayBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/Pay");
+            payDetermine.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/ConfirmBig");
+            payCancle.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/CancelBig");
+            GoPayBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/menu/" + language + "/GoToPrepaid");
         }
     /// <summary>
     /// 关闭
@@ -171,22 +187,15 @@ namespace Assets.Scripts.UI.MenuUI
         /// </summary>
         private void clickDetermine()
         {
-            //判断商会邀请码是否正确
-            //if(不正确)
-            //{
-            //    IncorrectPrompt.SetActive(true);
-            //}
-            //else
-            //{
             string commerceCode = InputChamberCode.text;
             if (commerceCode == null || commerceCode.Equals(""))
             {
                 //TODO输入提示
+                IncorrectPrompt.SetActive(true);
             }
-            Dispatch(AreaCode.NET,ReqEventType.commerce_in,InputChamberCode.text.ToString());
-            JionChamber.SetActive(false);
-            JIonScee.SetActive(true);
-            //}
+
+            Dispatch(AreaCode.NET, ReqEventType.commerce_in, InputChamberCode.text.ToString());
+     
         }
 
         //// Dispatch(AreaCode.NET,ReqEventType.commerce_in,InputChamberCode.text.ToString());
@@ -210,15 +219,13 @@ namespace Assets.Scripts.UI.MenuUI
         /// </summary>
         private void SettingTrandingOK()
         {
-            //判断是否设置了交易密码
-            //if(设置了)
-            //{
-            ChamberOfCommerceRules.SetActive(true);
-            //}
-            //else
-            //{
-            //    ErrorMessage.SetActive(true);
-            //}
+            string tradingCode = InputField.text;
+            if (tradingCode == null || tradingCode.Equals(""))
+            {
+                //TODO输入提示
+                ErrorMessage.SetActive(true);
+            }
+            Dispatch(AreaCode.NET, ReqEventType.commerce_in, InputField.text.ToString());  
         }
         /// <summary>
         /// 取消、关闭设置交易码
@@ -228,12 +235,17 @@ namespace Assets.Scripts.UI.MenuUI
             SettingtradingCode.SetActive(false);
         }
         /// <summary>
+        /// 关闭交易码错误提示
+        /// </summary>
+        private void CloseErrorTrand()
+        {
+            ErrorMessage.SetActive(false);
+        }
+        /// <summary>
         /// 去支付
         /// </summary>
         private void cilckPay()
-        {
-            string address = "";
-            Dispatch(AreaCode.NET,ReqEventType.recharge, address);
+        {        
             ChamberOfCommerceRules.SetActive(false);
             ConfirmationPaymentPanel.SetActive(true);
         }
@@ -249,11 +261,17 @@ namespace Assets.Scripts.UI.MenuUI
         /// </summary>
         private void clickConfirmationPayment()
         {
+            
             //判断USDT是否足够
-            //if(不足)
-            //{
-            InsufficientFunds.SetActive(true);
-            //}
+            if (PlayerUSDT<10)
+            {
+                InsufficientFunds.SetActive(true);
+            }
+            else
+            {
+                string address = "";
+                Dispatch(AreaCode.NET, ReqEventType.recharge, address);
+            }
 
         }
        /// <summary>
@@ -261,7 +279,7 @@ namespace Assets.Scripts.UI.MenuUI
        /// </summary>
         private void clickGoPay()
         {
-            Dispatch(AreaCode.UI, UIEvent.TOPUP_ACTIVE, true);
+            Dispatch(AreaCode.UI, UIEvent.TOPUP_ACTIVE, true);          
         }
         /// <summary>
         /// 关闭去充值面板

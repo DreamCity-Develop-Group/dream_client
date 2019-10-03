@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ItemBeanbase{
+namespace Assets.Scripts.HlepFold
+{
+    public class ItemBeanbase{
 
 	
+    }
 }
